@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/first-run.png" width="820" alt="Cloister on first run, offering WhatsApp, Messenger, Discord, Gmail, Outlook and Telegram">
+  <img src="docs/screenshots/overview.png" width="820" alt="Cloister with WhatsApp, Discord, Gmail, Slack, Telegram, Messenger and Teams in the sidebar and the recent notifications panel open">
 </p>
 
 ## Why Cloister
@@ -52,11 +52,13 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   rename it, put it to sleep, open it in your browser or copy its link. Add the same service twice for
   separate accounts. Set quiet hours, start with Windows, and zoom each service independently.
 - **Your order, your icons.** Drag services to reorder them (or Alt+Up/Down), and show each site's own icon.
-- **Local only.** No account, no telemetry, no server of ours. Fonts and icons ship inside the app.
+- **Local only.** No account, no telemetry, no server of ours. Fonts ship inside the app; catalog icons load
+  from DuckDuckGo's icon service, and each service shows its own site icon.
 
 <p align="center">
-  <img src="docs/screenshots/command-palette.png" width="410" alt="Command palette">
-  <img src="docs/screenshots/add-service.png" width="410" alt="Add a service dialog">
+  <img src="docs/screenshots/first-run.png" width="270" alt="First run, offering WhatsApp, Messenger, Discord, Gmail, Outlook and Telegram">
+  <img src="docs/screenshots/command-palette.png" width="270" alt="Command palette">
+  <img src="docs/screenshots/add-service.png" width="270" alt="Add a service dialog with the full catalog">
 </p>
 
 ## Keyboard shortcuts
