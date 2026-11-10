@@ -38,6 +38,7 @@
     "allow-clear-history",
     "allow-service-memory",
     "allow-erase-service-data",
-    "allow-erase-all-data"
+    "allow-erase-all-data",
+    "allow-set-service-background"
   ]
 }

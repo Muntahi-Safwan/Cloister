@@ -45,8 +45,8 @@
             {hostOf(service.url)}
             <span class="memory">
               · {service.loaded
-                ? app.memory[service.id]
-                  ? formatBytes(app.memory[service.id]!)
+                ? app.memory.services[service.id]
+                  ? formatBytes(app.memory.services[service.id]!)
                   : 'measuring…'
                 : 'asleep'}
             </span>
@@ -108,6 +108,12 @@
       </li>
     {/each}
   </ul>
+  {#if app.memory.shared > 0}
+    <p class="shared">
+      <span>Cloister and the shared browser engine</span>
+      <span class="mono">{formatBytes(app.memory.shared)}</span>
+    </p>
+  {/if}
 {/if}
 
 <style>
@@ -145,6 +151,14 @@
   .empty,
   .memory {
     color: var(--text-faint);
+  }
+
+  .shared {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0 2px;
+    color: var(--text-faint);
+    font-size: 12px;
   }
 
   .confirm-text {

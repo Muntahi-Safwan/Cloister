@@ -45,6 +45,8 @@ pub struct Snapshot {
     pub history_count: usize,
     /// When the newest notification in the history arrived (Unix ms).
     pub history_latest_ms: Option<u64>,
+    /// "Pause in background" is supported on this system.
+    pub can_pause: bool,
 }
 
 /// Builds a snapshot from current state, taking each lock in turn.
@@ -78,6 +80,7 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> Snapshot {
         auth_available: state.auth_available,
         history_count: session.history.len(),
         history_latest_ms: session.history.latest_ms(),
+        can_pause: crate::platform::CAN_PAUSE,
     }
 }
 

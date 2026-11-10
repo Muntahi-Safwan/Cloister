@@ -12,11 +12,12 @@ import { showServiceMenu } from '$lib/menus/serviceMenu';
 import { reorderVisible } from '$lib/utils/order';
 import { catalogIconUrl } from '$lib/utils/url';
 import type {
+  BackgroundMode,
   AppSettings,
   HeldNotification,
   HistoryItem,
   IconKind,
-  MemoryUsage,
+  MemoryReport,
   MuteDuration,
   NewService,
   Recipe,
@@ -60,11 +61,14 @@ const EMPTY_SNAPSHOT: Snapshot = {
     lockAfterMinutes: 5,
     veilOnBlur: false,
     veilAfterMinutes: 0,
+    pauseCheckMinutes: 5,
+    refreshOverMb: 800,
   },
   locked: false,
   authAvailable: false,
   historyCount: 0,
   historyLatestMs: null,
+  canPause: false,
 };
 
 class AppStore {
@@ -77,7 +81,7 @@ class AppStore {
   /** Recent notifications, loaded when the notifications panel opens. */
   history = $state<HistoryItem[]>([]);
   /** Memory per service, refreshed while settings are open. */
-  memory = $state<MemoryUsage>({});
+  memory = $state<MemoryReport>({ services: {}, shared: 0 });
   /** Time the notifications panel was last opened; newer items light the bell. */
   historySeenMs = $state(0);
   /** The Windows Hello prompt is open. */
@@ -169,6 +173,10 @@ class AppStore {
     await this.#run(() => backend.muteService(id, duration));
   }
 
+  async setServiceBackground(id: string, mode: BackgroundMode): Promise<void> {
+    await this.#run(() => backend.setServiceBackground(id, mode));
+  }
+
   async sleepService(id: string): Promise<void> {
     await this.#run(() => backend.sleepService(id));
   }
@@ -186,17 +194,22 @@ class AppStore {
   /** Opens the native right-click menu for a service. */
   async openServiceMenu(service: Service): Promise<void> {
     try {
-      await showServiceMenu(service, {
-        open: (id) => void this.activate(id),
-        rename: (id) => this.openDialog('rename', id),
-        mute: (id, duration) => void this.muteService(id, duration),
-        sleep: (id) => void this.sleepService(id),
-        reload: (id) => void this.reloadService(id),
-        openExternally: (id) => void this.openServiceExternally(id),
-        copyLink: (url) => void navigator.clipboard.writeText(url).catch(() => undefined),
-        erase: (id) => this.openDialog('confirm-erase', id),
-        remove: (id) => this.openDialog('confirm-remove', id),
-      });
+      await showServiceMenu(
+        service,
+        {
+          open: (id) => void this.activate(id),
+          rename: (id) => this.openDialog('rename', id),
+          mute: (id, duration) => void this.muteService(id, duration),
+          sleep: (id) => void this.sleepService(id),
+          background: (id, mode) => void this.setServiceBackground(id, mode),
+          reload: (id) => void this.reloadService(id),
+          openExternally: (id) => void this.openServiceExternally(id),
+          copyLink: (url) => void navigator.clipboard.writeText(url).catch(() => undefined),
+          erase: (id) => this.openDialog('confirm-erase', id),
+          remove: (id) => this.openDialog('confirm-remove', id),
+        },
+        this.snapshot.canPause,
+      );
     } catch (error) {
       this.error = errorMessage(error);
     }
@@ -206,7 +219,7 @@ class AppStore {
   async eraseData(id: string | null): Promise<void> {
     this.closeDialog();
     await this.#run(() => (id ? backend.eraseServiceData(id) : backend.eraseAllData()));
-    this.memory = {};
+    this.memory = { services: {}, shared: 0 };
   }
 
   /** Re-reads how much memory each loaded service uses. */

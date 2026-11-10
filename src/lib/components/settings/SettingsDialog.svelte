@@ -162,6 +162,40 @@
           {/each}
         </select>
       </div>
+      {#if app.snapshot.canPause}
+        <div class="row">
+          <label for="pause-check" class="row-text">
+            <span>Paused services check for messages</span>
+            <span class="hint">Applies to services set to “Pause” in their right-click menu</span>
+          </label>
+          <select
+            id="pause-check"
+            class="select"
+            value={settings.pauseCheckMinutes}
+            onchange={(e) => save({ pauseCheckMinutes: Number(e.currentTarget.value) })}
+          >
+            {#each [[2, 'Every 2 minutes'], [5, 'Every 5 minutes'], [15, 'Every 15 minutes'], [30, 'Every 30 minutes'], [0, 'Only when opened']] as [minutes, label] (minutes)}
+              <option value={minutes}>{label}</option>
+            {/each}
+          </select>
+        </div>
+      {/if}
+      <div class="row">
+        <label for="refresh-over" class="row-text">
+          <span>Refresh pages that grow too large</span>
+          <span class="hint">Reloads a hidden page left unseen for 10 minutes once it passes this size</span>
+        </label>
+        <select
+          id="refresh-over"
+          class="select"
+          value={settings.refreshOverMb}
+          onchange={(e) => save({ refreshOverMb: Number(e.currentTarget.value) })}
+        >
+          {#each [[500, 'Over 500 MB'], [800, 'Over 800 MB'], [1200, 'Over 1.2 GB'], [2000, 'Over 2 GB'], [0, 'Never']] as [mb, label] (mb)}
+            <option value={mb}>{label}</option>
+          {/each}
+        </select>
+      </div>
     </section>
 
     <section>

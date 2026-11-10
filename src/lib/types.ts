@@ -10,7 +10,7 @@ import type { ThemeChoice } from '$lib/theme';
 export type { ThemeChoice };
 
 export type IconKind = 'initials' | 'favicon';
-export type BackgroundMode = 'keepNotifying' | 'unloadWhenIdle';
+export type BackgroundMode = 'keepNotifying' | 'unloadWhenIdle' | 'pause';
 export type UserAgentPreset = 'default' | 'chrome' | 'firefox';
 export type UnreadRule = 'titleParentheses' | 'none';
 
@@ -94,6 +94,10 @@ export interface AppSettings {
   veilOnBlur: boolean;
   /** Turn on Veil after this many minutes away (0 = off). */
   veilAfterMinutes: number;
+  /** How often a paused background service wakes to check for messages (0 = never). */
+  pauseCheckMinutes: number;
+  /** Reload hidden pages that grow beyond this many MB (0 = never). */
+  refreshOverMb: number;
 }
 
 export interface FocusView {
@@ -129,6 +133,8 @@ export interface Snapshot {
   historyCount: number;
   /** When the newest notification arrived (Unix ms), or `null` when the history is empty. */
   historyLatestMs: number | null;
+  /** "Pause in background" is supported on this system (Windows). */
+  canPause: boolean;
 }
 
 /** What happened to a notification when it arrived. */
@@ -143,8 +149,12 @@ export interface HistoryItem {
   delivery: Delivery;
 }
 
-/** Memory used by each loaded service, in bytes, keyed by service id. */
-export type MemoryUsage = Record<string, number>;
+/** Memory in bytes: per loaded service, plus what no single service owns. */
+export interface MemoryReport {
+  services: Record<string, number>;
+  /** Cloister itself and, on Windows, the browser engine all services share. */
+  shared: number;
+}
 
 /** Rectangle in logical pixels where service pages are drawn. */
 export interface ContentBounds {

@@ -6,10 +6,13 @@ mod gtk_layer;
 #[cfg(target_os = "windows")]
 mod hello;
 #[cfg(target_os = "windows")]
+mod shared_engine;
+#[cfg(target_os = "windows")]
 mod toast;
 #[cfg(target_os = "windows")]
 mod webview2;
 
+use tauri::webview::WebviewBuilder;
 use tauri::{AppHandle, Runtime, Webview, Window};
 
 use crate::state::ContentBounds;
@@ -45,6 +48,76 @@ pub fn set_child_bounds<R: Runtime>(webview: &Webview<R>, bounds: ContentBounds)
         position: tauri::LogicalPosition::new(bounds.x, bounds.y).into(),
         size: tauri::LogicalSize::new(bounds.width, bounds.height).into(),
     })
+}
+
+/// Lets service webviews share the main window's browser engine (Windows).
+/// Call once at startup with the main window's webview.
+pub fn share_engine_from<R: Runtime>(main: &Webview<R>) {
+    #[cfg(target_os = "windows")]
+    shared_engine::capture(main);
+
+    #[cfg(not(target_os = "windows"))]
+    let _ = main;
+}
+
+/// Adds a service webview to the shared engine when there is one. Its data
+/// folder name becomes its profile name (see `vendor/README.md`).
+pub fn join_shared_engine<R: Runtime>(builder: WebviewBuilder<R>) -> WebviewBuilder<R> {
+    #[cfg(target_os = "windows")]
+    if let Some(environment) = shared_engine::environment() {
+        return builder.with_environment(environment);
+    } else {
+        log::warn!("shared engine not ready; this service gets its own browser");
+    }
+    builder
+}
+
+/// Tells the platform a service page has loaded (records its main frame).
+pub fn page_loaded<R: Runtime>(webview: &Webview<R>) {
+    #[cfg(target_os = "windows")]
+    shared_engine::remember_main_frame(webview);
+
+    #[cfg(not(target_os = "windows"))]
+    let _ = webview;
+}
+
+/// Tells the platform a service webview is gone.
+pub fn webview_closed(label: &str) {
+    #[cfg(target_os = "windows")]
+    shared_engine::forget_main_frame(label);
+
+    #[cfg(not(target_os = "windows"))]
+    let _ = label;
+}
+
+/// Whether hidden pages can be frozen and woken (pause mode).
+pub const CAN_PAUSE: bool = cfg!(target_os = "windows");
+
+/// Freezes (`true`) or wakes (`false`) a hidden service page. No-op where
+/// [`CAN_PAUSE`] is false.
+pub fn set_paused<R: Runtime>(webview: &Webview<R>, paused: bool) {
+    #[cfg(target_os = "windows")]
+    webview2::set_suspended(webview, paused);
+
+    #[cfg(not(target_os = "windows"))]
+    let _ = (webview, paused);
+}
+
+/// Memory of the shared engine by webview label, plus the part no single
+/// service owns. `None` where there is no shared engine (non-Windows) or it
+/// cannot be queried. Must not be called on the main thread.
+pub fn shared_engine_memory<R: Runtime>(
+    app: &AppHandle<R>,
+    memory_of: impl Fn(u32) -> u64,
+) -> Option<(std::collections::HashMap<String, u64>, u64)> {
+    #[cfg(target_os = "windows")]
+    return shared_engine::usage(app, memory_of).map(|usage| (usage.by_label, usage.shared));
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = (app, memory_of);
+        None
+    }
 }
 
 /// Result of asking the user to prove it is them.

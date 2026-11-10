@@ -7,7 +7,7 @@
 
 import { Menu } from '@tauri-apps/api/menu';
 
-import type { MuteDuration, Service } from '$lib/types';
+import type { BackgroundMode, MuteDuration, Service } from '$lib/types';
 import { isMuted } from '$lib/utils/format';
 
 /** What the menu can do. Implemented by the app store. */
@@ -16,6 +16,7 @@ export interface ServiceMenuActions {
   rename: (id: string) => void;
   mute: (id: string, duration: MuteDuration) => void;
   sleep: (id: string) => void;
+  background: (id: string, mode: BackgroundMode) => void;
   reload: (id: string) => void;
   openExternally: (id: string) => void;
   copyLink: (url: string) => void;
@@ -23,8 +24,12 @@ export interface ServiceMenuActions {
   remove: (id: string) => void;
 }
 
-/** Builds and shows the menu at the pointer. */
-export async function showServiceMenu(service: Service, actions: ServiceMenuActions): Promise<void> {
+/** Builds and shows the menu at the pointer. `canPause` is false where pause mode is unsupported. */
+export async function showServiceMenu(
+  service: Service,
+  actions: ServiceMenuActions,
+  canPause: boolean,
+): Promise<void> {
   const { id } = service;
   const muted = isMuted(service.mutedUntil, Date.now());
 
@@ -43,11 +48,27 @@ export async function showServiceMenu(service: Service, actions: ServiceMenuActi
         ],
       };
 
+  const modes: { mode: BackgroundMode; text: string }[] = [
+    { mode: 'keepNotifying', text: 'Keep notifying' },
+    ...(canPause ? [{ mode: 'pause' as const, text: 'Pause, check for messages every few minutes' }] : []),
+    { mode: 'unloadWhenIdle', text: 'Unload when idle' },
+  ];
+  const backgroundMenu = {
+    text: 'In the background',
+    items: modes.map(({ mode, text }) => ({
+      id: `background-${mode}`,
+      text,
+      checked: service.options.background === mode,
+      action: () => actions.background(id, mode),
+    })),
+  };
+
   const menu = await Menu.new({
     items: [
       { id: 'open', text: `Open ${service.name}`, action: () => actions.open(id) },
       { item: 'Separator' },
       muteMenu,
+      backgroundMenu,
       { id: 'rename', text: 'Rename…', action: () => actions.rename(id) },
       { id: 'reload', text: 'Reload', enabled: service.loaded, action: () => actions.reload(id) },
       {

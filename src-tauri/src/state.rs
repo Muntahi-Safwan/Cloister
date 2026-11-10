@@ -15,6 +15,7 @@ use serde::Deserialize;
 
 use crate::features::focus::FocusSession;
 use crate::features::history::History;
+use crate::features::pause::PauseState;
 use crate::services::{ServiceId, ServiceRegistry};
 use crate::settings::SettingsStore;
 
@@ -57,6 +58,8 @@ pub struct Session {
     pub unfocused_since: Option<Instant>,
     /// Recent notifications, in memory only.
     pub history: History,
+    /// Hidden pause-mode services and where they are in their sleep/check cycle.
+    pub paused: HashMap<ServiceId, PauseState>,
 }
 
 impl Session {

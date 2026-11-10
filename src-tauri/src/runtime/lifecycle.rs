@@ -3,7 +3,9 @@
 //! A background thread wakes up every 30 seconds to:
 //! * close the webview of every "unload when idle" service that has not been
 //!   on screen for the configured number of minutes (it reloads when opened);
-//! * apply away actions such as auto-lock and auto-Veil (see `away.rs`).
+//! * suspend and periodically wake "pause in background" services (`pause.rs`);
+//! * apply away actions such as auto-lock and auto-Veil (see `away.rs`);
+//! * every five minutes, reload hidden pages that have grown too large (`refresh.rs`).
 
 use std::thread;
 use std::time::{Duration, Instant};
@@ -17,14 +19,25 @@ use crate::state::AppState;
 
 const SWEEP_INTERVAL: Duration = Duration::from_secs(30);
 
+/// Oversized pages are looked for every this many sweeps (five minutes).
+const REFRESH_EVERY_SWEEPS: u32 = 10;
+
 /// Starts the idle sweeper thread.
 pub fn start<R: Runtime>(app: AppHandle<R>) {
     thread::Builder::new()
         .name("cloister-idle-sweeper".into())
-        .spawn(move || loop {
-            thread::sleep(SWEEP_INTERVAL);
-            sweep(&app);
-            super::away::check(&app);
+        .spawn(move || {
+            let mut sweeps: u32 = 0;
+            loop {
+                thread::sleep(SWEEP_INTERVAL);
+                sweep(&app);
+                super::pause::tick(&app);
+                super::away::check(&app);
+                sweeps = sweeps.wrapping_add(1);
+                if sweeps % REFRESH_EVERY_SWEEPS == 0 {
+                    super::refresh::check(&app);
+                }
+            }
         })
         .map(|_| ())
         .unwrap_or_else(|err| log::error!("could not start idle sweeper: {err}"));

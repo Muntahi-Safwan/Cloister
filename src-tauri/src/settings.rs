@@ -58,6 +58,10 @@ pub struct AppSettings {
     pub veil_on_blur: bool,
     /// Turn on Veil after the window has been out of focus this many minutes (0 = off).
     pub veil_after_minutes: u32,
+    /// How often a paused background service wakes to check for messages (0 = never).
+    pub pause_check_minutes: u32,
+    /// Reload hidden pages that grow beyond this many MB (0 = never).
+    pub refresh_over_mb: u32,
 }
 
 impl Default for AppSettings {
@@ -78,6 +82,8 @@ impl Default for AppSettings {
             lock_after_minutes: 5,
             veil_on_blur: false,
             veil_after_minutes: 0,
+            pause_check_minutes: 5,
+            refresh_over_mb: 800,
         }
     }
 }
@@ -90,6 +96,10 @@ impl AppSettings {
         self.quiet_hours = self.quiet_hours.normalized();
         self.lock_after_minutes = self.lock_after_minutes.min(240);
         self.veil_after_minutes = self.veil_after_minutes.min(240);
+        self.pause_check_minutes = self.pause_check_minutes.min(120);
+        if self.refresh_over_mb != 0 {
+            self.refresh_over_mb = self.refresh_over_mb.clamp(300, 8000);
+        }
         self.vip_names =
             self.vip_names.into_iter().map(|n| n.trim().to_string()).filter(|n| !n.is_empty()).collect();
         self

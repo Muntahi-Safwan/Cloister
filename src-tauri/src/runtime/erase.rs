@@ -1,9 +1,10 @@
 //! Deleting service data (cookies, logins, caches).
 //!
-//! Loaded pages first clear their browsing data through the webview itself,
-//! which is the only way on macOS, where profiles are WebKit data stores
-//! rather than folders. Then the page closes and, on Windows and Linux, its
-//! profile folder is deleted. Browser processes keep files open for a moment
+//! Pages first clear their browsing data through the webview itself. That is
+//! the only way on macOS (profiles are WebKit data stores) and on Windows
+//! (profiles live inside the shared WebView2 engine). Then the page closes and
+//! any profile folder Cloister owns is deleted (Linux, and folders left over
+//! from Cloister 0.3 on Windows). Browser processes keep files open for a moment
 //! after a webview closes, so deletion is retried for a few seconds. Callers
 //! run on a background thread (async commands), and the call returns only once
 //! the folder is gone, so a page cannot reopen on a half-deleted profile.
@@ -18,6 +19,7 @@ use tauri::{AppHandle, Manager, Runtime};
 use super::webviews;
 use crate::error::AppResult;
 use crate::persistence;
+use crate::services::profile;
 use crate::state::AppState;
 
 const ATTEMPTS: u32 = 20;
@@ -28,7 +30,9 @@ const RETRY_DELAY: Duration = Duration::from_millis(500);
 pub fn service_data<R: Runtime>(app: &AppHandle<R>, service_id: &str) -> AppResult<()> {
     clear_in_webview(app, service_id);
     webviews::unload(app, service_id)?;
-    remove_with_retry(&persistence::profiles_dir(app)?.join(service_id))?;
+    let profiles = persistence::profiles_dir(app)?;
+    remove_with_retry(&profiles.join(profile::folder_name(service_id)))?;
+    remove_with_retry(&profiles.join(service_id))?;
     Ok(())
 }
 
@@ -49,13 +53,13 @@ pub fn all_data<R: Runtime>(app: &AppHandle<R>) -> AppResult<()> {
 
 /// Clears a service's cookies and storage through its webview.
 ///
-/// On macOS this is the only way to reach the data, so a service that is not
-/// loaded is loaded briefly first. Elsewhere, unloaded services are handled by
-/// deleting their folder.
+/// On macOS and Windows this is the only way to reach the data, so a service
+/// that is not loaded is loaded briefly first. On Linux, unloaded services are
+/// handled by deleting their folder.
 fn clear_in_webview<R: Runtime>(app: &AppHandle<R>, service_id: &str) {
     let label = webviews::label_for(service_id);
     let mut webview = app.get_webview(&label);
-    if cfg!(target_os = "macos") && webview.is_none() {
+    if cfg!(any(target_os = "macos", target_os = "windows")) && webview.is_none() {
         // Copy the config out so the registry lock is not held while the page loads.
         let service = {
             let state = app.state::<AppState>();

@@ -31,6 +31,9 @@ pub enum BackgroundMode {
     KeepNotifying,
     /// Close the page after a period of inactivity and reload it on demand.
     UnloadWhenIdle,
+    /// Freeze the page while it is hidden and wake it every few minutes to
+    /// check for new messages (Windows; elsewhere it behaves like `KeepNotifying`).
+    Pause,
 }
 
 /// Which browser the service should believe it is talking to.

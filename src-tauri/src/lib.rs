@@ -68,6 +68,7 @@ pub fn run() {
             commands::service_actions::rename_service,
             commands::service_actions::mute_service,
             commands::service_actions::sleep_service,
+            commands::service_actions::set_service_background,
             commands::service_actions::zoom_service,
             commands::service_actions::open_service_externally,
             commands::session::set_content_bounds,

@@ -524,7 +524,7 @@ dependencies = [
 
 [[package]]
 name = "cloister"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "chrono",
  "gtk",
@@ -3918,8 +3918,6 @@ dependencies = [
 [[package]]
 name = "tauri-runtime-wry"
 version = "2.12.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1aa9d8b7a120f879f44fdc1053f7b7dbf416bf0bbc6a72b714dec46b782b52f"
 dependencies = [
  "gtk",
  "http",

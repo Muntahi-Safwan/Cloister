@@ -1,5 +1,5 @@
 //! Per-service actions from the sidebar's right-click menu and shortcuts:
-//! rename, mute, sleep, zoom and open in the browser.
+//! rename, mute, background mode, sleep, zoom and open in the browser.
 
 use tauri::{AppHandle, Manager, Runtime};
 use tauri_plugin_opener::OpenerExt;
@@ -8,7 +8,7 @@ use crate::error::AppResult;
 use crate::features::schedule::{mute_until, MuteDuration};
 use crate::runtime::webviews;
 use crate::services::model::{validate_name, ZoomStep};
-use crate::services::ServiceId;
+use crate::services::{BackgroundMode, ServiceId};
 use crate::snapshot::{self, Snapshot};
 use crate::state::AppState;
 
@@ -29,6 +29,25 @@ pub fn mute_service<R: Runtime>(
 ) -> AppResult<Snapshot> {
     let until = mute_until(duration, &chrono::Local::now());
     app.state::<AppState>().registry().modify(&id, |s| s.muted_until = until)?;
+    Ok(publish(&app))
+}
+
+/// Chooses what a service does while it is not on screen.
+#[tauri::command]
+pub fn set_service_background<R: Runtime>(
+    app: AppHandle<R>,
+    id: ServiceId,
+    mode: BackgroundMode,
+) -> AppResult<Snapshot> {
+    let state = app.state::<AppState>();
+    state.registry().modify(&id, |s| s.options.background = mode)?;
+    // Wake a page that leaves pause mode; the sweep pauses one that enters it.
+    if mode != BackgroundMode::Pause && state.session().paused.remove(&id).is_some() {
+        if let Some(webview) = app.get_webview(&webviews::label_for(&id)) {
+            crate::platform::set_paused(&webview, false);
+        }
+    }
+    webviews::sync_visibility(&app)?;
     Ok(publish(&app))
 }
 

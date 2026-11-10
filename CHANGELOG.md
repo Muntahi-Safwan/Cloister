@@ -6,6 +6,27 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-10
+
+### Changed
+
+- **Windows: one shared browser engine.** Every service now runs as a separate WebView2 profile inside the
+  same browser process group as Cloister's window, instead of starting its own browser, GPU and network
+  processes. Logins stay separate per service. **Upgrading signs you out of every service once**: the old
+  per-service browser folders cannot be carried over (each encrypted its cookies with its own key) and are
+  removed to free disk space.
+- Memory in Settings › Services is now measured per renderer process, and the shared part is shown on its own
+  line.
+
+### Added
+
+- **Pause in background** (Windows): a hidden service is suspended so the system can reclaim its memory, and is
+  woken every few minutes (configurable) to catch up on messages. Opening it wakes it instantly. Choose it per
+  service from the right-click menu under "In the background".
+- **Refresh pages that grow too large**: a page hidden for 10 minutes that passes a size limit (800 MB by
+  default) is reloaded quietly to undo slow memory leaks.
+- "In the background" submenu to change a service's background mode at any time.
+
 ## [0.3.0] - 2026-11-09
 
 ### Added

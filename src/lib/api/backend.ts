@@ -9,12 +9,13 @@ import { invoke } from '@tauri-apps/api/core';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 
 import type {
+  BackgroundMode,
   AppSettings,
   ContentBounds,
   HeldNotification,
   HistoryItem,
   IconKind,
-  MemoryUsage,
+  MemoryReport,
   MuteDuration,
   NewService,
   Recipe,
@@ -39,6 +40,8 @@ export const backend = {
   renameService: (id: string, name: string) => invoke<Snapshot>('rename_service', { id, name }),
   muteService: (id: string, duration: MuteDuration) => invoke<Snapshot>('mute_service', { id, duration }),
   sleepService: (id: string) => invoke<Snapshot>('sleep_service', { id }),
+  setServiceBackground: (id: string, mode: BackgroundMode) =>
+    invoke<Snapshot>('set_service_background', { id, mode }),
   zoomService: (id: string, step: ZoomStep) => invoke<Snapshot>('zoom_service', { id, step }),
   openServiceExternally: (id: string) => invoke<void>('open_service_externally', { id }),
 
@@ -56,7 +59,7 @@ export const backend = {
   unlock: () => invoke<boolean>('unlock'),
   getHistory: () => invoke<HistoryItem[]>('get_history'),
   clearHistory: () => invoke<Snapshot>('clear_history'),
-  serviceMemory: () => invoke<MemoryUsage>('service_memory'),
+  serviceMemory: () => invoke<MemoryReport>('service_memory'),
   eraseServiceData: (id: string) => invoke<Snapshot>('erase_service_data', { id }),
   eraseAllData: () => invoke<Snapshot>('erase_all_data'),
 

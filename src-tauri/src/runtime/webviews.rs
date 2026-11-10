@@ -1,7 +1,8 @@
 //! Creates, positions, shows and destroys the child webview of each service.
 //!
 //! Each service lives in its own child webview inside the main window, with
-//! its own browser profile on disk. Webviews are created lazily, the first
+//! its own browser profile. On Windows all profiles share one browser engine
+//! (see `platform::join_shared_engine`). Webviews are created lazily, the first
 //! time a service is opened, and only the active one is visible.
 
 use tauri::webview::{NewWindowResponse, PageLoadEvent, WebviewBuilder};
@@ -50,8 +51,8 @@ pub fn ensure_loaded<R: Runtime>(app: &AppHandle<R>, service: &ServiceConfig) ->
         (session.veil, session.bounds)
     };
 
-    let mut builder = WebviewBuilder::new(&label, WebviewUrl::External(start_url))
-        .data_directory(persistence::profiles_dir(app)?.join(&service.id))
+    let builder = WebviewBuilder::new(&label, WebviewUrl::External(start_url))
+        .data_directory(persistence::profiles_dir(app)?.join(services::profile::folder_name(&service.id)))
         .initialization_script(inject::bridge_script(service, recipe, veil_on))
         .on_navigation(navigation_handler(app.clone()))
         .on_new_window(new_window_handler(app.clone(), domains))
@@ -63,7 +64,11 @@ pub fn ensure_loaded<R: Runtime>(app: &AppHandle<R>, service: &ServiceConfig) ->
             if matches!(payload.event(), PageLoadEvent::Started | PageLoadEvent::Finished) {
                 veil::apply_current(&webview);
             }
+            if payload.event() == PageLoadEvent::Finished {
+                platform::page_loaded(&webview);
+            }
         });
+    let mut builder = platform::join_shared_engine(builder);
     if let Some(agent) = user_agent::for_preset(service.options.user_agent) {
         builder = builder.user_agent(agent);
     }
@@ -102,6 +107,13 @@ pub fn sync_visibility<R: Runtime>(app: &AppHandle<R>) -> AppResult<()> {
         let session = state.session();
         (session.active.clone(), session.overlay_open || session.locked, session.bounds)
     };
+    let paused_mode: std::collections::HashSet<String> = state
+        .registry()
+        .all()
+        .iter()
+        .filter(|s| s.options.background == services::BackgroundMode::Pause)
+        .map(|s| s.id.clone())
+        .collect();
 
     for webview in service_webviews(app) {
         let is_active = active.as_deref() == service_id_of(webview.label());
@@ -114,7 +126,11 @@ pub fn sync_visibility<R: Runtime>(app: &AppHandle<R>) -> AppResult<()> {
             webview.hide()?;
         }
         // A page under an open dialog will be back in a moment, so keep it warm.
-        platform::set_background_memory(&webview, low_memory && !is_active);
+        // Paused-mode pages are suspended instead; WebView2 advises against mixing the two.
+        let paused_mode = service_id_of(webview.label()).is_some_and(|id| paused_mode.contains(id));
+        if !(paused_mode && platform::CAN_PAUSE) {
+            platform::set_background_memory(&webview, low_memory && !is_active);
+        }
     }
     Ok(())
 }
@@ -142,12 +158,17 @@ pub fn focus_active<R: Runtime>(app: &AppHandle<R>) {
     }
 }
 
-/// Closes a service's webview, freeing its memory. The profile on disk is kept.
+/// Closes a service's webview, freeing its memory. The profile is kept.
 pub fn unload<R: Runtime>(app: &AppHandle<R>, service_id: &str) -> AppResult<()> {
-    if let Some(webview) = app.get_webview(&label_for(service_id)) {
+    let label = label_for(service_id);
+    if let Some(webview) = app.get_webview(&label) {
         webview.close()?;
     }
-    app.state::<AppState>().session().loaded.remove(service_id);
+    platform::webview_closed(&label);
+    let state = app.state::<AppState>();
+    let mut session = state.session();
+    session.loaded.remove(service_id);
+    session.paused.remove(service_id);
     Ok(())
 }
 

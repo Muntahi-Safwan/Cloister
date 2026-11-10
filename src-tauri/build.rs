@@ -16,6 +16,7 @@ const COMMANDS: &[&str] = &[
     "rename_service",
     "mute_service",
     "sleep_service",
+    "set_service_background",
     "zoom_service",
     "open_service_externally",
     "set_content_bounds",

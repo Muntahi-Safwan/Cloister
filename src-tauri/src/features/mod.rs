@@ -7,4 +7,6 @@ pub mod away;
 pub mod focus;
 pub mod history;
 pub mod notify;
+pub mod pause;
+pub mod refresh;
 pub mod schedule;

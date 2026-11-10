@@ -3,6 +3,7 @@
   Behaviour switches for a service. Used by the custom website form.
 -->
 <script lang="ts">
+  import { app } from '$lib/stores/app.svelte';
   import Switch from '$lib/components/common/Switch.svelte';
   import type { BackgroundMode, ServiceOptions, UserAgentPreset } from '$lib/types';
 
@@ -38,7 +39,9 @@
   <div class="select-row">
     <label for="background-mode">
       <span>When in the background</span>
-      <span class="hint">Unloading frees the most memory; the page reloads when opened</span>
+      <span class="hint"
+        >Pausing and unloading free memory; you can change this later from the right-click menu</span
+      >
     </label>
     <select
       id="background-mode"
@@ -47,6 +50,9 @@
       onchange={(e) => (options.background = e.currentTarget.value as BackgroundMode)}
     >
       <option value="keepNotifying">Keep notifying</option>
+      {#if app.snapshot.canPause}
+        <option value="pause">Pause, check for messages every few minutes</option>
+      {/if}
       <option value="unloadWhenIdle">Unload when idle</option>
     </select>
   </div>

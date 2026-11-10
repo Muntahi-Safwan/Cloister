@@ -12,7 +12,10 @@ pub mod inject;
 pub mod lifecycle;
 pub mod lock;
 pub mod memory;
+pub mod migrate;
 pub mod notifications;
+pub mod pause;
+pub mod refresh;
 pub mod startup;
 pub mod tray;
 pub mod user_agent;
@@ -38,6 +41,10 @@ pub fn setup<R: Runtime>(app: &mut App<R>) -> Result<(), Box<dyn std::error::Err
 
     if let Some(window) = app.get_window(MAIN_LABEL) {
         crate::platform::prepare_window(&window);
+        if let Some(main) = handle.get_webview(MAIN_LABEL) {
+            crate::platform::share_engine_from(&main);
+        }
+        migrate::remove_legacy_profiles(&handle);
         let handle = handle.clone();
         window.on_window_event(move |event| match event {
             WindowEvent::CloseRequested { api, .. } => {

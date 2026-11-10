@@ -1,12 +1,11 @@
 //! Commands for locking, notification history, memory use and erasing data.
 
-use std::collections::HashMap;
-
 use tauri::{AppHandle, Manager, Runtime};
 
 use crate::error::AppResult;
 use crate::features::history::HistoryItem;
-use crate::runtime::{erase, lock, memory};
+use crate::runtime::memory::{self, MemoryReport};
+use crate::runtime::{erase, lock};
 use crate::services::ServiceId;
 use crate::snapshot::{self, Snapshot};
 use crate::state::AppState;
@@ -37,10 +36,10 @@ pub fn clear_history<R: Runtime>(app: AppHandle<R>) -> Snapshot {
     publish(&app)
 }
 
-/// Memory used by each loaded service, in bytes.
+/// Memory used by each loaded service, and by the shared engine, in bytes.
 #[tauri::command]
-pub async fn service_memory<R: Runtime>(app: AppHandle<R>) -> HashMap<ServiceId, u64> {
-    memory::usage_by_service(&app)
+pub async fn service_memory<R: Runtime>(app: AppHandle<R>) -> MemoryReport {
+    memory::report(&app)
 }
 
 /// Deletes one service's cookies, logins and cache. It stays in the sidebar, signed out.

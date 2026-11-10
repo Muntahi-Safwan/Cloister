@@ -1,6 +1,6 @@
 [package]
 name = "cloister"
-version = "0.3.0"
+version = "0.4.0"
 description = "A quiet, private, lightweight home for your messaging apps."
 authors = ["Muntahi Safwan"]
 license = "MIT"
@@ -50,3 +50,7 @@ tauri-winrt-notification = "0.8"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.18"
+
+# Windows: lets services share one WebView2 browser process. See vendor/README.md.
+[patch.crates-io]
+tauri-runtime-wry = { path = "vendor/tauri-runtime-wry" }
