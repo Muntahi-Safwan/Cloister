@@ -119,6 +119,56 @@ function setUpServiceIcons() {
   });
 }
 
+/**
+ * Memory estimate. Each app costs its published idle figure whether it runs on
+ * its own or awake in Cloister; a sleeping app costs nothing. Cloister itself
+ * adds a small fixed overhead.
+ */
+const CLOISTER_OVERHEAD_MB = 40;
+
+function formatMb(mb) {
+  return mb >= 1000 ? `${(mb / 1000).toFixed(1)} GB` : `${Math.round(mb)} MB`;
+}
+
+function setUpMemoryEstimate() {
+  const rows = [...document.querySelectorAll('.mem-row')];
+  if (!rows.length) return;
+  const out = {
+    saved: document.querySelector('[data-saved]'),
+    oldTotal: document.querySelector('[data-total-old]'),
+    newTotal: document.querySelector('[data-total-new]'),
+    oldBar: document.querySelector('[data-bar-old]'),
+    newBar: document.querySelector('[data-bar-new]'),
+  };
+
+  const update = () => {
+    let separate = 0;
+    let cloister = CLOISTER_OVERHEAD_MB;
+    for (const row of rows) {
+      const mb = Number(row.dataset.mb);
+      separate += mb;
+      if (row.querySelector('[data-awake]').getAttribute('aria-pressed') === 'true') cloister += mb;
+    }
+    const saved = Math.max(0, separate - cloister);
+    out.saved.textContent = saved > 0 ? formatMb(saved) : '0 MB';
+    out.oldTotal.textContent = formatMb(separate);
+    out.newTotal.textContent = formatMb(cloister);
+    const max = Math.max(separate, cloister);
+    out.oldBar.style.width = `${(separate / max) * 100}%`;
+    out.newBar.style.width = `${(cloister / max) * 100}%`;
+  };
+
+  rows.forEach((row) => {
+    const toggle = row.querySelector('[data-awake]');
+    toggle.addEventListener('click', () => {
+      toggle.setAttribute('aria-pressed', String(toggle.getAttribute('aria-pressed') !== 'true'));
+      update();
+    });
+  });
+  update();
+}
+
 setUpServiceIcons();
+setUpMemoryEstimate();
 setUpDownloads();
 setUpVeilDemo();

@@ -39,6 +39,7 @@
         <nav class="nav-links" aria-label="Main">
           <a href="#features">Features</a>
           <a href="#apps">Apps</a>
+          <a href="#memory">Memory</a>
           <a href="#install">Download</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -130,7 +131,7 @@
                 <span class="svc is-active" data-letter="W"
                   ><img
                     class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
                     referrerpolicy="no-referrer"
                     alt="WhatsApp"
                   /><em>3</em></span
@@ -145,7 +146,7 @@
                 <span class="svc" data-letter="G"
                   ><img
                     class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                    src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
                     referrerpolicy="no-referrer"
                     alt="Gmail"
                   /><em>12</em></span
@@ -235,7 +236,7 @@
               <span class="svc big" data-letter="W"
                 ><img
                   class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                  src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
                   referrerpolicy="no-referrer"
                   alt="" /></span
               >WhatsApp
@@ -262,7 +263,7 @@
               <span class="svc big" data-letter="G"
                 ><img
                   class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                  src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
                   referrerpolicy="no-referrer"
                   alt="" /></span
               >Gmail
@@ -298,7 +299,7 @@
               <span class="svc big" data-letter="T"
                 ><img
                   class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=teams.microsoft.com&amp;sz=128"
+                  src="https://icons.duckduckgo.com/ip3/teams.microsoft.com.ico"
                   referrerpolicy="no-referrer"
                   alt="" /></span
               >Teams
@@ -371,7 +372,7 @@
                 <span class="svc sm" data-letter="W"
                   ><img
                     class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
                     referrerpolicy="no-referrer"
                     alt=""
                 /></span>
@@ -420,7 +421,7 @@
                   <span class="svc sm" data-letter="W"
                     ><img
                       class="svc-icon"
-                      src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                      src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
                       referrerpolicy="no-referrer"
                       alt="" /></span
                   >WhatsApp<em>7</em>
@@ -429,7 +430,7 @@
                   <span class="svc sm" data-letter="G"
                     ><img
                       class="svc-icon"
-                      src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                      src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
                       referrerpolicy="no-referrer"
                       alt="" /></span
                   >Gmail<em>4</em>
@@ -506,18 +507,132 @@
         </div>
       </section>
 
-      <!-- ========================================================= Lighter -->
-      <section class="light">
-        <div class="wrap light-inner">
-          <h2>Under 10 MB to download.<br /><span class="soft">No browser bundled inside.</span></h2>
-          <div class="facts">
-            <div><b>Rust + Tauri</b><span>A native core instead of a packaged copy of Chromium.</span></div>
-            <div>
-              <b>Sleeps when idle</b
-              ><span>Services you have not opened in a while give their memory back.</span>
-            </div>
-            <div><b>Open source</b><span>MIT licensed. Read every line on GitHub.</span></div>
+      <!-- ========================================================== Memory -->
+      <section id="memory" class="memory">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker mono">Memory</p>
+            <h2>Get gigabytes of memory back</h2>
+            <p class="lead">
+              Desktop chat apps each keep a whole browser running all day. In Cloister, the apps you only
+              check now and then can sleep: a sleeping app uses no memory and wakes the moment you open it,
+              though it cannot notify you while asleep. Choose which ones stay awake:
+            </p>
           </div>
+
+          <div class="mem-board">
+            <div class="mem-apps">
+              <div class="mem-row" data-app="whatsapp" data-mb="600">
+                <span class="svc sm" data-letter="W"
+                  ><img
+                    class="svc-icon"
+                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <div class="mem-name">
+                  <b>WhatsApp</b><span class="mono">~600 MB as its own app<sup>1</sup></span>
+                </div>
+                <button type="button" class="mem-toggle" aria-pressed="true" data-awake>
+                  <span class="on">Awake</span><span class="off">Asleep</span>
+                </button>
+              </div>
+              <div class="mem-row" data-app="discord" data-mb="400">
+                <span class="svc sm" data-letter="D"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <div class="mem-name">
+                  <b>Discord</b><span class="mono">~400 MB as its own app<sup>2</sup></span>
+                </div>
+                <button type="button" class="mem-toggle" aria-pressed="true" data-awake>
+                  <span class="on">Awake</span><span class="off">Asleep</span>
+                </button>
+              </div>
+              <div class="mem-row" data-app="teams" data-mb="1000">
+                <span class="svc sm" data-letter="M"
+                  ><img
+                    class="svc-icon"
+                    src="https://icons.duckduckgo.com/ip3/teams.microsoft.com.ico"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <div class="mem-name">
+                  <b>Microsoft Teams</b><span class="mono">~1 GB as its own app<sup>3</sup></span>
+                </div>
+                <button type="button" class="mem-toggle" aria-pressed="false" data-awake>
+                  <span class="on">Awake</span><span class="off">Asleep</span>
+                </button>
+              </div>
+              <div class="mem-row" data-app="slack" data-mb="130">
+                <span class="svc sm" data-letter="S"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <div class="mem-name">
+                  <b>Slack</b><span class="mono">~130 MB as its own app<sup>4</sup></span>
+                </div>
+                <button type="button" class="mem-toggle" aria-pressed="false" data-awake>
+                  <span class="on">Awake</span><span class="off">Asleep</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="mem-result" aria-live="polite">
+              <p class="mem-big"><b data-saved>1.1 GB</b><span>less memory in use</span></p>
+              <div class="bars">
+                <div class="bar-row">
+                  <span>As separate apps</span>
+                  <div class="bar"><i class="bar-fill old" data-bar-old></i></div>
+                  <b class="mono" data-total-old>2.1 GB</b>
+                </div>
+                <div class="bar-row">
+                  <span>In Cloister</span>
+                  <div class="bar"><i class="bar-fill new" data-bar-new></i></div>
+                  <b class="mono" data-total-new>1.0 GB</b>
+                </div>
+              </div>
+              <div class="disk">
+                <div><b class="mono">&lt; 10 MB</b><span>Cloister download</span></div>
+                <div>
+                  <b class="mono">1.08 GB</b><span>Discord alone, on disk<sup>2</sup></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="sources">
+            Estimates. Each app's figure is a published idle measurement of its own desktop app on Windows;
+            yours will vary with how many chats and servers you have. An awake service in Cloister is counted
+            at the same cost as the desktop app, plus about 40 MB for Cloister itself<sup>5</sup>, so every
+            saving shown comes from sleeping apps. Sources:
+            <sup>1</sup>
+            <a
+              href="https://windowslatest.com/2026/06/13/whatsapp-is-eating-1-2gb-ram-on-windows-11-even-as-microsoft-kills-web-app-slop"
+              >Windows Latest, WhatsApp</a
+            >
+            <sup>2</sup>
+            <a
+              href="https://www.tech2geek.net/discord-is-a-resource-hog-these-4-lightweight-clients-use-up-to-160x-less-ram/"
+              >Tech2Geek, Discord</a
+            >
+            <sup>3</sup>
+            <a
+              href="https://windowslatest.com/2025/12/07/ram-prices-soar-but-popular-windows-11-apps-are-using-more-ram-due-to-electron-web-components"
+              >Windows Latest, Teams</a
+            >
+            <sup>4</sup>
+            <a href="https://slack.engineering/reducing-slacks-memory-footprint/"
+              >Slack Engineering (low end of its range)</a
+            >
+            <sup>5</sup> <a href="https://tech-insider.org/tauri-vs-electron-2026/">Tauri idle benchmark</a>
+          </p>
         </div>
       </section>
 
