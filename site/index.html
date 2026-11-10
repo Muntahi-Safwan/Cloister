@@ -39,6 +39,7 @@
         <nav class="nav-links" aria-label="Main">
           <a href="#features">Features</a>
           <a href="#apps">Apps</a>
+          <a href="#themes">Themes</a>
           <a href="#memory">Memory</a>
           <a href="#install">Download</a>
           <a href="#faq">FAQ</a>
@@ -507,6 +508,120 @@
         </div>
       </section>
 
+      <!-- ========================================================== Themes -->
+      <section id="themes" class="themes">
+        <div class="wrap themes-inner">
+          <div class="themes-copy">
+            <p class="kicker mono">Themes</p>
+            <h2>Six themes. One that feels like yours.</h2>
+            <p class="lead">
+              Warm graphite for late nights, crisp white for bright offices, and four more in between. Or let
+              Cloister follow Windows and switch between light and dark on its own.
+            </p>
+            <div class="theme-chips" role="group" aria-label="Preview a theme">
+              <button type="button" class="theme-chip is-on" data-theme-pick="quiet-room" aria-pressed="true">
+                <span class="swatch" style="--sw-bg: #121110; --sw-accent: #f2a33a"></span>
+                <span><b>Quiet Room</b><span>Warm graphite, ember accent</span></span>
+              </button>
+              <button type="button" class="theme-chip" data-theme-pick="midnight" aria-pressed="false">
+                <span class="swatch" style="--sw-bg: #0e131b; --sw-accent: #6cb4ff"></span>
+                <span><b>Midnight</b><span>Deep blue, sky accent</span></span>
+              </button>
+              <button type="button" class="theme-chip" data-theme-pick="forest" aria-pressed="false">
+                <span class="swatch" style="--sw-bg: #0f1411; --sw-accent: #8fcb9b"></span>
+                <span><b>Forest</b><span>Dark moss, sage accent</span></span>
+              </button>
+              <button type="button" class="theme-chip" data-theme-pick="mono" aria-pressed="false">
+                <span class="swatch" style="--sw-bg: #101010; --sw-accent: #f2f2f2"></span>
+                <span><b>Mono</b><span>Neutral greys, white accent</span></span>
+              </button>
+              <button type="button" class="theme-chip" data-theme-pick="paper" aria-pressed="false">
+                <span class="swatch" style="--sw-bg: #f6f2ec; --sw-accent: #b5541c"></span>
+                <span><b>Paper</b><span>Warm white, terracotta</span></span>
+              </button>
+              <button type="button" class="theme-chip" data-theme-pick="daylight" aria-pressed="false">
+                <span class="swatch" style="--sw-bg: #f7f8fa; --sw-accent: #2563d9"></span>
+                <span><b>Daylight</b><span>Cool white, blue accent</span></span>
+              </button>
+            </div>
+            <p class="fine">Every theme is checked for readable contrast.</p>
+          </div>
+
+          <figure
+            class="app app-sm"
+            data-theme="quiet-room"
+            data-theme-preview
+            aria-label="Cloister in the selected theme"
+          >
+            <div class="app-bar">
+              <div class="app-brand">
+                <span class="mark-dot"></span><b>cloister</b><span class="sep"></span
+                ><span class="muted">Discord</span>
+              </div>
+              <span></span>
+              <div class="app-actions">
+                <span class="focus-pill mono"><i></i>Focus 24:10</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <nav class="rail" aria-hidden="true">
+                <span class="svc" data-letter="W"
+                  ><img
+                    class="svc-icon"
+                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                  /><em>3</em></span
+                >
+                <span class="svc is-active" data-letter="D"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <span class="svc" data-letter="G"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                  /><em>12</em></span
+                >
+                <span class="svc" data-letter="S"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+              </nav>
+              <div class="list">
+                <div class="list-head"><b>Direct messages</b></div>
+                <div class="chat is-open">
+                  <span class="av a2">MH</span><b>Mahin</b
+                  ><span class="msg">Pushed the new build, have a look</span><em>9:12</em>
+                </div>
+                <div class="chat">
+                  <span class="av a5">#</span><b>design-crit</b><span class="msg">Love the new sidebar</span
+                  ><em>8:40</em>
+                </div>
+                <div class="chat">
+                  <span class="av a3">S</span><b>Sadia</b><span class="msg">Lunch at 1?</span><em>Mon</em>
+                </div>
+              </div>
+              <div class="convo">
+                <div class="bubbles">
+                  <div class="bubble in">Pushed the new build, have a look</div>
+                  <div class="bubble out">On it. The themes look great</div>
+                </div>
+                <div class="composer"><span>Message @Mahin</span></div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </section>
+
       <!-- ========================================================== Memory -->
       <section id="memory" class="memory">
         <div class="wrap">
@@ -514,9 +629,10 @@
             <p class="kicker mono">Memory</p>
             <h2>Get gigabytes of memory back</h2>
             <p class="lead">
-              Desktop chat apps each keep a whole browser running all day. In Cloister, the apps you only
-              check now and then can sleep: a sleeping app uses no memory and wakes the moment you open it,
-              though it cannot notify you while asleep. Choose which ones stay awake:
+              Desktop chat apps each run a whole browser of their own, all day. Cloister runs every service in
+              one shared engine, and lets the ones you only check now and then step back: <b>paused</b> apps
+              are frozen and wake every few minutes to check for messages, <b>asleep</b> apps close until you
+              open them.
             </p>
           </div>
 
@@ -533,9 +649,11 @@
                 <div class="mem-name">
                   <b>WhatsApp</b><span class="mono">~600 MB as its own app<sup>1</sup></span>
                 </div>
-                <button type="button" class="mem-toggle" aria-pressed="true" data-awake>
-                  <span class="on">Awake</span><span class="off">Asleep</span>
-                </button>
+                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="awake">
+                  <button type="button" role="radio" data-set="awake">Awake</button>
+                  <button type="button" role="radio" data-set="paused">Paused</button>
+                  <button type="button" role="radio" data-set="asleep">Asleep</button>
+                </div>
               </div>
               <div class="mem-row" data-app="discord" data-mb="400">
                 <span class="svc sm" data-letter="D"
@@ -548,9 +666,11 @@
                 <div class="mem-name">
                   <b>Discord</b><span class="mono">~400 MB as its own app<sup>2</sup></span>
                 </div>
-                <button type="button" class="mem-toggle" aria-pressed="true" data-awake>
-                  <span class="on">Awake</span><span class="off">Asleep</span>
-                </button>
+                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="paused">
+                  <button type="button" role="radio" data-set="awake">Awake</button>
+                  <button type="button" role="radio" data-set="paused">Paused</button>
+                  <button type="button" role="radio" data-set="asleep">Asleep</button>
+                </div>
               </div>
               <div class="mem-row" data-app="teams" data-mb="1000">
                 <span class="svc sm" data-letter="M"
@@ -563,9 +683,11 @@
                 <div class="mem-name">
                   <b>Microsoft Teams</b><span class="mono">~1 GB as its own app<sup>3</sup></span>
                 </div>
-                <button type="button" class="mem-toggle" aria-pressed="false" data-awake>
-                  <span class="on">Awake</span><span class="off">Asleep</span>
-                </button>
+                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="paused">
+                  <button type="button" role="radio" data-set="awake">Awake</button>
+                  <button type="button" role="radio" data-set="paused">Paused</button>
+                  <button type="button" role="radio" data-set="asleep">Asleep</button>
+                </div>
               </div>
               <div class="mem-row" data-app="slack" data-mb="130">
                 <span class="svc sm" data-letter="S"
@@ -578,14 +700,16 @@
                 <div class="mem-name">
                   <b>Slack</b><span class="mono">~130 MB as its own app<sup>4</sup></span>
                 </div>
-                <button type="button" class="mem-toggle" aria-pressed="false" data-awake>
-                  <span class="on">Awake</span><span class="off">Asleep</span>
-                </button>
+                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="asleep">
+                  <button type="button" role="radio" data-set="awake">Awake</button>
+                  <button type="button" role="radio" data-set="paused">Paused</button>
+                  <button type="button" role="radio" data-set="asleep">Asleep</button>
+                </div>
               </div>
             </div>
 
             <div class="mem-result" aria-live="polite">
-              <p class="mem-big"><b data-saved>1.1 GB</b><span>less memory in use</span></p>
+              <p class="mem-big"><b data-saved>1.1 GB</b><span>memory freed for your other apps</span></p>
               <div class="bars">
                 <div class="bar-row">
                   <span>As separate apps</span>
@@ -598,6 +722,10 @@
                   <b class="mono" data-total-new>1.0 GB</b>
                 </div>
               </div>
+              <p class="mem-plus">
+                Not counted above: all services share one browser engine in Cloister, instead of one per
+                app<sup>7</sup>.
+              </p>
               <div class="disk">
                 <div><b class="mono">&lt; 10 MB</b><span>Cloister download</span></div>
                 <div>
@@ -610,8 +738,9 @@
           <p class="sources">
             Estimates. Each app's figure is a published idle measurement of its own desktop app on Windows;
             yours will vary with how many chats and servers you have. An awake service in Cloister is counted
-            at the same cost as the desktop app, plus about 40 MB for Cloister itself<sup>5</sup>, so every
-            saving shown comes from sleeping apps. Sources:
+            at the full cost of the desktop app, plus about 40 MB for Cloister itself<sup>5</sup>. Paused
+            services count as freed because Windows may reuse a frozen page's memory<sup>6</sup>; asleep
+            services are closed. Pause is available on Windows. Sources:
             <sup>1</sup>
             <a
               href="https://windowslatest.com/2026/06/13/whatsapp-is-eating-1-2gb-ram-on-windows-11-even-as-microsoft-kills-web-app-slop"
@@ -632,6 +761,14 @@
               >Slack Engineering (low end of its range)</a
             >
             <sup>5</sup> <a href="https://tech-insider.org/tauri-vs-electron-2026/">Tauri idle benchmark</a>
+            <sup>6</sup>
+            <a href="https://learn.microsoft.com/microsoft-edge/webview2/reference/win32/icorewebview2_3"
+              >Microsoft, WebView2 TrySuspend</a
+            >
+            <sup>7</sup>
+            <a href="https://learn.microsoft.com/microsoft-edge/webview2/concepts/multi-profile-support"
+              >Microsoft, WebView2 profiles</a
+            >
           </p>
         </div>
       </section>

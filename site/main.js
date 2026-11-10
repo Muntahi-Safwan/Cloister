@@ -121,8 +121,8 @@ function setUpServiceIcons() {
 
 /**
  * Memory estimate. Each app costs its published idle figure whether it runs on
- * its own or awake in Cloister; a sleeping app costs nothing. Cloister itself
- * adds a small fixed overhead.
+ * its own or awake in Cloister. A paused app is frozen and Windows may reuse its
+ * memory; an asleep app is closed. Cloister itself adds a small fixed overhead.
  */
 const CLOISTER_OVERHEAD_MB = 40;
 
@@ -147,7 +147,7 @@ function setUpMemoryEstimate() {
     for (const row of rows) {
       const mb = Number(row.dataset.mb);
       separate += mb;
-      if (row.querySelector('[data-awake]').getAttribute('aria-pressed') === 'true') cloister += mb;
+      if (row.querySelector('.mem-seg').dataset.state === 'awake') cloister += mb;
     }
     const saved = Math.max(0, separate - cloister);
     out.saved.textContent = saved > 0 ? formatMb(saved) : '0 MB';
@@ -159,16 +159,41 @@ function setUpMemoryEstimate() {
   };
 
   rows.forEach((row) => {
-    const toggle = row.querySelector('[data-awake]');
-    toggle.addEventListener('click', () => {
-      toggle.setAttribute('aria-pressed', String(toggle.getAttribute('aria-pressed') !== 'true'));
-      update();
-    });
+    const seg = row.querySelector('.mem-seg');
+    const sync = () =>
+      seg.querySelectorAll('[data-set]').forEach((button) => {
+        button.setAttribute('aria-checked', String(button.dataset.set === seg.dataset.state));
+      });
+    seg.querySelectorAll('[data-set]').forEach((button) =>
+      button.addEventListener('click', () => {
+        seg.dataset.state = button.dataset.set;
+        sync();
+        update();
+      }),
+    );
+    sync();
   });
   update();
 }
 
+/** Theme chips recolour the preview window with the app's own palettes. */
+function setUpThemePreview() {
+  const preview = document.querySelector('[data-theme-preview]');
+  const chips = [...document.querySelectorAll('[data-theme-pick]')];
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      preview.dataset.theme = chip.dataset.themePick;
+      chips.forEach((other) => {
+        const on = other === chip;
+        other.classList.toggle('is-on', on);
+        other.setAttribute('aria-pressed', String(on));
+      });
+    }),
+  );
+}
+
 setUpServiceIcons();
+setUpThemePreview();
 setUpMemoryEstimate();
 setUpDownloads();
 setUpVeilDemo();

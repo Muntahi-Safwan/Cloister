@@ -38,9 +38,10 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
 - **Focus sessions.** Hold notifications for 25 minutes (or your own length), let named people through, and
   get a summary of what arrived when the session ends.
 - **Keyboard first.** `Ctrl K` opens a command palette for every service and action.
-- **Light on memory.** Services load on demand. Pages you are not looking at ask WebView2 for a low memory
-  target while still receiving notifications, and services set to "unload when idle" are closed after a
-  period of inactivity and reloaded when you return. Settings show how much memory each service uses.
+- **Light on memory.** On Windows every service runs inside one shared browser engine, as a separate profile,
+  instead of each starting its own browser. Hidden services can be paused (frozen, waking every few minutes to
+  check for messages) or unloaded, and pages that grow too large while hidden are refreshed quietly. Settings
+  show how much memory each service uses.
 - **Six themes.** Quiet Room, Midnight, Forest, Mono, Paper and Daylight, or match Windows light/dark.
   Every theme is checked for readable contrast.
 - **Notification history.** Click a toast to jump to its conversation, or open the bell for the last 50
@@ -100,7 +101,9 @@ Cloister is built for Windows first, and macOS and Linux builds come from the sa
 | App lock                             | ✓ (Windows Hello) | not yet            | not yet            |
 | Notifications open the right service | ✓                 | plain notification | plain notification |
 | Lower memory for background pages    | ✓                 | sleep only         | sleep only         |
-| Memory meter                         | ✓                 | ✓                  | ✓                  |
+| One shared browser engine            | ✓                 | –                  | –                  |
+| Pause in background                  | ✓                 | –                  | –                  |
+| Memory meter                         | ✓                 | total only         | ✓                  |
 
 On macOS, shortcuts use `⌘` in place of `Ctrl`.
 

@@ -105,5 +105,13 @@ or dropped, and whether Veil redacts it. The runtime only executes the decision.
 - On Linux, Tauri packs every webview of a window into one vertical `GtkBox` and ignores `set_bounds`, so
   `platform/gtk_layer.rs` wraps the main UI in a `GtkOverlay` and moves service pages into a positioned
   `GtkFixed` layer above it.
+- On Windows, every service is a WebView2 _profile_ inside the main window's environment
+  (`platform/shared_engine.rs`), so all of them share one browser, GPU and network process. Tauri does not
+  expose profiles yet, so `src-tauri/vendor/tauri-runtime-wry` carries a small, documented patch (see
+  `vendor/README.md`): a webview given both an environment and a data directory uses the folder name as its
+  profile name. Memory is attributed per renderer process via `GetProcessExtendedInfos` and each service's
+  main frame id.
+- Pause mode (`features/pause.rs`, `runtime/pause.rs`) uses WebView2 `TrySuspend`/`Resume`; the memory target
+  hint is used only for services that are not paused, as Microsoft advises.
 - On macOS, WKWebView cannot use data folders, so each service gets a WebKit data store named by a stable hash
   of its id (`services/profile.rs`, macOS 14+). Erasing data goes through the webview for the same reason.

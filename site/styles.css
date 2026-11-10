@@ -827,8 +827,8 @@ h1 {
 .bubble.out {
   align-self: flex-end;
   border-bottom-right-radius: 4px;
-  background: #33281a;
-  color: #f5e6d0;
+  background: color-mix(in srgb, var(--accent) 18%, var(--raised));
+  color: var(--text);
 }
 
 .composer {
@@ -1213,6 +1213,253 @@ h1 {
   transform: rotate(-45deg) translateY(-2px);
 }
 
+/* --------------------------------------------------------------- themes */
+
+.themes {
+  padding: 120px 0 40px;
+}
+
+.themes-inner {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.themes-copy .lead {
+  margin-top: 16px;
+}
+
+.themes-copy h2 {
+  margin-top: 14px;
+}
+
+.theme-chips {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 32px 0 14px;
+}
+
+.theme-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 140ms,
+    background 140ms;
+}
+
+.theme-chip:hover {
+  background: var(--hover);
+}
+
+.theme-chip.is-on {
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+}
+
+.theme-chip b {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.theme-chip span span {
+  color: var(--faint);
+  font-size: 12px;
+}
+
+.swatch {
+  position: relative;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: var(--sw-bg);
+}
+
+.swatch::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--sw-accent);
+}
+
+/* The preview window takes its colours from the chosen theme. */
+.app-sm {
+  color: var(--text);
+  transition:
+    background 220ms,
+    color 220ms;
+}
+
+.app-sm .app-body {
+  height: 380px;
+  grid-template-columns: 64px minmax(0, 240px) 1fr;
+}
+
+.app-sm .app-bar {
+  grid-template-columns: 1fr auto auto;
+}
+
+.app-sm .app-actions {
+  padding-right: 14px;
+}
+
+.app-sm .list,
+.app-sm .convo,
+.app-sm .rail,
+.app-sm .app-bar,
+.app-sm .svc,
+.app-sm .chat,
+.app-sm .bubble,
+.app-sm .composer {
+  transition:
+    background 220ms,
+    border-color 220ms,
+    color 220ms;
+}
+
+.mark-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.app[data-theme='paper'] .av,
+.app[data-theme='daylight'] .av {
+  /* Turns the dark avatar tints into light ones of the same hue. */
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.app[data-theme='quiet-room'] {
+  --chrome: #0e0d0c;
+  --bg-deep: #0c0b0a;
+  --bg: #121110;
+  --panel: #161513;
+  --raised: #1a1917;
+  --hover: #1f1d1a;
+  --active: #2a2724;
+  --line-soft: #1f1d1a;
+  --line: #2a2724;
+  --line-strong: #3a3631;
+  --text: #ede8e1;
+  --muted: #a39c92;
+  --faint: #8a8378;
+  --accent: #f2a33a;
+  --accent-ink: #1a1206;
+  --veil: #1e1a15;
+}
+
+.app[data-theme='midnight'] {
+  --chrome: #0a0e15;
+  --bg-deep: #090c12;
+  --bg: #0e131b;
+  --panel: #121822;
+  --raised: #161d28;
+  --hover: #1b2330;
+  --active: #243041;
+  --line-soft: #1a2130;
+  --line: #232d3d;
+  --line-strong: #33405a;
+  --text: #e6ecf5;
+  --muted: #9aa6b8;
+  --faint: #8693a8;
+  --accent: #6cb4ff;
+  --accent-ink: #06121f;
+  --veil: #101a28;
+}
+
+.app[data-theme='forest'] {
+  --chrome: #0b0f0c;
+  --bg-deep: #0a0d0b;
+  --bg: #0f1411;
+  --panel: #131915;
+  --raised: #171e19;
+  --hover: #1c241e;
+  --active: #26302a;
+  --line-soft: #1a211c;
+  --line: #232c26;
+  --line-strong: #334037;
+  --text: #e7ede8;
+  --muted: #9caaa0;
+  --faint: #87968c;
+  --accent: #8fcb9b;
+  --accent-ink: #0b1a0f;
+  --veil: #121c15;
+}
+
+.app[data-theme='mono'] {
+  --chrome: #0a0a0a;
+  --bg-deep: #080808;
+  --bg: #101010;
+  --panel: #151515;
+  --raised: #191919;
+  --hover: #202020;
+  --active: #2b2b2b;
+  --line-soft: #1e1e1e;
+  --line: #2a2a2a;
+  --line-strong: #3d3d3d;
+  --text: #f2f2f2;
+  --muted: #a6a6a6;
+  --faint: #8f8f8f;
+  --accent: #f2f2f2;
+  --accent-ink: #0a0a0a;
+  --veil: #181818;
+}
+
+.app[data-theme='paper'] {
+  --chrome: #efeae2;
+  --bg-deep: #e8e2d8;
+  --bg: #f6f2ec;
+  --panel: #efeae2;
+  --raised: #fbf9f5;
+  --hover: #e7e1d7;
+  --active: #ddd5c9;
+  --line-soft: #e3dcd1;
+  --line: #d5ccbf;
+  --line-strong: #bdb2a3;
+  --text: #1e1b17;
+  --muted: #554e45;
+  --faint: #6a6257;
+  --accent: #b5541c;
+  --accent-ink: #ffffff;
+  --veil: #efe5d6;
+}
+
+.app[data-theme='daylight'] {
+  --chrome: #eef1f5;
+  --bg-deep: #e9edf2;
+  --bg: #f7f8fa;
+  --panel: #eef1f5;
+  --raised: #ffffff;
+  --hover: #e4e8ee;
+  --active: #d8dee7;
+  --line-soft: #e1e5eb;
+  --line: #d0d6df;
+  --line-strong: #b5bdc9;
+  --text: #161a20;
+  --muted: #4a5360;
+  --faint: #5d6673;
+  --accent: #2563d9;
+  --accent-ink: #ffffff;
+  --veil: #e6edf8;
+}
+
 /* --------------------------------------------------------------- memory */
 
 .memory {
@@ -1271,34 +1518,45 @@ sup {
   font-size: 0.7em;
 }
 
-.mem-toggle {
+.mem-seg {
   display: inline-flex;
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--bg);
+}
+
+.mem-seg button {
+  padding: 4px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
   color: var(--faint);
   font: 500 12px var(--sans);
   cursor: pointer;
-}
-
-.mem-toggle span {
-  padding: 4px 12px;
-  border-radius: 999px;
   transition:
     background 140ms,
     color 140ms;
 }
 
-.mem-toggle[aria-pressed='true'] .on,
-.mem-toggle[aria-pressed='false'] .off {
+.mem-seg button:hover {
+  color: var(--text);
+}
+
+.mem-seg[data-state='awake'] [data-set='awake'] {
+  background: var(--veil);
+  color: var(--accent);
+}
+
+.mem-seg[data-state='paused'] [data-set='paused'],
+.mem-seg[data-state='asleep'] [data-set='asleep'] {
   background: var(--active);
   color: var(--text);
 }
 
-.mem-toggle[aria-pressed='true'] .on {
-  background: var(--veil);
-  color: var(--accent);
+.mem-plus {
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .mem-result {
@@ -1635,6 +1893,7 @@ pre {
 @media (max-width: 900px) {
   .row,
   .mem-board,
+  .themes-inner,
   .faq-inner {
     grid-template-columns: 1fr;
     gap: 40px;
