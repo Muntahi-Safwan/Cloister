@@ -71,7 +71,12 @@
 
     <section>
       <h3>Lock</h3>
-      <LockSection {settings} authAvailable={app.snapshot.authAvailable} onchange={save} />
+      <LockSection
+        {settings}
+        hasPin={app.snapshot.hasPin}
+        helloAvailable={app.snapshot.helloAvailable}
+        onchange={save}
+      />
     </section>
 
     <section>

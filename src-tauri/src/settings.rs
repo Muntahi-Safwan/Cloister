@@ -50,7 +50,7 @@ pub struct AppSettings {
     pub launch_at_login: bool,
     /// System-wide shortcuts to show/hide Cloister and to hide everything instantly.
     pub global_shortcuts: bool,
-    /// Require Windows Hello to open Cloister.
+    /// Lock Cloister on start and when away. Only takes effect once a PIN is set.
     pub app_lock: bool,
     /// Lock after the window has been out of focus this many minutes (0 = only on launch).
     pub lock_after_minutes: u32,

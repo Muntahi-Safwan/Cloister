@@ -49,7 +49,7 @@
       <Icon name="bell" size={16} />
       {#if app.hasUnseenHistory}<span class="dot" aria-hidden="true"></span>{/if}
     </button>
-    {#if app.snapshot.authAvailable}
+    {#if app.snapshot.hasPin}
       <button
         type="button"
         class="icon-btn"

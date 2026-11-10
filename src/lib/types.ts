@@ -127,10 +127,12 @@ export interface Snapshot {
   focus: FocusView | null;
   unreadTotal: number;
   settings: AppSettings;
-  /** Cloister is locked behind Windows Hello. */
+  /** Cloister is locked; only the lock screen is shown. */
   locked: boolean;
-  /** Windows Hello is set up on this computer. */
-  authAvailable: boolean;
+  /** A Cloister PIN is set, so Cloister can be locked. */
+  hasPin: boolean;
+  /** Windows Hello is set up and can unlock as well as the PIN. */
+  helloAvailable: boolean;
   /** Number of notifications in the in-memory history. */
   historyCount: number;
   /** When the newest notification arrived (Unix ms), or `null` when the history is empty. */

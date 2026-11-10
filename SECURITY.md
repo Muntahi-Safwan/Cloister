@@ -19,12 +19,18 @@ key built into it. Nothing installs without the user clicking "Install".
 
 ## App lock
 
-- The lock uses Windows Hello through `UserConsentVerifier`. Cloister never sees your PIN or biometrics; it
-  only learns whether verification succeeded.
+- The lock uses a Cloister PIN that you choose. Only an Argon2id hash of it (with a random salt) is stored, in
+  `lock.json` in Cloister's settings folder. It is never sent to the interface or anywhere else. After five
+  wrong guesses in a row, each further guess waits 30 seconds, doubling up to five minutes.
+- On Windows, Windows Hello can also unlock, through `UserConsentVerifier`. Cloister never sees your Windows
+  PIN or biometrics; it only learns whether verification succeeded. Hello is never the only way in, so a
+  broken Hello setup cannot lock you out.
+- Changing or removing the PIN needs the current PIN, and cannot be done from the lock screen.
 - While locked, every service page is hidden (not just covered), shortcuts are ignored and toasts never show
   message text.
 - The lock protects against someone glancing at or using your unlocked PC. It does not encrypt data on disk:
-  anyone with access to your Windows account can read browser profiles. Use BitLocker for that.
+  anyone with access to your user account can read browser profiles. Use full-disk encryption (BitLocker,
+  FileVault or LUKS) for that.
 
 ## Camera and microphone
 

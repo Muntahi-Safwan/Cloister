@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-10
+
+### Changed
+
+- **App lock now uses a Cloister PIN.** You choose a PIN (four or more characters) in Settings › Lock, and
+  it always unlocks Cloister. Windows Hello is now an optional quicker way in. Before, the lock relied on
+  Windows Hello alone, so when Hello failed (for example error `0xD000A002` from a damaged Windows PIN) there
+  was no way to unlock. If you had the lock on, Cloister now starts unlocked; set a PIN in Settings › Lock and
+  the lock is back on.
+- App lock now works on macOS and Linux too.
+
+### Security
+
+- The PIN is stored only as an Argon2id hash in `lock.json`, never in `settings.json`. After five wrong
+  guesses in a row, Cloister makes you wait 30 seconds, doubling up to five minutes.
+
 ## [0.4.0] - 2026-11-10
 
 ### Changed

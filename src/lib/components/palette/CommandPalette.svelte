@@ -55,7 +55,7 @@
         icon: 'bell',
         run: () => app.openNotifications(),
       },
-      ...(app.snapshot.authAvailable
+      ...(app.snapshot.hasPin
         ? [
             {
               kind: 'action' as const,

@@ -66,7 +66,8 @@ const EMPTY_SNAPSHOT: Snapshot = {
     checkForUpdates: true,
   },
   locked: false,
-  authAvailable: false,
+  hasPin: false,
+  helloAvailable: false,
   historyCount: 0,
   historyLatestMs: null,
   canPause: false,
@@ -85,8 +86,10 @@ class AppStore {
   memory = $state<MemoryReport>({ services: {}, shared: 0 });
   /** Time the notifications panel was last opened; newer items light the bell. */
   historySeenMs = $state(0);
-  /** The Windows Hello prompt is open. */
+  /** The Windows Hello prompt is open, or a PIN is being checked. */
   unlocking = $state(false);
+  /** Why the last unlock attempt failed, shown on the lock screen. */
+  unlockError = $state<string | null>(null);
   error = $state<string | null>(null);
   ready = $state(false);
   now = $state(Date.now());
@@ -274,10 +277,11 @@ class AppStore {
   // -------------------------------------------------------------- app lock
 
   async lock(): Promise<void> {
-    if (!this.snapshot.authAvailable) {
-      this.error = 'Locking needs Windows Hello. Set up a PIN, face or fingerprint in Windows Settings.';
+    if (!this.snapshot.hasPin) {
+      this.error = 'Set a Cloister PIN in Settings › Lock first, so you can always unlock.';
       return;
     }
+    this.unlockError = null;
     await this.#run(() => backend.lockNow());
   }
 
@@ -287,12 +291,38 @@ class AppStore {
     this.unlocking = true;
     try {
       await backend.unlock();
-      this.error = null;
+      this.unlockError = null;
     } catch (error) {
-      this.error = errorMessage(error);
+      this.unlockError = errorMessage(error);
     } finally {
       this.unlocking = false;
     }
+  }
+
+  /** Unlocks with the Cloister PIN. Returns whether it worked. */
+  async unlockWithPin(pin: string): Promise<boolean> {
+    if (this.unlocking) return false;
+    this.unlocking = true;
+    try {
+      const ok = await backend.unlockWithPin(pin);
+      this.unlockError = ok ? null : 'That PIN is not right.';
+      return ok;
+    } catch (error) {
+      this.unlockError = errorMessage(error);
+      return false;
+    } finally {
+      this.unlocking = false;
+    }
+  }
+
+  /** Sets or changes the PIN. Throws with a message for the user on failure. */
+  async setPin(current: string | null, pin: string): Promise<void> {
+    this.#apply(await backend.setPin(current, pin));
+  }
+
+  /** Removes the PIN (and with it app lock). Throws with a message on failure. */
+  async removePin(current: string): Promise<void> {
+    this.#apply(await backend.removePin(current));
   }
 
   // --------------------------------------------------------- notifications

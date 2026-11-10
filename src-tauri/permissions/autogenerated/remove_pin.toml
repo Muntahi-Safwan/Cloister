@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-remove-pin"
+description = "Enables the remove_pin command without any pre-configured scope."
+commands.allow = ["remove_pin"]
+
+[[permission]]
+identifier = "deny-remove-pin"
+description = "Denies the remove_pin command without any pre-configured scope."
+commands.deny = ["remove_pin"]

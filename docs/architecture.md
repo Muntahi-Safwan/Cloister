@@ -89,7 +89,10 @@ or dropped, and whether Veil redacts it. The runtime only executes the decision.
 ## Privacy runtime
 
 - `runtime/lock.rs` locks and unlocks. Locking sets `session.locked`; `sync_visibility` then hides every
-  service page, and the UI draws the lock screen. `platform/hello.rs` asks Windows Hello.
+  service page, and the UI draws the lock screen. Locking needs a PIN (`state.can_lock()`), so there is always
+  a way back in. `features/passcode.rs` validates, hashes (Argon2id) and checks PINs and decides how long to
+  wait after wrong guesses; `pin_store.rs` keeps the hash in `lock.json`, apart from the settings that the UI
+  receives. `platform/hello.rs` asks Windows Hello, which is an optional second way to unlock.
 - `runtime/away.rs` records when the main window lost focus. The background sweep (`lifecycle.rs`) calls
   `away::check`, which uses the pure `features/away.rs` to decide whether to lock or veil.
 - `features/history.rs` is a bounded, in-memory list fed by `notifications::deliver`.

@@ -16,6 +16,7 @@ use serde::Deserialize;
 use crate::features::focus::FocusSession;
 use crate::features::history::History;
 use crate::features::pause::PauseState;
+use crate::pin_store::PinStore;
 use crate::services::{ServiceId, ServiceRegistry};
 use crate::settings::SettingsStore;
 
@@ -52,8 +53,11 @@ pub struct Session {
     pub last_seen: HashMap<ServiceId, Instant>,
     /// Webview labels that already received their bridge capability.
     pub bridge_granted: HashSet<String>,
-    /// Whether Cloister is locked behind Windows Hello.
+    /// Whether Cloister is locked (unlocked with the PIN or Windows Hello).
     pub locked: bool,
+    /// Wrong PIN guesses in a row, and when the next guess is allowed.
+    pub pin_failures: u32,
+    pub pin_retry_at: Option<Instant>,
     /// When the main window last lost focus (`None` while focused).
     pub unfocused_since: Option<Instant>,
     /// Recent notifications, in memory only.
@@ -75,21 +79,30 @@ pub struct AppState {
     pub settings: Mutex<SettingsStore>,
     pub session: Mutex<Session>,
     revision: AtomicU64,
-    /// Whether Windows Hello can be used on this computer (checked once at startup).
-    pub auth_available: bool,
+    /// The Cloister PIN. App lock only works once one is set, so there is always a way back in.
+    pub pin: Mutex<PinStore>,
+    /// Whether Windows Hello is set up on this computer (checked once at startup).
+    /// It is an optional quicker way to unlock; the PIN always works.
+    pub hello_available: bool,
 }
 
 impl AppState {
-    pub fn new(registry: ServiceRegistry, settings: SettingsStore, auth_available: bool) -> Self {
+    pub fn new(
+        registry: ServiceRegistry,
+        settings: SettingsStore,
+        pin: PinStore,
+        hello_available: bool,
+    ) -> Self {
         let veil = settings.get().veil_on_launch;
-        // Start locked when the lock is on and can actually be unlocked.
-        let locked = settings.get().app_lock && auth_available;
+        // Start locked only when the lock is on and a PIN exists to unlock it.
+        let locked = settings.get().app_lock && pin.is_set();
         Self {
             registry: Mutex::new(registry),
             settings: Mutex::new(settings),
             session: Mutex::new(Session { veil, locked, ..Session::default() }),
             revision: AtomicU64::new(0),
-            auth_available,
+            pin: Mutex::new(pin),
+            hello_available,
         }
     }
 
@@ -106,6 +119,16 @@ impl AppState {
     /// Returns a new, strictly increasing snapshot revision.
     pub fn next_revision(&self) -> u64 {
         self.revision.fetch_add(1, Ordering::Relaxed) + 1
+    }
+
+    /// Locks the PIN store.
+    pub fn pin(&self) -> MutexGuard<'_, PinStore> {
+        lock(&self.pin)
+    }
+
+    /// Whether Cloister can be locked: only once a PIN is set.
+    pub fn can_lock(&self) -> bool {
+        self.pin().is_set()
     }
 
     /// Locks the volatile session state.

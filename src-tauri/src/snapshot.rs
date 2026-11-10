@@ -37,10 +37,12 @@ pub struct Snapshot {
     pub focus: Option<FocusView>,
     pub unread_total: u32,
     pub settings: AppSettings,
-    /// Cloister is locked behind Windows Hello.
+    /// Cloister is locked; only the lock screen is shown.
     pub locked: bool,
-    /// Windows Hello can be used on this computer.
-    pub auth_available: bool,
+    /// A Cloister PIN is set, so Cloister can be locked.
+    pub has_pin: bool,
+    /// Windows Hello is set up on this computer and can unlock as well as the PIN.
+    pub hello_available: bool,
     /// Number of notifications in the in-memory history.
     pub history_count: usize,
     /// When the newest notification in the history arrived (Unix ms).
@@ -54,6 +56,7 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> Snapshot {
     let state = app.state::<AppState>();
     let configs = state.registry().all().to_vec();
     let settings = state.settings().get().clone();
+    let has_pin = state.can_lock();
     let session = state.session();
     let now = now_ms();
 
@@ -77,7 +80,8 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> Snapshot {
         unread_total: session.unread_total(),
         settings,
         locked: session.locked,
-        auth_available: state.auth_available,
+        has_pin,
+        hello_available: state.hello_available,
         history_count: session.history.len(),
         history_latest_ms: session.history.latest_ms(),
         can_pause: crate::platform::CAN_PAUSE,

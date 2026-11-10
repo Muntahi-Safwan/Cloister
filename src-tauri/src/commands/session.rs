@@ -61,9 +61,11 @@ pub fn end_focus<R: Runtime>(app: AppHandle<R>) -> Vec<HeldNotification> {
 
 /// Saves new settings and applies the ones that affect the running app.
 #[tauri::command]
-pub fn update_settings<R: Runtime>(app: AppHandle<R>, settings: AppSettings) -> AppResult<Snapshot> {
+pub fn update_settings<R: Runtime>(app: AppHandle<R>, mut settings: AppSettings) -> AppResult<Snapshot> {
     let (before, after) = {
         let state = app.state::<AppState>();
+        // App lock needs a PIN, so there is always a way back in.
+        settings.app_lock &= state.can_lock();
         let mut store = state.settings();
         let before = store.get().clone();
         (before, store.replace(settings)?)

@@ -57,6 +57,12 @@ export const backend = {
   lockNow: () => invoke<Snapshot>('lock_now'),
   /** Shows the Windows Hello prompt; resolves to whether Cloister unlocked. */
   unlock: () => invoke<boolean>('unlock'),
+  /** Checks the Cloister PIN; resolves to whether Cloister unlocked. */
+  unlockWithPin: (pin: string) => invoke<boolean>('unlock_with_pin', { pin }),
+  /** Sets or changes the Cloister PIN. `current` is needed when one is set. */
+  setPin: (current: string | null, pin: string) => invoke<Snapshot>('set_pin', { current, pin }),
+  /** Removes the Cloister PIN and turns app lock off. */
+  removePin: (current: string) => invoke<Snapshot>('remove_pin', { current }),
   getHistory: () => invoke<HistoryItem[]>('get_history'),
   clearHistory: () => invoke<Snapshot>('clear_history'),
   serviceMemory: () => invoke<MemoryReport>('service_memory'),

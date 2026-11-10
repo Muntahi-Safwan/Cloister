@@ -14,6 +14,7 @@ pub mod commands;
 pub mod error;
 pub mod features;
 pub mod persistence;
+pub mod pin_store;
 pub mod platform;
 pub mod runtime;
 pub mod services;
@@ -23,6 +24,7 @@ pub mod state;
 
 use tauri::Manager;
 
+use pin_store::PinStore;
 use services::ServiceRegistry;
 use settings::SettingsStore;
 use state::AppState;
@@ -54,8 +56,9 @@ pub fn run() {
             let config_dir = persistence::config_dir(app.handle())?;
             let registry = ServiceRegistry::load(config_dir.join("services.json"))?;
             let settings = SettingsStore::load(config_dir.join("settings.json"))?;
-            let auth_available = platform::authentication_available();
-            app.manage(AppState::new(registry, settings, auth_available));
+            let pin = PinStore::load(config_dir.join("lock.json"))?;
+            let hello_available = platform::authentication_available();
+            app.manage(AppState::new(registry, settings, pin, hello_available));
             runtime::setup(app)
         })
         .invoke_handler(tauri::generate_handler![
@@ -82,6 +85,9 @@ pub fn run() {
             commands::session::send_test_notification,
             commands::privacy::lock_now,
             commands::privacy::unlock,
+            commands::privacy::unlock_with_pin,
+            commands::privacy::set_pin,
+            commands::privacy::remove_pin,
             commands::privacy::get_history,
             commands::privacy::clear_history,
             commands::privacy::service_memory,
