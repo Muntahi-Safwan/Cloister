@@ -39,6 +39,8 @@
     "allow-service-memory",
     "allow-erase-service-data",
     "allow-erase-all-data",
-    "allow-set-service-background"
+    "allow-set-service-background",
+    "updater:default",
+    "process:allow-restart"
   ]
 }

@@ -4,6 +4,7 @@
   area where the active service page is drawn by the backend.
 -->
 <script lang="ts">
+  import { updates } from '$lib/stores/updates.svelte';
   import { onMount } from 'svelte';
 
   import { backend } from '$lib/api/backend';
@@ -54,6 +55,9 @@
     event.preventDefault();
     void app.runAction(action);
   }
+
+  // Look for new versions on start and every few hours, unless turned off.
+  $effect(() => updates.setAutomatic(app.snapshot.settings.checkForUpdates));
 </script>
 
 <svelte:window onkeydown={onKeydown} oncontextmenu={onContextMenu} />

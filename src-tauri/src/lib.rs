@@ -48,6 +48,8 @@ pub fn run() {
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_autostart::Builder::new().args([runtime::startup::MINIMIZED_FLAG]).build())
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .setup(|app| {
             let config_dir = persistence::config_dir(app.handle())?;
             let registry = ServiceRegistry::load(config_dir.join("services.json"))?;

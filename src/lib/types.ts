@@ -98,6 +98,8 @@ export interface AppSettings {
   pauseCheckMinutes: number;
   /** Reload hidden pages that grow beyond this many MB (0 = never). */
   refreshOverMb: number;
+  /** Look for a new version on start and every few hours. */
+  checkForUpdates: boolean;
 }
 
 export interface FocusView {

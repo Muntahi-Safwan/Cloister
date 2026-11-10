@@ -5,6 +5,7 @@
 -->
 <script lang="ts">
   import FocusPill from '$lib/components/focus/FocusPill.svelte';
+  import UpdatePill from './UpdatePill.svelte';
   import Icon from '$lib/components/common/Icon.svelte';
   import Kbd from '$lib/components/common/Kbd.svelte';
   import Mark from '$lib/components/common/Mark.svelte';
@@ -36,6 +37,7 @@
     {#if app.snapshot.veil}
       <span class="veil-pill"><Icon name="eye-off" size={12} strokeWidth={2} />Veil</span>
     {/if}
+    <UpdatePill />
     <FocusPill />
     <button
       type="button"

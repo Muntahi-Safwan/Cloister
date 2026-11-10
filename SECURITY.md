@@ -11,6 +11,12 @@
   focus summary and the recent notifications panel (last 50). It is never written to disk.
 - "Sign out and clear data" deletes a service's whole profile folder: cookies, local storage and cache.
 
+## Updates
+
+Cloister checks `latest.json` on this repository's latest GitHub release. Every update package is signed with a
+private key held only by the maintainer, and the app refuses packages whose signature does not match the public
+key built into it. Nothing installs without the user clicking "Install".
+
 ## App lock
 
 - The lock uses Windows Hello through `UserConsentVerifier`. Cloister never sees your PIN or biometrics; it

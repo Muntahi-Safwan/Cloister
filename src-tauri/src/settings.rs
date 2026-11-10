@@ -62,6 +62,8 @@ pub struct AppSettings {
     pub pause_check_minutes: u32,
     /// Reload hidden pages that grow beyond this many MB (0 = never).
     pub refresh_over_mb: u32,
+    /// Look for a new version on start and every few hours.
+    pub check_for_updates: bool,
 }
 
 impl Default for AppSettings {
@@ -84,6 +86,7 @@ impl Default for AppSettings {
             veil_after_minutes: 0,
             pause_check_minutes: 5,
             refresh_over_mb: 800,
+            check_for_updates: true,
         }
     }
 }

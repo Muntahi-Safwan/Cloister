@@ -26,6 +26,9 @@ All notable changes to this project are documented here. The format follows
 - **Refresh pages that grow too large**: a page hidden for 10 minutes that passes a size limit (800 MB by
   default) is reloaded quietly to undo slow memory leaks.
 - "In the background" submenu to change a service's background mode at any time.
+- **Automatic updates.** Cloister checks GitHub on start and every six hours (can be turned off in Settings ›
+  About) and shows an "Update to x.y.z" button in the title bar. Updates are signed and only install when you
+  click; on Windows the installer runs in passive mode and reopens Cloister.
 
 ## [0.3.0] - 2026-11-09
 

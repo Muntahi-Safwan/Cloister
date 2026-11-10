@@ -223,7 +223,10 @@
       </p>
     </section>
 
-    <AboutSection />
+    <AboutSection
+      checkForUpdates={settings.checkForUpdates}
+      onchange={(checkForUpdates) => save({ checkForUpdates })}
+    />
   </div>
 </Dialog>
 

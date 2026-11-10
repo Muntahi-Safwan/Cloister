@@ -44,6 +44,8 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   show how much memory each service uses.
 - **Six themes.** Quiet Room, Midnight, Forest, Mono, Paper and Daylight, or match Windows light/dark.
   Every theme is checked for readable contrast.
+- **Automatic updates.** Cloister checks for new versions and updates itself with one click. Updates are signed,
+  so only genuine releases install.
 - **Notification history.** Click a toast to jump to its conversation, or open the bell for the last 50
   notifications, including ones held by focus. Kept in memory only.
 - **Made for daily use.** Right-click any service to mute it (1 hour, until tomorrow, or until you unmute),

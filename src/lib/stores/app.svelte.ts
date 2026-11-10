@@ -63,6 +63,7 @@ const EMPTY_SNAPSHOT: Snapshot = {
     veilAfterMinutes: 0,
     pauseCheckMinutes: 5,
     refreshOverMb: 800,
+    checkForUpdates: true,
   },
   locked: false,
   authAvailable: false,
