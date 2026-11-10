@@ -1,0 +1,144 @@
+# Builds installers for Windows, macOS and Linux and publishes them as a
+# GitHub Release. Run it by pushing a version tag:
+#
+#   git tag v0.3.0 && git push origin v0.3.0
+#
+# The release stays a draft until every platform has built, then it is
+# published, so the landing page never links to a half-finished release.
+
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  create-release:
+    name: Create draft release
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create.outputs.result }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the tag matches the app version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          version=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match tauri.conf.json version $version"
+            exit 1
+          fi
+      - id: create
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { version } = require('./src-tauri/tauri.conf.json');
+            const tag = `v${version}`;
+            const notes = require('fs').readFileSync('CHANGELOG.md', 'utf8')
+              .split(/^## /m)
+              .find((section) => section.startsWith(`[${version}]`));
+            const body = [
+              notes ? notes.split('\n').slice(1).join('\n').trim() : '',
+              '',
+              '### Which file do I download?',
+              '',
+              '| System | File |',
+              '| --- | --- |',
+              '| Windows 10 / 11 | `Cloister_' + version + '_x64-setup.exe` |',
+              '| macOS 11+ (Apple Silicon and Intel) | `Cloister_' + version + '_universal.dmg` |',
+              '| Linux (any distribution) | `Cloister_' + version + '_amd64.AppImage` |',
+              '| Debian / Ubuntu | `Cloister_' + version + '_amd64.deb` |',
+              '| Fedora / openSUSE | `Cloister-' + version + '-1.x86_64.rpm` |',
+              '',
+              'The installers are not code-signed yet, so Windows and macOS show a warning the first time.',
+              'See [the install guide](https://muntahi-safwan.github.io/Cloister/#install) for the two clicks it takes.',
+            ].join('\n');
+
+            const existing = await github.rest.repos
+              .getReleaseByTag({ owner: context.repo.owner, repo: context.repo.repo, tag })
+              .catch(() => null);
+            if (existing) return existing.data.id;
+
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: tag,
+              name: `Cloister ${version}`,
+              body,
+              draft: true,
+            });
+            return data.id;
+
+  build:
+    name: Build (${{ matrix.name }})
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            args: ''
+          - name: macOS
+            os: macos-latest
+            args: '--target universal-apple-darwin'
+          - name: Linux
+            os: ubuntu-22.04
+            args: ''
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build dependencies
+        if: matrix.name == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.name == 'macOS' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.release_id }}
+          args: ${{ matrix.args }}
+
+  publish-release:
+    name: Publish release
+    needs: [create-release, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          RELEASE_ID: ${{ needs.create-release.outputs.release_id }}
+        with:
+          script: |
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: Number(process.env.RELEASE_ID),
+              draft: false,
+              make_latest: 'true',
+            });

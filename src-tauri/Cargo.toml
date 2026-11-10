@@ -1,0 +1,52 @@
+[package]
+name = "cloister"
+version = "0.3.0"
+description = "A quiet, private, lightweight home for your messaging apps."
+authors = ["Muntahi Safwan"]
+license = "MIT"
+repository = "https://github.com/cloister-app/cloister"
+edition = "2021"
+rust-version = "1.82"
+
+[lib]
+name = "cloister_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[dependencies]
+tauri = { version = "2.12", features = ["unstable", "tray-icon", "image-png"] }
+tauri-plugin-notification = "2.8"
+tauri-plugin-opener = "2.7"
+tauri-plugin-single-instance = "2.5"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+url = "2"
+log = "0.4"
+tauri-plugin-log = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-autostart = "2"
+chrono = "0.4"
+sysinfo = "0.36.1"
+
+[features]
+default = []
+
+# Windows-only APIs Tauri does not wrap: WebView2 memory hints, Windows Hello and clickable toasts.
+# Versions must match the ones used by `wry` and `tauri` so the COM types are identical.
+[target.'cfg(target_os = "windows")'.dependencies]
+webview2-com = "0.39"
+windows-core = "0.62"
+windows-future = "0.3"
+windows = { version = "0.62", features = [
+  "Foundation",
+  "Security_Credentials_UI",
+  "Win32_Foundation",
+  "Win32_System_WinRT",
+] }
+tauri-winrt-notification = "0.8"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+gtk = "0.18"

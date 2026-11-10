@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-sleep-service"
+description = "Enables the sleep_service command without any pre-configured scope."
+commands.allow = ["sleep_service"]
+
+[[permission]]
+identifier = "deny-sleep-service"
+description = "Denies the sleep_service command without any pre-configured scope."
+commands.deny = ["sleep_service"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-service-memory"
+description = "Enables the service_memory command without any pre-configured scope."
+commands.allow = ["service_memory"]
+
+[[permission]]
+identifier = "deny-service-memory"
+description = "Denies the service_memory command without any pre-configured scope."
+commands.deny = ["service_memory"]

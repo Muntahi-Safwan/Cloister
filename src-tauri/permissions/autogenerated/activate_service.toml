@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-activate-service"
+description = "Enables the activate_service command without any pre-configured scope."
+commands.allow = ["activate_service"]
+
+[[permission]]
+identifier = "deny-activate-service"
+description = "Denies the activate_service command without any pre-configured scope."
+commands.deny = ["activate_service"]

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-bridge-shortcut"
+description = "Enables the bridge_shortcut command without any pre-configured scope."
+commands.allow = ["bridge_shortcut"]
+
+[[permission]]
+identifier = "deny-bridge-shortcut"
+description = "Denies the bridge_shortcut command without any pre-configured scope."
+commands.deny = ["bridge_shortcut"]

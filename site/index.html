@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cloister · A quiet home for your messaging apps</title>
+    <meta
+      name="description"
+      content="Cloister keeps WhatsApp, Discord, Gmail, Messenger and more in one lightweight window, with Veil privacy mode, focus sessions and app lock. Free and open source."
+    />
+    <meta name="theme-color" content="#121110" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Cloister · A quiet home for your messaging apps" />
+    <meta
+      property="og:description"
+      content="WhatsApp, Discord, Gmail and more in one lightweight window. Veil privacy mode, focus sessions and app lock. Free and open source."
+    />
+    <meta property="og:image" content="https://muntahi-safwan.github.io/Cloister/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="preload"
+      href="fonts/ibm-plex-sans-latin-600-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Cloister home">
+          <img src="mark.svg" alt="" width="22" height="22" />
+          <span>Cloister</span>
+        </a>
+        <nav class="nav-links" aria-label="Main">
+          <a href="#features">Features</a>
+          <a href="#install">Install</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister" class="nav-gh">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Hero -->
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow mono">Free · Open source · <span data-version>v0.3</span></p>
+          <h1>All your conversations.<br />One quiet window.</h1>
+          <p class="lead">
+            Cloister keeps WhatsApp, Discord, Gmail, Messenger and the rest in a single lightweight app. One
+            click blurs every chat when someone walks past. A focus session holds your notifications until you
+            are ready for them.
+          </p>
+          <div class="cta">
+            <a class="btn btn-primary" data-download href="#install">
+              <span data-download-label>Download Cloister</span>
+            </a>
+            <a class="btn btn-ghost" href="#install">Other platforms</a>
+          </div>
+          <p class="fine" data-download-meta>For Windows, macOS and Linux.</p>
+        </div>
+
+        <!-- A small working model of the app. Hover a row to peek through Veil. -->
+        <figure class="demo" aria-label="Cloister with Veil turned on">
+          <div class="win">
+            <div class="win-bar">
+              <img src="mark.svg" alt="" width="14" height="14" />
+              <span class="win-title">cloister</span>
+              <span class="win-sep"></span>
+              <span class="win-sub">WhatsApp</span>
+              <span class="win-search mono">Ctrl K</span>
+              <button type="button" class="veil-toggle" data-veil-toggle aria-pressed="true">
+                <span class="dot"></span><span data-veil-label>Veil on</span>
+              </button>
+            </div>
+            <div class="win-body">
+              <div class="rail">
+                <span class="tile t1 is-active">W<i>3</i></span>
+                <span class="tile t2">D</span>
+                <span class="tile t3">G<i>12</i></span>
+                <span class="tile t4">M</span>
+                <span class="tile t5">S</span>
+                <span class="tile add">+</span>
+              </div>
+              <div class="chats is-veiled" data-chats>
+                <div class="chat">
+                  <b>Nadia Rahman</b><span>Are we still on for tomorrow at 10?</span><em>9:41</em>
+                </div>
+                <div class="chat">
+                  <b>Design crit</b><span>Mahin: new onboarding flow is up</span><em>9:30</em>
+                </div>
+                <div class="chat"><b>Ammu</b><span>Call me when you're free</span><em>8:58</em></div>
+                <div class="chat"><b>Rafi</b><span>Sent the invoice, check your mail</span><em>8:12</em></div>
+                <div class="chat">
+                  <b>Study group</b><span>Anyone has last year's questions?</span><em>Mon</em>
+                </div>
+                <div class="chat"><b>Tanvir</b><span>Haha that meeting was something</span><em>Sun</em></div>
+              </div>
+              <div class="pane">
+                <div class="bubble in">Are we still on for tomorrow at 10?</div>
+                <div class="bubble out">Yes! See you there</div>
+                <div class="pane-hint mono">hover a chat to peek</div>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </section>
+
+      <!-- Works with -->
+      <section class="works wrap" aria-label="Works with">
+        <p class="mono label">Works with</p>
+        <p class="works-list">
+          WhatsApp · Messenger · Discord · Gmail · Outlook · Telegram · Slack · Microsoft Teams · Facebook ·
+          LinkedIn · Proton Mail <span>· and any site you add yourself</span>
+        </p>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="features wrap">
+        <h2>Built for the hours you spend in chat</h2>
+        <div class="feature-list">
+          <article class="feature">
+            <h3>Veil</h3>
+            <p>
+              Blur every conversation with one shortcut. Hover a single chat to read it while the rest stay
+              hidden, and notifications drop their message text until you lift it.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Focus sessions</h3>
+            <p>
+              Start a 25 minute session and Cloister quietly holds every notification. When it ends you get
+              one calm summary of what you missed, with your important people let through.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>App lock</h3>
+            <p>
+              Lock Cloister behind Windows Hello on start, after you have been away, or whenever you like.
+              Every page is hidden, not just covered.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Light on memory</h3>
+            <p>
+              Built with Rust and the browser engine already on your computer, so there is no bundled
+              Chromium. Pages you have not opened in a while go to sleep, and settings show what each one
+              uses.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Notifications that lead somewhere</h3>
+            <p>
+              Native toasts that open the right service when clicked, unread badges in the sidebar and
+              taskbar, quiet hours, and a history of the last fifty, kept in memory only.
+            </p>
+          </article>
+          <article class="feature">
+            <h3>Private by design</h3>
+            <p>
+              No account, no telemetry and no server of its own. Every service keeps its own separate sign in,
+              and one click signs you out and wipes its data.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Install -->
+      <section id="install" class="install wrap">
+        <h2>Install</h2>
+        <p class="lead">
+          Pick your system. Cloister updates are published on
+          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">GitHub Releases</a>.
+          <span data-release-status></span>
+        </p>
+
+        <div class="platforms">
+          <div class="platform" data-os="windows">
+            <div class="platform-head">
+              <h3>Windows</h3>
+              <span class="mono req">Windows 10 and 11, 64 bit</span>
+            </div>
+            <a
+              class="btn btn-primary"
+              data-asset="windows"
+              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+            >
+              Download installer (.exe)
+            </a>
+            <p class="alt">
+              <a data-asset="windows-msi" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >MSI package</a
+              >
+              for managed installs
+            </p>
+            <details>
+              <summary>Windows says it "protected your PC"</summary>
+              <p>
+                Cloister is not code-signed yet, so SmartScreen does not recognise it. Click <b>More info</b>,
+                then <b>Run anyway</b>. You only need to do this once.
+              </p>
+            </details>
+          </div>
+
+          <div class="platform" data-os="mac">
+            <div class="platform-head">
+              <h3>macOS</h3>
+              <span class="mono req">macOS 11 or later, Apple Silicon and Intel</span>
+            </div>
+            <a
+              class="btn btn-primary"
+              data-asset="mac"
+              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+            >
+              Download for Mac (.dmg)
+            </a>
+            <p class="alt">One universal app for every Mac</p>
+            <details>
+              <summary>macOS says it "cannot be opened"</summary>
+              <p>
+                Cloister is not notarised by Apple yet. Drag it to Applications, try to open it once, then go
+                to
+                <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. If macOS says
+                the app is damaged, run this in Terminal and open it again:
+              </p>
+              <pre class="mono"><code>xattr -cr /Applications/Cloister.app</code></pre>
+            </details>
+          </div>
+
+          <div class="platform" data-os="linux">
+            <div class="platform-head">
+              <h3>Linux</h3>
+              <span class="mono req">64 bit, X11 or Wayland</span>
+            </div>
+            <a
+              class="btn btn-primary"
+              data-asset="linux"
+              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+            >
+              Download AppImage
+            </a>
+            <p class="alt">
+              Or the
+              <a data-asset="linux-deb" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >.deb</a
+              >
+              for Debian and Ubuntu,
+              <a data-asset="linux-rpm" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >.rpm</a
+              >
+              for Fedora and openSUSE
+            </p>
+            <details>
+              <summary>How do I run the AppImage?</summary>
+              <p>Make it executable once, then double-click it or run it from a terminal:</p>
+              <pre class="mono"><code>chmod +x Cloister_*.AppImage
+./Cloister_*.AppImage</code></pre>
+            </details>
+          </div>
+        </div>
+
+        <p class="note">
+          Feature notes: app lock uses Windows Hello, so it is Windows only for now. On macOS, each service
+          keeps a separate sign in on macOS 14 and later. Everything else works the same everywhere.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="faq wrap">
+        <h2>Questions</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Is Cloister really free?</summary>
+            <p>Yes. It is open source under the MIT licence. There is no paid tier, no ads and no account.</p>
+          </details>
+          <details>
+            <summary>Can Cloister read my messages?</summary>
+            <p>
+              No. Each service runs as its normal website inside its own private browser profile on your
+              computer. Cloister only sees what a notification would show, uses it to display a toast, and
+              never stores it on disk or sends it anywhere.
+            </p>
+          </details>
+          <details>
+            <summary>How is it lighter than other all-in-one apps?</summary>
+            <p>
+              Most of them ship a full copy of Chromium. Cloister is written in Rust with Tauri and uses the
+              browser engine your system already has (WebView2 on Windows, WebKit on macOS and Linux), so the
+              download is a few megabytes and idle pages can be put to sleep.
+            </p>
+          </details>
+          <details>
+            <summary>Will it update itself?</summary>
+            <p>
+              Not yet. New versions appear on the GitHub releases page; install the new one over the old one
+              and your services and sign ins stay as they are.
+            </p>
+          </details>
+          <details>
+            <summary>Something does not work. Where do I report it?</summary>
+            <p>
+              Please open an issue on
+              <a href="https://github.com/Muntahi-Safwan/Cloister/issues">GitHub</a> with your system and what
+              you saw. Pull requests are welcome too.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span class="brand small"><img src="mark.svg" alt="" width="16" height="16" /> Cloister</span>
+        <span>Made by Muntahi Safwan</span>
+        <span><a href="https://github.com/Muntahi-Safwan/Cloister">Source on GitHub</a> · MIT licence</span>
+      </div>
+    </footer>
+  </body>
+</html>

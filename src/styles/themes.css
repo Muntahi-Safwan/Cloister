@@ -1,0 +1,232 @@
+/*
+ * Colour themes.
+ *
+ * Each theme is a set of custom properties under `[data-theme='<id>']`. The
+ * attribute normally sits on <html>, but any element can carry it, which is
+ * how the theme picker renders live previews of every theme.
+ *
+ * Adding a theme: copy a block, give it a new id, add the same id to
+ * `ThemeId` in `src/lib/theme.ts` and `Theme` in `src-tauri/src/settings.rs`.
+ * Text colours must keep a 4.5:1 contrast ratio on --bg-app and --bg-raised
+ * (`pnpm test` checks this).
+ */
+
+/* ------------------------------------------------------------ Quiet Room */
+/* Warm graphite with an ember accent. The default. */
+:root,
+[data-theme='quiet-room'] {
+  color-scheme: dark;
+  --bg-canvas: #0a0908;
+  --bg-chrome: #0e0d0c;
+  --bg-rail: #0c0b0a;
+  --bg-app: #121110;
+  --bg-panel: #161513;
+  --bg-raised: #1a1917;
+  --bg-hover: #1f1d1a;
+  --bg-active: #2a2724;
+  --line-subtle: #1f1d1a;
+  --line: #2a2724;
+  --line-strong: #3a3631;
+  --text: #ede8e1;
+  --text-muted: #a39c92;
+  --text-faint: #8a8378;
+  --accent: #f2a33a;
+  --accent-hover: #ffb85c;
+  --accent-ink: #1a1206;
+  --accent-text: #f5b25a;
+  --danger: #f0a493;
+  --danger-line: #5a3a30;
+  --veil-bg: #1e1a15;
+  --veil-text: #e8d9c4;
+  --veil-muted: #bfb3a3;
+  --backdrop: rgb(8 7 6 / 62%);
+  --shadow-float: 0 24px 64px rgb(0 0 0 / 55%);
+}
+
+/* -------------------------------------------------------------- Midnight */
+/* Deep blue-black with a clear sky accent. */
+[data-theme='midnight'] {
+  color-scheme: dark;
+  --bg-canvas: #070a10;
+  --bg-chrome: #0a0e15;
+  --bg-rail: #090c12;
+  --bg-app: #0e131b;
+  --bg-panel: #121822;
+  --bg-raised: #161d28;
+  --bg-hover: #1b2330;
+  --bg-active: #243041;
+  --line-subtle: #1a2130;
+  --line: #232d3d;
+  --line-strong: #33405a;
+  --text: #e6ecf5;
+  --text-muted: #9aa6b8;
+  --text-faint: #8693a8;
+  --accent: #6cb4ff;
+  --accent-hover: #8fc6ff;
+  --accent-ink: #06121f;
+  --accent-text: #8cc4ff;
+  --danger: #f4a3a3;
+  --danger-line: #5a2e36;
+  --veil-bg: #101a28;
+  --veil-text: #cfe0f5;
+  --veil-muted: #9db3cf;
+  --backdrop: rgb(4 7 12 / 64%);
+  --shadow-float: 0 24px 64px rgb(0 0 0 / 60%);
+}
+
+/* ---------------------------------------------------------------- Forest */
+/* Dark moss with a soft sage accent. */
+[data-theme='forest'] {
+  color-scheme: dark;
+  --bg-canvas: #080b09;
+  --bg-chrome: #0b0f0c;
+  --bg-rail: #0a0d0b;
+  --bg-app: #0f1411;
+  --bg-panel: #131915;
+  --bg-raised: #171e19;
+  --bg-hover: #1c241e;
+  --bg-active: #26302a;
+  --line-subtle: #1a211c;
+  --line: #232c26;
+  --line-strong: #334037;
+  --text: #e7ede8;
+  --text-muted: #9caaa0;
+  --text-faint: #87968c;
+  --accent: #8fcb9b;
+  --accent-hover: #a9dab3;
+  --accent-ink: #0b1a0f;
+  --accent-text: #a3d6ad;
+  --danger: #f0a993;
+  --danger-line: #55362c;
+  --veil-bg: #121c15;
+  --veil-text: #d3e6d7;
+  --veil-muted: #a4bba9;
+  --backdrop: rgb(5 8 6 / 62%);
+  --shadow-float: 0 24px 64px rgb(0 0 0 / 55%);
+}
+
+/* ------------------------------------------------------------------ Mono */
+/* Neutral greys, white accent, maximum calm. */
+[data-theme='mono'] {
+  color-scheme: dark;
+  --bg-canvas: #050505;
+  --bg-chrome: #0a0a0a;
+  --bg-rail: #080808;
+  --bg-app: #101010;
+  --bg-panel: #151515;
+  --bg-raised: #191919;
+  --bg-hover: #202020;
+  --bg-active: #2b2b2b;
+  --line-subtle: #1e1e1e;
+  --line: #2a2a2a;
+  --line-strong: #3d3d3d;
+  --text: #f2f2f2;
+  --text-muted: #a6a6a6;
+  --text-faint: #8f8f8f;
+  --accent: #f2f2f2;
+  --accent-hover: #ffffff;
+  --accent-ink: #0a0a0a;
+  --accent-text: #ffffff;
+  --danger: #f2a7a0;
+  --danger-line: #553330;
+  --veil-bg: #181818;
+  --veil-text: #e0e0e0;
+  --veil-muted: #b0b0b0;
+  --backdrop: rgb(0 0 0 / 66%);
+  --shadow-float: 0 24px 64px rgb(0 0 0 / 65%);
+}
+
+/* ----------------------------------------------------------------- Paper */
+/* Warm off-white with a terracotta accent. */
+[data-theme='paper'] {
+  color-scheme: light;
+  --bg-canvas: #e9e4dc;
+  --bg-chrome: #efeae2;
+  --bg-rail: #e8e2d8;
+  --bg-app: #f6f2ec;
+  --bg-panel: #efeae2;
+  --bg-raised: #fbf9f5;
+  --bg-hover: #e7e1d7;
+  --bg-active: #ddd5c9;
+  --line-subtle: #e3dcd1;
+  --line: #d5ccbf;
+  --line-strong: #bdb2a3;
+  --text: #1e1b17;
+  --text-muted: #554e45;
+  --text-faint: #6a6257;
+  --accent: #b5541c;
+  --accent-hover: #9e4614;
+  --accent-ink: #ffffff;
+  --accent-text: #9e4614;
+  --danger: #a33a24;
+  --danger-line: #e2b3a6;
+  --veil-bg: #efe5d6;
+  --veil-text: #3d2f1d;
+  --veil-muted: #6b5a43;
+  --backdrop: rgb(60 50 40 / 28%);
+  --shadow-float: 0 24px 64px rgb(60 45 30 / 22%);
+}
+
+/* -------------------------------------------------------------- Daylight */
+/* Crisp cool white with a confident blue accent. */
+[data-theme='daylight'] {
+  color-scheme: light;
+  --bg-canvas: #e6e9ee;
+  --bg-chrome: #eef1f5;
+  --bg-rail: #e9edf2;
+  --bg-app: #f7f8fa;
+  --bg-panel: #eef1f5;
+  --bg-raised: #ffffff;
+  --bg-hover: #e4e8ee;
+  --bg-active: #d8dee7;
+  --line-subtle: #e1e5eb;
+  --line: #d0d6df;
+  --line-strong: #b5bdc9;
+  --text: #161a20;
+  --text-muted: #4a5360;
+  --text-faint: #5d6673;
+  --accent: #2563d9;
+  --accent-hover: #1e52b8;
+  --accent-ink: #ffffff;
+  --accent-text: #1e52b8;
+  --danger: #b4321f;
+  --danger-line: #eab4aa;
+  --veil-bg: #e6edf8;
+  --veil-text: #1e3354;
+  --veil-muted: #4a6185;
+  --backdrop: rgb(20 30 45 / 24%);
+  --shadow-float: 0 24px 64px rgb(20 30 50 / 18%);
+}
+
+/* ------------------------------------------------------------ Tile colours */
+/* Service tile backgrounds and letters. Index is stored per service. */
+:root,
+[data-theme] {
+  /* Slot 0 is neutral and takes the theme's own surface colour. */
+  --tile-0-bg: var(--bg-active);
+  --tile-0-fg: var(--text);
+  --tile-1-bg: #3a2e1f;
+  --tile-1-fg: #f6d9ae;
+  --tile-2-bg: #1f3a33;
+  --tile-2-fg: #bfe6d6;
+  --tile-3-bg: #25304a;
+  --tile-3-fg: #c8d6fa;
+  --tile-4-bg: #3d2528;
+  --tile-4-fg: #f5c4bc;
+  --tile-5-bg: #33294a;
+  --tile-5-fg: #dccdf8;
+}
+
+[data-theme='paper'],
+[data-theme='daylight'] {
+  --tile-1-bg: #f3dfc3;
+  --tile-1-fg: #6b4310;
+  --tile-2-bg: #d3eade;
+  --tile-2-fg: #1e5a43;
+  --tile-3-bg: #d9e2f7;
+  --tile-3-fg: #24407a;
+  --tile-4-bg: #f6d8d3;
+  --tile-4-fg: #7a2e22;
+  --tile-5-bg: #e6dcf6;
+  --tile-5-fg: #4b3480;
+}
