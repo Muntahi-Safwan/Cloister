@@ -42,21 +42,30 @@ async function latestRelease() {
 
 function setUpDownloads() {
   const os = detectOs();
-  const hero = document.querySelector('[data-download]');
-  const heroLabel = document.querySelector('[data-download-label]');
+  const mainButtons = document.querySelectorAll('[data-download]');
   const heroMeta = document.querySelector('[data-download-meta]');
   const status = document.querySelector('[data-release-status]');
 
   if (os) {
-    heroLabel.textContent = `Download for ${PLATFORM_LABEL[os]}`;
+    document
+      .querySelectorAll('[data-download-label]')
+      .forEach((label) => (label.textContent = `Download for ${PLATFORM_LABEL[os]}`));
     document.querySelector(`.platform[data-os="${os}"]`)?.classList.add('is-yours');
+    document.body.classList.add('knows-os');
   }
 
   latestRelease()
     .then((release) => {
       const version = release.tag_name;
       document.querySelectorAll('[data-version]').forEach((el) => (el.textContent = version));
-      status.textContent = `Latest: ${version}, released ${new Date(release.published_at).toLocaleDateString()}.`;
+      status.textContent = `Latest: ${version}, released ${new Date(release.published_at).toLocaleDateString(
+        undefined,
+        {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        },
+      )}.`;
 
       const found = {};
       for (const [key, pattern] of Object.entries(ASSETS)) {
@@ -70,7 +79,7 @@ function setUpDownloads() {
       }
 
       if (os && found[os]) {
-        hero.href = found[os].browser_download_url;
+        mainButtons.forEach((button) => (button.href = found[os].browser_download_url));
         heroMeta.textContent = `${version} · ${formatSize(found[os].size)} · ${
           os === 'mac'
             ? 'Apple Silicon and Intel'
@@ -82,7 +91,7 @@ function setUpDownloads() {
     })
     .catch(() => {
       // No release yet, offline or rate limited: the links still go to the releases page.
-      hero.href = os ? '#install' : RELEASES;
+      if (!os) mainButtons.forEach((button) => (button.href = RELEASES));
     });
 }
 
@@ -98,5 +107,18 @@ function setUpVeilDemo() {
   });
 }
 
+/**
+ * Service tiles show each site's own icon. If an icon cannot load (offline,
+ * blocked, or the site changed it), the tile falls back to the site's initial.
+ */
+function setUpServiceIcons() {
+  document.querySelectorAll('.svc-icon').forEach((img) => {
+    const fallBack = () => img.parentElement.classList.add('no-icon');
+    if (img.complete && img.naturalWidth === 0) fallBack();
+    else img.addEventListener('error', fallBack, { once: true });
+  });
+}
+
+setUpServiceIcons();
 setUpDownloads();
 setUpVeilDemo();

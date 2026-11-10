@@ -38,277 +38,642 @@
         </a>
         <nav class="nav-links" aria-label="Main">
           <a href="#features">Features</a>
-          <a href="#install">Install</a>
+          <a href="#apps">Apps</a>
+          <a href="#install">Download</a>
           <a href="#faq">FAQ</a>
-          <a href="https://github.com/Muntahi-Safwan/Cloister" class="nav-gh">GitHub</a>
         </nav>
+        <a class="nav-gh" href="https://github.com/Muntahi-Safwan/Cloister">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+            />
+          </svg>
+          <span>Star on GitHub</span>
+        </a>
       </div>
     </header>
 
     <main id="top">
-      <!-- Hero -->
-      <section class="hero wrap">
-        <div class="hero-copy">
-          <p class="eyebrow mono">Free · Open source · <span data-version>v0.3</span></p>
-          <h1>All your conversations.<br />One quiet window.</h1>
+      <!-- ============================================================ Hero -->
+      <section class="hero">
+        <div class="wrap hero-copy">
+          <a class="pill" href="#install">
+            <span class="pill-tag mono" data-version>v0.3</span>
+            App lock, auto-Veil and installers for every system
+            <span aria-hidden="true">→</span>
+          </a>
+          <h1>All your conversations.<br /><span class="soft">One quiet window.</span></h1>
           <p class="lead">
-            Cloister keeps WhatsApp, Discord, Gmail, Messenger and the rest in a single lightweight app. One
-            click blurs every chat when someone walks past. A focus session holds your notifications until you
-            are ready for them.
+            Cloister brings WhatsApp, Discord, Gmail, Messenger and the rest into one lightweight app, with
+            privacy you can switch on in a keystroke and focus sessions that hold the noise until you are
+            ready.
           </p>
           <div class="cta">
-            <a class="btn btn-primary" data-download href="#install">
+            <a class="btn btn-primary btn-lg" data-download href="#install">
+              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+                <path
+                  d="M10 3v10m0 0 4-4m-4 4-4-4M4 16h12"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
               <span data-download-label>Download Cloister</span>
             </a>
-            <a class="btn btn-ghost" href="#install">Other platforms</a>
+            <a class="btn btn-ghost btn-lg" href="#install">All platforms</a>
           </div>
-          <p class="fine" data-download-meta>For Windows, macOS and Linux.</p>
+          <p class="fine" data-download-meta>Free and open source · Windows, macOS and Linux</p>
         </div>
 
-        <!-- A small working model of the app. Hover a row to peek through Veil. -->
-        <figure class="demo" aria-label="Cloister with Veil turned on">
-          <div class="win">
-            <div class="win-bar">
-              <img src="mark.svg" alt="" width="14" height="14" />
-              <span class="win-title">cloister</span>
-              <span class="win-sep"></span>
-              <span class="win-sub">WhatsApp</span>
-              <span class="win-search mono">Ctrl K</span>
-              <button type="button" class="veil-toggle" data-veil-toggle aria-pressed="true">
-                <span class="dot"></span><span data-veil-label>Veil on</span>
-              </button>
-            </div>
-            <div class="win-body">
-              <div class="rail">
-                <span class="tile t1 is-active">W<i>3</i></span>
-                <span class="tile t2">D</span>
-                <span class="tile t3">G<i>12</i></span>
-                <span class="tile t4">M</span>
-                <span class="tile t5">S</span>
-                <span class="tile add">+</span>
+        <!-- A working model of the app. Toggle Veil, hover a chat to peek. -->
+        <div class="wrap stage">
+          <div class="glow" aria-hidden="true"></div>
+          <figure class="app" aria-label="The Cloister window with WhatsApp open and Veil on">
+            <div class="app-bar">
+              <div class="app-brand">
+                <img src="mark.svg" alt="" width="15" height="15" />
+                <b>cloister</b>
+                <span class="sep"></span>
+                <span class="muted">WhatsApp</span>
               </div>
-              <div class="chats is-veiled" data-chats>
-                <div class="chat">
-                  <b>Nadia Rahman</b><span>Are we still on for tomorrow at 10?</span><em>9:41</em>
-                </div>
-                <div class="chat">
-                  <b>Design crit</b><span>Mahin: new onboarding flow is up</span><em>9:30</em>
-                </div>
-                <div class="chat"><b>Ammu</b><span>Call me when you're free</span><em>8:58</em></div>
-                <div class="chat"><b>Rafi</b><span>Sent the invoice, check your mail</span><em>8:12</em></div>
-                <div class="chat">
-                  <b>Study group</b><span>Anyone has last year's questions?</span><em>Mon</em>
-                </div>
-                <div class="chat"><b>Tanvir</b><span>Haha that meeting was something</span><em>Sun</em></div>
+              <div class="app-search">
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                  <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  <path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                </svg>
+                <span>Search or jump to a service</span>
+                <kbd class="mono">Ctrl K</kbd>
               </div>
-              <div class="pane">
-                <div class="bubble in">Are we still on for tomorrow at 10?</div>
-                <div class="bubble out">Yes! See you there</div>
-                <div class="pane-hint mono">hover a chat to peek</div>
+              <div class="app-actions">
+                <span class="focus-pill mono"><i></i>Focus 18:42</span>
+                <button type="button" class="veil-toggle" data-veil-toggle aria-pressed="true">
+                  <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                    <path
+                      d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8Z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.3"
+                    />
+                    <circle cx="8" cy="8" r="2" fill="currentColor" />
+                  </svg>
+                  <span data-veil-label>Veil on</span>
+                </button>
+                <span class="winctl" aria-hidden="true"><i></i><i></i><i></i></span>
               </div>
             </div>
-          </div>
-        </figure>
-      </section>
 
-      <!-- Works with -->
-      <section class="works wrap" aria-label="Works with">
-        <p class="mono label">Works with</p>
-        <p class="works-list">
-          WhatsApp · Messenger · Discord · Gmail · Outlook · Telegram · Slack · Microsoft Teams · Facebook ·
-          LinkedIn · Proton Mail <span>· and any site you add yourself</span>
-        </p>
-      </section>
+            <div class="app-body">
+              <nav class="rail" aria-label="Services">
+                <span class="svc is-active" data-letter="W"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="WhatsApp"
+                  /><em>3</em></span
+                >
+                <span class="svc" data-letter="D"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="Discord"
+                /></span>
+                <span class="svc" data-letter="G"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="Gmail"
+                  /><em>12</em></span
+                >
+                <span class="svc" data-letter="M"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=messenger.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="Messenger"
+                /></span>
+                <span class="svc" data-letter="S"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="Slack" /><em class="dot"></em
+                ></span>
+                <span class="svc" data-letter="T"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt="Telegram"
+                /></span>
+                <span class="svc add" aria-label="Add a service">+</span>
+                <span class="rail-foot" aria-hidden="true"><i></i><i></i><i></i></span>
+              </nav>
 
-      <!-- Features -->
-      <section id="features" class="features wrap">
-        <h2>Built for the hours you spend in chat</h2>
-        <div class="feature-list">
-          <article class="feature">
-            <h3>Veil</h3>
-            <p>
-              Blur every conversation with one shortcut. Hover a single chat to read it while the rest stay
-              hidden, and notifications drop their message text until you lift it.
-            </p>
-          </article>
-          <article class="feature">
-            <h3>Focus sessions</h3>
-            <p>
-              Start a 25 minute session and Cloister quietly holds every notification. When it ends you get
-              one calm summary of what you missed, with your important people let through.
-            </p>
-          </article>
-          <article class="feature">
-            <h3>App lock</h3>
-            <p>
-              Lock Cloister behind Windows Hello on start, after you have been away, or whenever you like.
-              Every page is hidden, not just covered.
-            </p>
-          </article>
-          <article class="feature">
-            <h3>Light on memory</h3>
-            <p>
-              Built with Rust and the browser engine already on your computer, so there is no bundled
-              Chromium. Pages you have not opened in a while go to sleep, and settings show what each one
-              uses.
-            </p>
-          </article>
-          <article class="feature">
-            <h3>Notifications that lead somewhere</h3>
-            <p>
-              Native toasts that open the right service when clicked, unread badges in the sidebar and
-              taskbar, quiet hours, and a history of the last fifty, kept in memory only.
-            </p>
-          </article>
-          <article class="feature">
-            <h3>Private by design</h3>
-            <p>
-              No account, no telemetry and no server of its own. Every service keeps its own separate sign in,
-              and one click signs you out and wipes its data.
-            </p>
-          </article>
+              <div class="list is-veiled" data-chats>
+                <div class="list-head"><b>Chats</b><span class="search-mini"></span></div>
+                <div class="chat is-open">
+                  <span class="av a1">NR</span><b>Nadia Rahman</b
+                  ><span class="msg">Are we still on for tomorrow at 10?</span><em>9:41</em>
+                </div>
+                <div class="chat">
+                  <span class="av a2">DC</span><b>Design crit</b
+                  ><span class="msg">Mahin: new onboarding flow is up</span><em>9:30</em>
+                </div>
+                <div class="chat">
+                  <span class="av a3">A</span><b>Ammu</b><span class="msg">Call me when you're free</span
+                  ><em>8:58</em>
+                </div>
+                <div class="chat">
+                  <span class="av a4">R</span><b>Rafi</b
+                  ><span class="msg">Sent the invoice, check your mail</span><em>8:12</em>
+                </div>
+                <div class="chat">
+                  <span class="av a5">SG</span><b>Study group</b
+                  ><span class="msg">Anyone has last year's questions?</span><em>Mon</em>
+                </div>
+                <div class="chat">
+                  <span class="av a6">T</span><b>Tanvir</b
+                  ><span class="msg">Haha that meeting was something</span><em>Sun</em>
+                </div>
+                <div class="chat">
+                  <span class="av a2">IH</span><b>Iftekhar</b
+                  ><span class="msg">Pushed the fix, can you review?</span><em>Sat</em>
+                </div>
+              </div>
+
+              <div class="convo">
+                <div class="convo-head">
+                  <span class="av a1">NR</span>
+                  <div><b>Nadia Rahman</b><span>online</span></div>
+                </div>
+                <div class="bubbles">
+                  <div class="bubble in">Did you get a chance to look at the slides?</div>
+                  <div class="bubble out">Yes, sent you my notes an hour ago</div>
+                  <div class="bubble in">Perfect, thank you!</div>
+                  <div class="bubble in">Are we still on for tomorrow at 10?</div>
+                </div>
+                <div class="composer"><span>Type a message</span></div>
+              </div>
+            </div>
+          </figure>
+          <p class="stage-hint mono">Try it: switch Veil off, or hover a chat to peek through it.</p>
         </div>
       </section>
 
-      <!-- Install -->
-      <section id="install" class="install wrap">
-        <h2>Install</h2>
-        <p class="lead">
-          Pick your system. Cloister updates are published on
-          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">GitHub Releases</a>.
-          <span data-release-status></span>
-        </p>
+      <!-- ============================================================ Apps -->
+      <section id="apps" class="apps">
+        <div class="wrap">
+          <p class="kicker mono">Works with the apps you already use</p>
+          <ul class="app-wall">
+            <li>
+              <span class="svc big" data-letter="W"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >WhatsApp
+            </li>
+            <li>
+              <span class="svc big" data-letter="M"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=messenger.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Messenger
+            </li>
+            <li>
+              <span class="svc big" data-letter="D"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Discord
+            </li>
+            <li>
+              <span class="svc big" data-letter="G"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Gmail
+            </li>
+            <li>
+              <span class="svc big" data-letter="O"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=outlook.live.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Outlook
+            </li>
+            <li>
+              <span class="svc big" data-letter="T"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Telegram
+            </li>
+            <li>
+              <span class="svc big" data-letter="S"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Slack
+            </li>
+            <li>
+              <span class="svc big" data-letter="T"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=teams.microsoft.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Teams
+            </li>
+            <li>
+              <span class="svc big" data-letter="F"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=facebook.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Facebook
+            </li>
+            <li>
+              <span class="svc big" data-letter="in"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=linkedin.com&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >LinkedIn
+            </li>
+            <li>
+              <span class="svc big" data-letter="P"
+                ><img
+                  class="svc-icon"
+                  src="https://www.google.com/s2/favicons?domain=proton.me&amp;sz=128"
+                  referrerpolicy="no-referrer"
+                  alt="" /></span
+              >Proton Mail
+            </li>
+            <li><span class="svc big add">+</span>Any website</li>
+          </ul>
+        </div>
+      </section>
 
-        <div class="platforms">
-          <div class="platform" data-os="windows">
-            <div class="platform-head">
-              <h3>Windows</h3>
-              <span class="mono req">Windows 10 and 11, 64 bit</span>
-            </div>
-            <a
-              class="btn btn-primary"
-              data-asset="windows"
-              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-            >
-              Download installer (.exe)
-            </a>
-            <p class="alt">
-              <a data-asset="windows-msi" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >MSI package</a
-              >
-              for managed installs
-            </p>
-            <details>
-              <summary>Windows says it "protected your PC"</summary>
-              <p>
-                Cloister is not code-signed yet, so SmartScreen does not recognise it. Click <b>More info</b>,
-                then <b>Run anyway</b>. You only need to do this once.
-              </p>
-            </details>
+      <!-- ======================================================== Features -->
+      <section id="features" class="features">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker mono">Privacy and focus, built in</p>
+            <h2>Made for the hours you spend in chat</h2>
           </div>
 
-          <div class="platform" data-os="mac">
-            <div class="platform-head">
-              <h3>macOS</h3>
-              <span class="mono req">macOS 11 or later, Apple Silicon and Intel</span>
-            </div>
-            <a
-              class="btn btn-primary"
-              data-asset="mac"
-              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-            >
-              Download for Mac (.dmg)
-            </a>
-            <p class="alt">One universal app for every Mac</p>
-            <details>
-              <summary>macOS says it "cannot be opened"</summary>
+          <!-- Veil -->
+          <article class="row">
+            <div class="row-copy">
+              <h3>Veil hides your chats in one keystroke</h3>
               <p>
-                Cloister is not notarised by Apple yet. Drag it to Applications, try to open it once, then go
-                to
-                <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. If macOS says
-                the app is damaged, run this in Terminal and open it again:
+                Someone walks up behind you? Press <kbd class="mono">Ctrl Shift P</kbd> and every conversation
+                blurs. Hover one chat to read it while the rest stay hidden. While Veil is on, notifications
+                name the app but never the person or the message.
               </p>
-              <pre class="mono"><code>xattr -cr /Applications/Cloister.app</code></pre>
-            </details>
+              <ul class="ticks">
+                <li>Per-chat reveal on hover</li>
+                <li>Turns on when you switch away or step out</li>
+                <li>Panic key hides Cloister from anywhere</li>
+              </ul>
+            </div>
+            <div class="scene scene-veil" aria-hidden="true">
+              <div class="mini-list">
+                <div class="mini-row blur"><span class="av a2"></span><i></i><i class="short"></i></div>
+                <div class="mini-row">
+                  <span class="av a1">NR</span><b>Nadia Rahman</b><span>Are we still on for tomorrow?</span>
+                </div>
+                <div class="mini-row blur"><span class="av a3"></span><i></i><i class="short"></i></div>
+                <div class="mini-row blur"><span class="av a4"></span><i></i><i class="short"></i></div>
+              </div>
+              <div class="toast">
+                <span class="svc sm" data-letter="W"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                /></span>
+                <div><b>WhatsApp</b><span>New message</span></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Focus -->
+          <article class="row flip">
+            <div class="row-copy">
+              <h3>Focus sessions hold the noise for you</h3>
+              <p>
+                Start a session and Cloister quietly holds every notification. When the timer ends you get one
+                calm summary of what came in, instead of forty interruptions. Important people can still get
+                through.
+              </p>
+              <ul class="ticks">
+                <li>Pomodoro-length by default, any length you like</li>
+                <li>VIP names break through</li>
+                <li>Quiet hours for nights and weekends</li>
+              </ul>
+            </div>
+            <div class="scene scene-focus" aria-hidden="true">
+              <div class="timer">
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--line)" stroke-width="6" />
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    fill="none"
+                    stroke="var(--accent)"
+                    stroke-width="6"
+                    stroke-linecap="round"
+                    stroke-dasharray="327"
+                    stroke-dashoffset="90"
+                    transform="rotate(-90 60 60)"
+                  />
+                </svg>
+                <div><b class="mono">18:42</b><span>Focus</span></div>
+              </div>
+              <div class="summary">
+                <b>While you were focused</b>
+                <div class="sum-row">
+                  <span class="svc sm" data-letter="W"
+                    ><img
+                      class="svc-icon"
+                      src="https://www.google.com/s2/favicons?domain=whatsapp.com&amp;sz=128"
+                      referrerpolicy="no-referrer"
+                      alt="" /></span
+                  >WhatsApp<em>7</em>
+                </div>
+                <div class="sum-row">
+                  <span class="svc sm" data-letter="G"
+                    ><img
+                      class="svc-icon"
+                      src="https://www.google.com/s2/favicons?domain=mail.google.com&amp;sz=128"
+                      referrerpolicy="no-referrer"
+                      alt="" /></span
+                  >Gmail<em>4</em>
+                </div>
+                <div class="sum-row">
+                  <span class="svc sm" data-letter="D"
+                    ><img
+                      class="svc-icon"
+                      src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                      referrerpolicy="no-referrer"
+                      alt="" /></span
+                  >Discord<em>12</em>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Smaller features -->
+          <div class="grid">
+            <article class="tile-feature">
+              <div class="scene-sm scene-lock" aria-hidden="true">
+                <img src="mark.svg" alt="" width="26" height="26" />
+                <span class="btn-fake">Unlock with Windows Hello</span>
+              </div>
+              <h3>App lock</h3>
+              <p>
+                Lock behind your PIN, face or fingerprint on start, after you step away, or on demand. Pages
+                are hidden, not just covered.
+              </p>
+            </article>
+            <article class="tile-feature">
+              <div class="scene-sm scene-mem" aria-hidden="true">
+                <div class="mem"><span>WhatsApp</span><i style="--w: 62%"></i></div>
+                <div class="mem"><span>Discord</span><i style="--w: 48%"></i></div>
+                <div class="mem"><span>Gmail</span><i class="asleep"></i><em>asleep</em></div>
+              </div>
+              <h3>Light on memory</h3>
+              <p>
+                Rust and your system's own browser engine, no bundled Chromium. Idle pages go to sleep, and
+                you can see what each one uses.
+              </p>
+            </article>
+            <article class="tile-feature">
+              <div class="scene-sm scene-toast" aria-hidden="true">
+                <div class="toast small">
+                  <span class="svc sm" data-letter="D"
+                    ><img
+                      class="svc-icon"
+                      src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                      referrerpolicy="no-referrer"
+                      alt=""
+                  /></span>
+                  <div><b>Discord</b><span>#design: new mockups are up</span></div>
+                </div>
+                <span class="cursor"></span>
+              </div>
+              <h3>Notifications that lead somewhere</h3>
+              <p>
+                Native notifications that open the right service when clicked, unread badges, and a history of
+                the last fifty.
+              </p>
+            </article>
+            <article class="tile-feature">
+              <div class="scene-sm scene-private" aria-hidden="true">
+                <span>No account</span><span>No telemetry</span><span>No servers</span>
+              </div>
+              <h3>Private by design</h3>
+              <p>
+                Every service keeps its own separate sign in on your computer. One click signs you out and
+                wipes its data.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= Lighter -->
+      <section class="light">
+        <div class="wrap light-inner">
+          <h2>Under 10 MB to download.<br /><span class="soft">No browser bundled inside.</span></h2>
+          <div class="facts">
+            <div><b>Rust + Tauri</b><span>A native core instead of a packaged copy of Chromium.</span></div>
+            <div>
+              <b>Sleeps when idle</b
+              ><span>Services you have not opened in a while give their memory back.</span>
+            </div>
+            <div><b>Open source</b><span>MIT licensed. Read every line on GitHub.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================= Install -->
+      <section id="install" class="install">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="kicker mono">Download</p>
+            <h2>Get Cloister for your computer</h2>
+            <p class="lead">Free, with no account to create. <span data-release-status></span></p>
           </div>
 
-          <div class="platform" data-os="linux">
-            <div class="platform-head">
-              <h3>Linux</h3>
-              <span class="mono req">64 bit, X11 or Wayland</span>
+          <div class="platforms">
+            <div class="platform" data-os="windows">
+              <div class="platform-head">
+                <h3>Windows</h3>
+                <span class="req mono">Windows 10 and 11 · 64 bit</span>
+              </div>
+              <a
+                class="btn btn-primary"
+                data-asset="windows"
+                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >Download installer</a
+              >
+              <p class="alt">
+                .exe · or the
+                <a data-asset="windows-msi" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  >.msi package</a
+                >
+              </p>
+              <details>
+                <summary>Windows says it "protected your PC"</summary>
+                <p>
+                  Cloister is not code-signed yet, so SmartScreen does not recognise it. Click
+                  <b>More info</b>, then <b>Run anyway</b>. You only do this once.
+                </p>
+              </details>
             </div>
-            <a
-              class="btn btn-primary"
-              data-asset="linux"
-              href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-            >
-              Download AppImage
-            </a>
-            <p class="alt">
-              Or the
-              <a data-asset="linux-deb" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >.deb</a
+
+            <div class="platform" data-os="mac">
+              <div class="platform-head">
+                <h3>macOS</h3>
+                <span class="req mono">macOS 11+ · Apple Silicon and Intel</span>
+              </div>
+              <a
+                class="btn btn-primary"
+                data-asset="mac"
+                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >Download for Mac</a
               >
-              for Debian and Ubuntu,
-              <a data-asset="linux-rpm" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >.rpm</a
+              <p class="alt">.dmg · one universal app</p>
+              <details>
+                <summary>macOS says it "cannot be opened"</summary>
+                <p>
+                  Cloister is not notarised by Apple yet. Open it once, then go to
+                  <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. If macOS calls
+                  it damaged, run:
+                </p>
+                <pre class="mono"><code>xattr -cr /Applications/Cloister.app</code></pre>
+              </details>
+            </div>
+
+            <div class="platform" data-os="linux">
+              <div class="platform-head">
+                <h3>Linux</h3>
+                <span class="req mono">64 bit · X11 or Wayland</span>
+              </div>
+              <a
+                class="btn btn-primary"
+                data-asset="linux"
+                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                >Download AppImage</a
               >
-              for Fedora and openSUSE
-            </p>
-            <details>
-              <summary>How do I run the AppImage?</summary>
-              <p>Make it executable once, then double-click it or run it from a terminal:</p>
-              <pre class="mono"><code>chmod +x Cloister_*.AppImage
+              <p class="alt">
+                or
+                <a data-asset="linux-deb" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  >.deb</a
+                >
+                for Debian and Ubuntu,
+                <a data-asset="linux-rpm" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  >.rpm</a
+                >
+                for Fedora
+              </p>
+              <details>
+                <summary>How do I run the AppImage?</summary>
+                <pre class="mono"><code>chmod +x Cloister_*.AppImage
 ./Cloister_*.AppImage</code></pre>
+              </details>
+            </div>
+          </div>
+
+          <p class="note">
+            App lock uses Windows Hello, so it is Windows only for now. On macOS, each service keeps a
+            separate sign in on macOS 14 and later.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================= FAQ -->
+      <section id="faq" class="faq">
+        <div class="wrap faq-inner">
+          <div class="section-head">
+            <p class="kicker mono">FAQ</p>
+            <h2>Questions</h2>
+          </div>
+          <div class="faq-list">
+            <details>
+              <summary>Is Cloister really free?</summary>
+              <p>
+                Yes. It is open source under the MIT licence. There is no paid tier, no ads and no account.
+              </p>
+            </details>
+            <details>
+              <summary>Can Cloister read my messages?</summary>
+              <p>
+                No. Each service runs as its normal website in its own private profile on your computer.
+                Cloister only sees what a notification would show, uses it to display that notification, and
+                never stores it on disk or sends it anywhere.
+              </p>
+            </details>
+            <details>
+              <summary>How is it lighter than other all-in-one apps?</summary>
+              <p>
+                Most of them ship a full copy of Chromium. Cloister uses the browser engine your system
+                already has (WebView2 on Windows, WebKit on macOS and Linux), so the download is a few
+                megabytes and idle pages can be put to sleep.
+              </p>
+            </details>
+            <details>
+              <summary>Will it update itself?</summary>
+              <p>
+                Not yet. New versions appear on the GitHub releases page; install the new one over the old one
+                and your services and sign ins stay as they are.
+              </p>
+            </details>
+            <details>
+              <summary>Something does not work. Where do I report it?</summary>
+              <p>
+                Please open an issue on
+                <a href="https://github.com/Muntahi-Safwan/Cloister/issues">GitHub</a> with your system and
+                what you saw. Pull requests are welcome too.
+              </p>
             </details>
           </div>
         </div>
-
-        <p class="note">
-          Feature notes: app lock uses Windows Hello, so it is Windows only for now. On macOS, each service
-          keeps a separate sign in on macOS 14 and later. Everything else works the same everywhere.
-        </p>
       </section>
 
-      <!-- FAQ -->
-      <section id="faq" class="faq wrap">
-        <h2>Questions</h2>
-        <div class="faq-list">
-          <details>
-            <summary>Is Cloister really free?</summary>
-            <p>Yes. It is open source under the MIT licence. There is no paid tier, no ads and no account.</p>
-          </details>
-          <details>
-            <summary>Can Cloister read my messages?</summary>
-            <p>
-              No. Each service runs as its normal website inside its own private browser profile on your
-              computer. Cloister only sees what a notification would show, uses it to display a toast, and
-              never stores it on disk or sends it anywhere.
-            </p>
-          </details>
-          <details>
-            <summary>How is it lighter than other all-in-one apps?</summary>
-            <p>
-              Most of them ship a full copy of Chromium. Cloister is written in Rust with Tauri and uses the
-              browser engine your system already has (WebView2 on Windows, WebKit on macOS and Linux), so the
-              download is a few megabytes and idle pages can be put to sleep.
-            </p>
-          </details>
-          <details>
-            <summary>Will it update itself?</summary>
-            <p>
-              Not yet. New versions appear on the GitHub releases page; install the new one over the old one
-              and your services and sign ins stay as they are.
-            </p>
-          </details>
-          <details>
-            <summary>Something does not work. Where do I report it?</summary>
-            <p>
-              Please open an issue on
-              <a href="https://github.com/Muntahi-Safwan/Cloister/issues">GitHub</a> with your system and what
-              you saw. Pull requests are welcome too.
-            </p>
-          </details>
+      <!-- ======================================================= Final CTA -->
+      <section class="final">
+        <div class="wrap final-inner">
+          <img src="icon.svg" alt="" width="72" height="72" />
+          <h2>Give your messages a quieter home.</h2>
+          <a class="btn btn-primary btn-lg" data-download href="#install"
+            ><span data-download-label>Download Cloister</span></a
+          >
         </div>
       </section>
     </main>
@@ -316,8 +681,11 @@
     <footer class="footer">
       <div class="wrap footer-inner">
         <span class="brand small"><img src="mark.svg" alt="" width="16" height="16" /> Cloister</span>
-        <span>Made by Muntahi Safwan</span>
-        <span><a href="https://github.com/Muntahi-Safwan/Cloister">Source on GitHub</a> · MIT licence</span>
+        <span>Designed and built by Muntahi Safwan</span>
+        <span
+          ><a href="https://github.com/Muntahi-Safwan/Cloister">GitHub</a> ·
+          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">Releases</a> · MIT licence</span
+        >
       </div>
     </footer>
   </body>
