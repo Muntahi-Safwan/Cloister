@@ -47,7 +47,7 @@ cd src-tauri && cargo fmt --check && cargo clippy --all-targets -- -D warnings &
 **Commits**
 
 Use [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `refactor:`,
-`test:`, `chore:`.
+`test:`, `chore:`, with a scope where it helps (`fix(lock): …`). Keep the subject under 72 characters.
 
 ## Adding a service
 
@@ -55,5 +55,22 @@ See [docs/recipes.md](docs/recipes.md). Recipe pull requests are the easiest way
 
 ## Reporting bugs
 
-Open an issue with your Windows version, the service involved, what you expected and what happened. Logs are in
-`%LOCALAPPDATA%\app.cloister.desktop\logs`.
+Open an issue with:
+
+- your system and its version (for example Windows 11 24H2, macOS 15.1 or Ubuntu 24.04),
+- the Cloister version (Settings › About),
+- the service involved, what you expected and what happened,
+- the relevant lines from the log, if there are any.
+
+Logs are in:
+
+| System  | Folder                                     |
+| ------- | ------------------------------------------ |
+| Windows | `%LOCALAPPDATA%\app.cloister.desktop\logs` |
+| macOS   | `~/Library/Logs/app.cloister.desktop`      |
+| Linux   | `~/.local/share/app.cloister.desktop/logs` |
+
+Logs never contain message text, but they do name your services and can include page addresses. Read them
+before posting.
+
+For security problems, follow [SECURITY.md](SECURITY.md) instead of opening a public issue.

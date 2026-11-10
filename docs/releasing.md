@@ -29,8 +29,8 @@ Releases are built by GitHub Actions. Nobody needs a Mac or a Linux machine to s
 3. Commit, then tag and push:
 
    ```bash
-   git tag v0.3.0
-   git push origin main v0.3.0
+   git tag v1.2.3        # the version you just set
+   git push origin main v1.2.3
    ```
 
 The **Release** workflow then:
@@ -42,8 +42,9 @@ The **Release** workflow then:
 4. publishes the release once all three succeed.
 
 The landing page reads the latest published release from the GitHub API, so its download buttons update by
-themselves, and installed copies find the new version through `latest.json` within a few hours. If a build fails, the draft stays unpublished: fix the problem, delete the draft and the tag, and
-tag again.
+themselves, and installed copies find the new version through `latest.json` within a few hours.
+
+If a build fails, the draft stays unpublished: fix the problem, delete the draft and the tag, and tag again.
 
 ## Signing (later)
 

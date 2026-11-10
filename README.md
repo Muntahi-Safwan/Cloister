@@ -29,11 +29,12 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
 - **One window, many services.** Built-in recipes for WhatsApp, Messenger, Discord, Gmail, Outlook, Telegram,
   Slack, Microsoft Teams, Facebook, LinkedIn and Proton Mail, plus any website you add yourself.
 - **Isolated sessions.** Every service runs in its own browser profile. Cookies and logins never mix.
-- **Native notifications and badges.** Site notifications become Windows toasts. The unread total shows on the
-  taskbar and tray.
+- **Native notifications and badges.** Site notifications become system notifications. The unread total shows on
+  the taskbar (or Dock) and tray.
 - **Veil.** One shortcut blurs chats, previews and messages in every service at once, for screen sharing or
   working in public. Hover to peek. Notifications hide their text while Veil is on.
-- **App lock.** Lock Cloister behind Windows Hello on start, after you have been away, or with `Ctrl Shift L`.
+- **App lock.** Lock Cloister behind a PIN of your choice on start, after you have been away, or with
+  `Ctrl Shift L`. On Windows, Windows Hello (face, fingerprint or Windows PIN) can unlock it too.
   Veil can also switch on by itself when you change windows or step away.
 - **Focus sessions.** Hold notifications for 25 minutes (or your own length), let named people through, and
   get a summary of what arrived when the session ends.
@@ -42,7 +43,7 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   instead of each starting its own browser. Hidden services can be paused (frozen, waking every few minutes to
   check for messages) or unloaded, and pages that grow too large while hidden are refreshed quietly. Settings
   show how much memory each service uses.
-- **Six themes.** Quiet Room, Midnight, Forest, Mono, Paper and Daylight, or match Windows light/dark.
+- **Six themes.** Quiet Room, Midnight, Forest, Mono, Paper and Daylight, or follow your system's light/dark setting.
   Every theme is checked for readable contrast.
 - **Automatic updates.** Cloister checks for new versions and updates itself with one click. Updates are signed,
   so only genuine releases install.
@@ -50,7 +51,7 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   notifications, including ones held by focus. Kept in memory only.
 - **Made for daily use.** Right-click any service to mute it (1 hour, until tomorrow, or until you unmute),
   rename it, put it to sleep, open it in your browser or copy its link. Add the same service twice for
-  separate accounts. Set quiet hours, start with Windows, and zoom each service independently.
+  separate accounts. Set quiet hours, start when you sign in, and zoom each service independently.
 - **Your order, your icons.** Drag services to reorder them (or Alt+Up/Down), and show each site's own icon.
 - **Local only.** No account, no telemetry, no server of ours. Fonts ship inside the app; catalog icons load
   from DuckDuckGo's icon service, and each service shows its own site icon.
@@ -98,16 +99,16 @@ The installers are not code-signed yet, so the first launch shows a warning:
 
 Cloister is built for Windows first, and macOS and Linux builds come from the same code.
 
-| Feature                              | Windows           | macOS              | Linux              |
-| ------------------------------------ | ----------------- | ------------------ | ------------------ |
-| Services, Veil, focus, notifications | ✓                 | ✓                  | ✓                  |
-| Separate sign in per service         | ✓                 | ✓ (macOS 14+)      | ✓                  |
-| App lock                             | ✓ (Windows Hello) | not yet            | not yet            |
-| Notifications open the right service | ✓                 | plain notification | plain notification |
-| Lower memory for background pages    | ✓                 | sleep only         | sleep only         |
-| One shared browser engine            | ✓                 | –                  | –                  |
-| Pause in background                  | ✓                 | –                  | –                  |
-| Memory meter                         | ✓                 | total only         | ✓                  |
+| Feature                              | Windows             | macOS              | Linux              |
+| ------------------------------------ | ------------------- | ------------------ | ------------------ |
+| Services, Veil, focus, notifications | ✓                   | ✓                  | ✓                  |
+| Separate sign in per service         | ✓                   | ✓ (macOS 14+)      | ✓                  |
+| App lock (Cloister PIN)              | ✓ (+ Windows Hello) | ✓                  | ✓                  |
+| Notifications open the right service | ✓                   | plain notification | plain notification |
+| Lower memory for background pages    | ✓                   | sleep only         | sleep only         |
+| One shared browser engine            | ✓                   | –                  | –                  |
+| Pause in background                  | ✓                   | –                  | –                  |
+| Memory meter                         | ✓                   | total only         | ✓                  |
 
 On macOS, shortcuts use `⌘` in place of `Ctrl`.
 
@@ -115,11 +116,20 @@ On macOS, shortcuts use `⌘` in place of `Ctrl`.
 
 ### Prerequisites
 
-1. [Rust](https://www.rust-lang.org/tools/install) (stable, 1.82 or newer) with the MSVC toolchain.
-2. [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with
-   "Desktop development with C++".
-3. [Node.js](https://nodejs.org/) 22 or newer and [pnpm](https://pnpm.io/installation) 10.
-4. WebView2 is preinstalled on Windows 10 (April 2018 or later) and Windows 11.
+On every system:
+
+- [Rust](https://www.rust-lang.org/tools/install) (stable, 1.82 or newer).
+- [Node.js](https://nodejs.org/) 22 or newer and [pnpm](https://pnpm.io/installation) 10.
+
+Then, for your system:
+
+- **Windows:** the MSVC Rust toolchain and
+  [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with "Desktop
+  development with C++". WebView2 is preinstalled on Windows 10 (April 2018 or later) and Windows 11.
+- **macOS:** Xcode Command Line Tools (`xcode-select --install`).
+- **Linux (Debian/Ubuntu):**
+  `sudo apt install libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf build-essential`.
+  Other distributions need the same libraries under their own package names.
 
 See the [Tauri prerequisites guide](https://v2.tauri.app/start/prerequisites/) for details.
 
