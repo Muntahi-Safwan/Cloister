@@ -46,6 +46,12 @@ themselves, and installed copies find the new version through `latest.json` with
 
 If a build fails, the draft stays unpublished: fix the problem, delete the draft and the tag, and tag again.
 
+If only one build failed for a reason outside the code, such as Ubuntu's package mirrors being unreachable
+("Temporary failure resolving 'azure.archive.ubuntu.com'"), you don't need a new tag. Open the run on the
+Actions page and click **Re-run failed jobs**; the builds that already finished are kept. Every build job
+stops after an hour at most, and the Linux package step after 15 minutes, so a stuck mirror fails the run
+instead of leaving it hanging.
+
 ## Signing (later)
 
 The installers are not signed yet, so Windows SmartScreen and macOS Gatekeeper warn on first launch. The
