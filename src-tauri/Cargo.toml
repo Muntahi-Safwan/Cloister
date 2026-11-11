@@ -1,6 +1,6 @@
 [package]
 name = "cloister"
-version = "0.4.1"
+version = "0.4.2"
 description = "A quiet, private, lightweight home for your messaging apps."
 authors = ["Muntahi Safwan"]
 license = "MIT"
