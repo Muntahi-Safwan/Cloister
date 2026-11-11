@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-service-hide-previews"
+description = "Enables the set_service_hide_previews command without any pre-configured scope."
+commands.allow = ["set_service_hide_previews"]
+
+[[permission]]
+identifier = "deny-set-service-hide-previews"
+description = "Denies the set_service_hide_previews command without any pre-configured scope."
+commands.deny = ["set_service_hide_previews"]

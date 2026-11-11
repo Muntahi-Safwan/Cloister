@@ -43,6 +43,8 @@
     "allow-erase-service-data",
     "allow-erase-all-data",
     "allow-set-service-background",
+    "allow-set-service-hide-previews",
+    "allow-find-in-page",
     "updater:default",
     "process:allow-restart"
   ]

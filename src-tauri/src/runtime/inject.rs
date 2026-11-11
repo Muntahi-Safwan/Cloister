@@ -44,6 +44,11 @@ pub fn set_veil_script(on: bool) -> String {
     format!("window.__CLOISTER__ && window.__CLOISTER__.setVeil({on});")
 }
 
+/// Script that opens the find bar inside a service page.
+pub fn find_script() -> &'static str {
+    "window.__CLOISTER__ && window.__CLOISTER__.find();"
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

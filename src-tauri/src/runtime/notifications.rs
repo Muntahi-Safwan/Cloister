@@ -5,7 +5,7 @@ use tauri_plugin_notification::NotificationExt;
 
 use crate::features::focus::HeldNotification;
 use crate::features::history::{Delivery, HistoryItem};
-use crate::features::notify::{route, NotifyContext, Route};
+use crate::features::notify::{redacted, route, NotifyContext, Route};
 use crate::platform;
 use crate::runtime::{activation, tray};
 use crate::snapshot;
@@ -37,6 +37,7 @@ pub fn deliver<R: Runtime>(app: &AppHandle<R>, service_id: &str, title: &str, bo
         enabled: service.options.notifications,
         muted: service.is_muted(now),
         quiet: settings.quiet_hours.active_at(&chrono::Local::now()),
+        hide_previews: service.options.hide_previews,
         // A locked Cloister never shows message text.
         veil: veil || locked,
         redact_in_veil: settings.redact_toasts_in_veil || locked,
@@ -51,7 +52,9 @@ pub fn deliver<R: Runtime>(app: &AppHandle<R>, service_id: &str, title: &str, bo
         Route::Hold => Delivery::Held,
         Route::Drop => Delivery::Silenced,
     };
-    // History keeps the original text in memory; the UI applies Veil when showing it.
+    // History keeps the original text in memory (the UI applies Veil when showing
+    // it), except for services whose previews are hidden: their text is not kept.
+    let (title, body) = if service.options.hide_previews { redacted(&service.name) } else { (title, body) };
     {
         let mut session = state.session();
         session.history.push(HistoryItem {

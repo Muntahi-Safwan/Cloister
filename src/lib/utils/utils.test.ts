@@ -98,6 +98,8 @@ describe('shortcuts', () => {
     expect(shortcutFor(chord('='))).toBe('zoom:in');
     expect(shortcutFor(chord('-'))).toBe('zoom:out');
     expect(shortcutFor(chord('0'))).toBe('zoom:reset');
+    expect(shortcutFor(chord('f'))).toBe('find');
+    expect(shortcutFor(chord('F', { shiftKey: true }))).toBe('focus');
   });
 
   it('ignores everything else', () => {

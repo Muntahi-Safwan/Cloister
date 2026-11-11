@@ -181,6 +181,17 @@ class AppStore {
     await this.#run(() => backend.setServiceBackground(id, mode));
   }
 
+  async setServiceHidePreviews(id: string, hide: boolean): Promise<void> {
+    await this.#run(() => backend.setServiceHidePreviews(id, hide));
+  }
+
+  /** Opens the find bar inside the active service. */
+  async findInPage(): Promise<void> {
+    if (!this.snapshot.active) return;
+    this.dialog = null;
+    await this.#run(() => backend.findInPage());
+  }
+
   async sleepService(id: string): Promise<void> {
     await this.#run(() => backend.sleepService(id));
   }
@@ -206,6 +217,7 @@ class AppStore {
           mute: (id, duration) => void this.muteService(id, duration),
           sleep: (id) => void this.sleepService(id),
           background: (id, mode) => void this.setServiceBackground(id, mode),
+          hidePreviews: (id, hide) => void this.setServiceHidePreviews(id, hide),
           reload: (id) => void this.reloadService(id),
           openExternally: (id) => void this.openServiceExternally(id),
           copyLink: (url) => void navigator.clipboard.writeText(url).catch(() => undefined),
@@ -364,6 +376,7 @@ class AppStore {
     else if (action === 'veil') await this.toggleVeil();
     else if (action === 'focus') await this.toggleFocus();
     else if (action === 'lock') await this.lock();
+    else if (action === 'find') await this.findInPage();
     else if (action.startsWith('zoom:')) await this.zoomActive(action.slice('zoom:'.length) as ZoomStep);
     else await this.switchTo(Number(action.slice('switch:'.length)));
   }

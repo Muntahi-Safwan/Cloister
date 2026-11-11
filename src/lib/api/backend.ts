@@ -42,6 +42,11 @@ export const backend = {
   sleepService: (id: string) => invoke<Snapshot>('sleep_service', { id }),
   setServiceBackground: (id: string, mode: BackgroundMode) =>
     invoke<Snapshot>('set_service_background', { id, mode }),
+  /** Hides or shows the sender and message in a service's notifications. */
+  setServiceHidePreviews: (id: string, hide: boolean) =>
+    invoke<Snapshot>('set_service_hide_previews', { id, hide }),
+  /** Opens the find bar in the active service. */
+  findInPage: () => invoke<void>('find_in_page'),
   zoomService: (id: string, step: ZoomStep) => invoke<Snapshot>('zoom_service', { id, step }),
   openServiceExternally: (id: string) => invoke<void>('open_service_externally', { id }),
 

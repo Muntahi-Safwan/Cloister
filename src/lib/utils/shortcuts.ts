@@ -3,7 +3,8 @@
  *
  * Inside a service page the injected bridge (`src-tauri/scripts/bridge.js`)
  * forwards the same chords, except Ctrl+K, which many sites use themselves;
- * there, Ctrl+Shift+K opens the palette.
+ * there, Ctrl+Shift+K opens the palette. Ctrl+F opens the bridge's own find
+ * bar inside the page; from the main UI it asks the active page to open it.
  */
 
 import type { ShortcutAction } from '$lib/types';
@@ -13,9 +14,6 @@ export type KeyChord = Pick<KeyboardEvent, 'key' | 'ctrlKey' | 'shiftKey' | 'alt
 
 /** Running on a Mac, where shortcuts use Cmd instead of Ctrl. */
 export const IS_MAC = typeof navigator !== 'undefined' && /^Mac/i.test(navigator.platform);
-
-/** Running on Windows, where app lock (Windows Hello) is available. */
-export const IS_WINDOWS = typeof navigator !== 'undefined' && /^Win/i.test(navigator.platform);
 
 /**
  * Maps a key chord to a Cloister action, or `null` when it is not a Cloister shortcut.
@@ -39,6 +37,7 @@ export function shortcutFor(event: KeyChord, mac = IS_MAC): ShortcutAction | nul
     return null;
   }
   if (key === ',') return 'settings';
+  if (key === 'f') return 'find';
   if (/^[1-9]$/.test(key)) return `switch:${Number(key)}`;
   return null;
 }
@@ -55,6 +54,9 @@ export function shortcutLabels(mac: boolean) {
     focus: `${cmd} ${shift} F`,
     lock: `${cmd} ${shift} L`,
     settings: `${cmd} ,`,
+    find: `${cmd} F`,
+    switchTo: `${cmd} 1–9`,
+    zoom: `${cmd} + / − / 0`,
     showHide: `${global} Space`,
     panic: `${global} H`,
   } as const;

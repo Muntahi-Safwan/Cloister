@@ -13,9 +13,16 @@
 <div class="options">
   <Switch
     label="Show notifications"
-    description="The site's notifications appear as Windows toasts"
+    description="The site's notifications appear as system notifications"
     checked={options.notifications}
     onchange={(v) => (options.notifications = v)}
+  />
+  <Switch
+    label="Hide message previews"
+    description="Notifications say only “New message”, without the sender or text"
+    checked={options.hidePreviews}
+    disabled={!options.notifications}
+    onchange={(v) => (options.hidePreviews = v)}
   />
   <Switch
     label="Count unread from the page title"

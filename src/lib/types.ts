@@ -16,6 +16,8 @@ export type UnreadRule = 'titleParentheses' | 'none';
 
 export interface ServiceOptions {
   notifications: boolean;
+  /** Notifications say only "New message": no sender, no text. */
+  hidePreviews: boolean;
   unreadFromTitle: boolean;
   veilWholePage: boolean;
   hideDuringFocus: boolean;
@@ -170,4 +172,4 @@ export interface ContentBounds {
 
 /** Actions triggered by shortcuts, the tray or the command palette. */
 export type ShortcutAction =
-  'palette' | 'veil' | 'focus' | 'lock' | 'settings' | `switch:${number}` | `zoom:${ZoomStep}`;
+  'palette' | 'veil' | 'focus' | 'lock' | 'settings' | 'find' | `switch:${number}` | `zoom:${ZoomStep}`;

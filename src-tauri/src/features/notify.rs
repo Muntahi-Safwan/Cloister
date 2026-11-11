@@ -16,6 +16,8 @@ pub struct NotifyContext<'a> {
     pub muted: bool,
     /// Whether quiet hours are active right now.
     pub quiet: bool,
+    /// Whether the user hides previews for this service (sender and text).
+    pub hide_previews: bool,
     /// Whether Veil is on.
     pub veil: bool,
     /// Whether toasts should be redacted while Veil is on.
@@ -46,11 +48,17 @@ pub fn route(ctx: NotifyContext<'_>, title: &str, body: &str) -> Route {
     if ctx.focus && !vip {
         return Route::Hold;
     }
-    if ctx.veil && ctx.redact_in_veil {
-        return Route::Show { title: ctx.service_name.to_string(), body: "New message".to_string() };
+    if ctx.hide_previews || (ctx.veil && ctx.redact_in_veil) {
+        let (title, body) = redacted(ctx.service_name);
+        return Route::Show { title, body };
     }
     let title = if title.trim().is_empty() { ctx.service_name } else { title };
     Route::Show { title: title.to_string(), body: body.to_string() }
+}
+
+/// The title and body shown when a notification's content is hidden.
+pub fn redacted(service_name: &str) -> (String, String) {
+    (service_name.to_string(), "New message".to_string())
 }
 
 #[cfg(test)]
@@ -63,6 +71,7 @@ mod tests {
             enabled: true,
             muted: false,
             quiet: false,
+            hide_previews: false,
             veil: false,
             redact_in_veil: true,
             focus: false,
@@ -83,6 +92,26 @@ mod tests {
         let c = NotifyContext { veil: true, ..ctx(&[]) };
         assert_eq!(
             route(c, "Ayesha", "secret"),
+            Route::Show { title: "WhatsApp".into(), body: "New message".into() }
+        );
+    }
+
+    #[test]
+    fn hidden_previews_show_only_the_service_name() {
+        let c = NotifyContext { hide_previews: true, ..ctx(&[]) };
+        assert_eq!(
+            route(c, "Ayesha", "secret"),
+            Route::Show { title: "WhatsApp".into(), body: "New message".into() }
+        );
+    }
+
+    #[test]
+    fn hidden_previews_still_let_vips_through_focus() {
+        let vips = vec!["Mom".to_string()];
+        let c = NotifyContext { hide_previews: true, focus: true, ..ctx(&vips) };
+        assert_eq!(route(c, "Design team", "x"), Route::Hold);
+        assert_eq!(
+            route(c, "Mom", "call me"),
             Route::Show { title: "WhatsApp".into(), body: "New message".into() }
         );
     }

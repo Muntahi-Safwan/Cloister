@@ -6,6 +6,24 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-11-11
+
+### Added
+
+- **Find in page.** `Ctrl F` (`⌘ F` on macOS) opens a search bar inside the current service. Every match is
+  highlighted, `Enter` and `Shift Enter` (or `F3`) move between them, and `Esc` closes it. It also works from
+  the sidebar and the command palette. It finds text the page has loaded; chat apps load older messages as
+  you scroll up.
+- **Hide message previews per service.** Right-click a service and turn on "Hide message previews": its
+  notifications then show only the service name and "New message", while other services keep showing the
+  sender and text. Those notifications are kept in the history without their text too. Also available when
+  adding a custom website.
+
+### Fixed
+
+- Shortcut labels in Settings and the command palette show `⌘` on macOS.
+- Settings no longer label app lock as Windows Hello only.
+
 ## [0.4.1] - 2026-11-10
 
 ### Changed

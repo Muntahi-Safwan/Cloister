@@ -56,8 +56,12 @@ Service pages run third-party code, so they are treated as untrusted:
   `https` or inline images under 64 KB.
 - Cloister's own UI commands are granted only to the main UI webview (`src-tauri/capabilities/main.json`).
 
-The injected bridge (`src-tauri/scripts/bridge.js`) never reads page content, and never clicks, types or sends
-anything.
+The injected bridge (`src-tauri/scripts/bridge.js`) never sends page content to Cloister or anywhere else, and
+never clicks, types or sends anything. The find bar (`Ctrl F`) reads the page's text only while you search, and
+only inside the page.
+
+With "Hide message previews" on for a service, its notifications show only the service name and "New
+message". The sender and text are not kept in the notification history or the focus summary either.
 
 ## Reporting a vulnerability
 

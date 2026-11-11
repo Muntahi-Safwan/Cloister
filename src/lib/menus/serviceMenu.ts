@@ -17,6 +17,7 @@ export interface ServiceMenuActions {
   mute: (id: string, duration: MuteDuration) => void;
   sleep: (id: string) => void;
   background: (id: string, mode: BackgroundMode) => void;
+  hidePreviews: (id: string, hide: boolean) => void;
   reload: (id: string) => void;
   openExternally: (id: string) => void;
   copyLink: (url: string) => void;
@@ -68,6 +69,13 @@ export async function showServiceMenu(
       { id: 'open', text: `Open ${service.name}`, action: () => actions.open(id) },
       { item: 'Separator' },
       muteMenu,
+      {
+        id: 'hide-previews',
+        text: 'Hide message previews',
+        checked: service.options.hidePreviews,
+        enabled: service.options.notifications,
+        action: () => actions.hidePreviews(id, !service.options.hidePreviews),
+      },
       backgroundMenu,
       { id: 'rename', text: 'Rename…', action: () => actions.rename(id) },
       { id: 'reload', text: 'Reload', enabled: service.loaded, action: () => actions.reload(id) },

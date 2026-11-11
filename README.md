@@ -38,7 +38,11 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   Veil can also switch on by itself when you change windows or step away.
 - **Focus sessions.** Hold notifications for 25 minutes (or your own length), let named people through, and
   get a summary of what arrived when the session ends.
-- **Keyboard first.** `Ctrl K` opens a command palette for every service and action.
+- **Keyboard first.** `Ctrl K` opens a command palette for every service and action, and `Ctrl F` finds text
+  in any service, highlighting every match.
+- **Private previews per service.** Right-click a service and choose "Hide message previews": its
+  notifications then say only "Telegram: New message", without the sender or text, while others stay
+  as they are.
 - **Light on memory.** On Windows every service runs inside one shared browser engine, as a separate profile,
   instead of each starting its own browser. Hidden services can be paused (frozen, waking every few minutes to
   check for messages) or unloaded, and pages that grow too large while hidden are refreshed quietly. Settings
@@ -68,6 +72,7 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
 | ------------------------ | ------------------------------------------- |
 | Command palette          | `Ctrl K` (inside a service: `Ctrl Shift K`) |
 | Switch to service 1 to 9 | `Ctrl 1` … `Ctrl 9`                         |
+| Find in page             | `Ctrl F`, then `Enter` / `Shift Enter`      |
 | Toggle Veil              | `Ctrl Shift P`                              |
 | Start or end focus       | `Ctrl Shift F`                              |
 | Lock Cloister            | `Ctrl Shift L`                              |
@@ -193,8 +198,9 @@ Contributions are welcome, and adding a service recipe is a great first pull req
 
 ## Privacy and security
 
-Cloister never reads your messages. The script it injects into service pages only replaces the notification API,
-applies the Veil stylesheet, reports the site icon and forwards Cloister's shortcuts. Service pages can reach exactly three
+Cloister never collects your messages. The script it injects into service pages only replaces the notification
+API, applies the Veil stylesheet, reports the site icon, forwards Cloister's shortcuts and runs the find bar,
+which searches the page's text inside the page and sends nothing anywhere. Service pages can reach exactly three
 backend commands. Details are in [SECURITY.md](SECURITY.md).
 
 ## Disclaimer

@@ -55,6 +55,9 @@ pub enum UserAgentPreset {
 pub struct ServiceOptions {
     /// Forward the site's notifications as native toasts.
     pub notifications: bool,
+    /// Hide the sender and message in this service's notifications: toasts
+    /// say only "New message", and the history keeps nothing more.
+    pub hide_previews: bool,
     /// Read the unread count from the page title, e.g. `(3) Inbox`.
     pub unread_from_title: bool,
     /// Blur the entire page in Veil instead of selected regions.
@@ -71,6 +74,7 @@ impl Default for ServiceOptions {
     fn default() -> Self {
         Self {
             notifications: true,
+            hide_previews: false,
             unread_from_title: true,
             veil_whole_page: false,
             hide_during_focus: false,

@@ -6,7 +6,7 @@ use tauri_plugin_opener::OpenerExt;
 
 use crate::error::AppResult;
 use crate::features::schedule::{mute_until, MuteDuration};
-use crate::runtime::webviews;
+use crate::runtime::{inject, webviews};
 use crate::services::model::{validate_name, ZoomStep};
 use crate::services::{BackgroundMode, ServiceId};
 use crate::snapshot::{self, Snapshot};
@@ -49,6 +49,35 @@ pub fn set_service_background<R: Runtime>(
     }
     webviews::sync_visibility(&app)?;
     Ok(publish(&app))
+}
+
+/// Hides or shows the sender and message in a service's notifications.
+#[tauri::command]
+pub fn set_service_hide_previews<R: Runtime>(
+    app: AppHandle<R>,
+    id: ServiceId,
+    hide: bool,
+) -> AppResult<Snapshot> {
+    app.state::<AppState>().registry().modify(&id, |s| s.options.hide_previews = hide)?;
+    Ok(publish(&app))
+}
+
+/// Opens the find bar inside the active service and moves keyboard focus to it.
+#[tauri::command]
+pub fn find_in_page<R: Runtime>(app: AppHandle<R>) -> AppResult<()> {
+    let active = {
+        let state = app.state::<AppState>();
+        let session = state.session();
+        if session.locked {
+            return Ok(());
+        }
+        session.active.clone()
+    };
+    if let Some(webview) = active.and_then(|id| app.get_webview(&webviews::label_for(&id))) {
+        webview.set_focus()?;
+        webview.eval(inject::find_script())?;
+    }
+    Ok(())
 }
 
 /// Closes a service's page right away to free its memory. Opening it reloads it.

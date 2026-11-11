@@ -12,6 +12,7 @@ export const TILE_INDEXES = [0, 1, 2, 3, 4, 5] as const;
 /** Default behaviour for a newly added service. Matches `ServiceOptions::default()` in Rust. */
 export const DEFAULT_OPTIONS: ServiceOptions = {
   notifications: true,
+  hidePreviews: false,
   unreadFromTitle: true,
   veilWholePage: false,
   hideDuringFocus: false,

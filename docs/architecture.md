@@ -73,6 +73,10 @@ panic in one command cannot take the app down.
    if the recipe's regions are not found.
 3. Reports the site's icon once per page load to `bridge_icon`.
 4. Forwards Cloister's shortcuts to `bridge_shortcut`.
+5. Runs find in page (`Ctrl F`, or `window.__CLOISTER__.find()` from the backend's `find_in_page`): a bar in
+   a closed shadow root, matches painted with the CSS Custom Highlight API so the page's DOM is untouched.
+   It is built with DOM calls and constructable stylesheets only, so it works on pages with Trusted Types
+   and strict `style-src` policies (Gmail).
 
 The backend fills in the bridge's configuration by replacing the `__CLOISTER_CONFIG__` argument on its last
 line. `bridge.test.ts` runs the bridge in a simulated DOM.

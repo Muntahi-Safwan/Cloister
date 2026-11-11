@@ -10,7 +10,7 @@
   import { app } from '$lib/stores/app.svelte';
   import type { Service } from '$lib/types';
   import { isMuted, plural } from '$lib/utils/format';
-  import { SHORTCUT_LABELS } from '$lib/utils/shortcuts';
+  import { IS_MAC, SHORTCUT_LABELS } from '$lib/utils/shortcuts';
 
   type Item =
     | { kind: 'service'; id: string; label: string; meta: string; keys: string; service: Service }
@@ -25,7 +25,7 @@
       id: service.id,
       label: service.name,
       meta: service.unread > 0 ? `${plural(service.unread, 'unread')}` : '',
-      keys: index < 9 ? `Ctrl ${index + 1}` : '',
+      keys: index < 9 ? `${IS_MAC ? '⌘' : 'Ctrl'} ${index + 1}` : '',
       service,
     }));
     const actions: Item[] = [
@@ -47,6 +47,18 @@
         icon: 'focus',
         run: () => app.toggleFocus(),
       },
+      ...(app.snapshot.active
+        ? [
+            {
+              kind: 'action' as const,
+              id: 'find',
+              label: 'Find in page',
+              keys: SHORTCUT_LABELS.find,
+              icon: 'search' as const,
+              run: () => app.findInPage(),
+            },
+          ]
+        : []),
       {
         kind: 'action',
         id: 'notifications',
