@@ -1,0 +1,240 @@
+<!doctype html>
+<!-- Generated from CHANGELOG.md by scripts/build-changelog.mjs. Do not edit by hand. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Changelog · Cloister</title>
+    <meta name="description" content="Every release of Cloister, newest first: what was added, changed and fixed." />
+    <meta name="theme-color" content="#f2eee5" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Changelog · Cloister" />
+    <meta property="og:description" content="Every release of Cloister, newest first." />
+    <meta property="og:image" content="https://muntahi-safwan.github.io/Cloister/og.png" />
+    <link rel="preload" href="fonts/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="changelog-page">
+    <a class="skip" href="#top">Skip to content</a>
+    <header class="nav is-scrolled">
+      <div class="page nav-inner">
+        <a class="brand" href="./" aria-label="Cloister home"><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15" r="1.7" fill="var(--accent)"/></svg><span>Cloister</span></a>
+        <nav class="nav-links" aria-label="Main">
+          <a href="./#features">Features</a>
+          <a href="./#memory">Memory</a>
+          <a href="./#faq">Questions</a>
+          <a href="changelog.html" aria-current="page">Changelog</a>
+        </nav>
+        <div class="nav-end">
+          <a class="btn btn-small" href="./#install">Download</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="changelog-head">
+        <div class="page split">
+          <p class="margin margin-note mono">Updated with every release</p>
+          <div>
+            <h1>Changelog</h1>
+            <p class="lede">
+              Every release of Cloister, newest first. Installed copies update themselves, so this is mostly here
+              for the curious.
+            </p>
+            <nav class="release-index" aria-label="Releases"><ul><li><a href="#v0.4.2">0.4.2</a></li><li><a href="#v0.4.1">0.4.1</a></li><li><a href="#v0.4.0">0.4.0</a></li><li><a href="#v0.3.0">0.3.0</a></li><li><a href="#v0.2.0">0.2.0</a></li><li><a href="#v0.1.0">0.1.0</a></li></ul></nav>
+          </div>
+        </div>
+      </section>
+
+      <article class="page split release" id="v0.4.2">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.4.2">0.4.2</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-11">11 November 2026</time></p>
+          <p class="release-latest mono">Latest</p>
+          <a class="release-link" href="https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.2">Release and downloads</a>
+        </header>
+        <div class="release-body">
+          <section class="change-group" data-kind="added">
+            <h3>Added</h3>
+            <ul>
+              <li><strong>Find in page.</strong> <code>Ctrl F</code> (<code>⌘ F</code> on macOS) opens a search bar inside the current service. Every match is highlighted, <code>Enter</code> and <code>Shift Enter</code> (or <code>F3</code>) move between them, and <code>Esc</code> closes it. It also works from the sidebar and the command palette. It finds text the page has loaded; chat apps load older messages as you scroll up.</li>
+              <li><strong>Hide message previews per service.</strong> Right-click a service and turn on &quot;Hide message previews&quot;: its notifications then show only the service name and &quot;New message&quot;, while other services keep showing the sender and text. Those notifications are kept in the history without their text too. Also available when adding a custom website.</li>
+            </ul>
+          </section>
+          <section class="change-group" data-kind="fixed">
+            <h3>Fixed</h3>
+            <ul>
+              <li>Shortcut labels in Settings and the command palette show <code>⌘</code> on macOS.</li>
+              <li>Settings no longer label app lock as Windows Hello only.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="page split release" id="v0.4.1">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.4.1">0.4.1</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-10">10 November 2026</time></p>
+          
+          <a class="release-link" href="https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.1">Release and downloads</a>
+        </header>
+        <div class="release-body">
+          <section class="change-group" data-kind="changed">
+            <h3>Changed</h3>
+            <ul>
+              <li><strong>App lock now uses a Cloister PIN.</strong> You choose a PIN (four or more characters) in Settings › Lock, and it always unlocks Cloister. Windows Hello is now an optional quicker way in. Before, the lock relied on Windows Hello alone, so when Hello failed (for example error <code>0xD000A002</code> from a damaged Windows PIN) there was no way to unlock. If you had the lock on, Cloister now starts unlocked; set a PIN in Settings › Lock and the lock is back on.</li>
+              <li>App lock now works on macOS and Linux too.</li>
+            </ul>
+          </section>
+          <section class="change-group" data-kind="security">
+            <h3>Security</h3>
+            <ul>
+              <li>The PIN is stored only as an Argon2id hash in <code>lock.json</code>, never in <code>settings.json</code>. After five wrong guesses in a row, Cloister makes you wait 30 seconds, doubling up to five minutes.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="page split release" id="v0.4.0">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.4.0">0.4.0</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-10">10 November 2026</time></p>
+          
+          <a class="release-link" href="https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.0">Release and downloads</a>
+        </header>
+        <div class="release-body">
+          <section class="change-group" data-kind="changed">
+            <h3>Changed</h3>
+            <ul>
+              <li><strong>Windows: one shared browser engine.</strong> Every service now runs as a separate WebView2 profile inside the same browser process group as Cloister's window, instead of starting its own browser, GPU and network processes. Logins stay separate per service. <strong>Upgrading signs you out of every service once</strong>: the old per-service browser folders cannot be carried over (each encrypted its cookies with its own key) and are removed to free disk space.</li>
+              <li>Memory in Settings › Services is now measured per renderer process, and the shared part is shown on its own line.</li>
+            </ul>
+          </section>
+          <section class="change-group" data-kind="added">
+            <h3>Added</h3>
+            <ul>
+              <li><strong>Pause in background</strong> (Windows): a hidden service is suspended so the system can reclaim its memory, and is woken every few minutes (configurable) to catch up on messages. Opening it wakes it instantly. Choose it per service from the right-click menu under &quot;In the background&quot;.</li>
+              <li><strong>Refresh pages that grow too large</strong>: a page hidden for 10 minutes that passes a size limit (800 MB by default) is reloaded quietly to undo slow memory leaks.</li>
+              <li>&quot;In the background&quot; submenu to change a service's background mode at any time.</li>
+              <li><strong>Automatic updates.</strong> Cloister checks GitHub on start and every six hours (can be turned off in Settings › About) and shows an &quot;Update to x.y.z&quot; button in the title bar. Updates are signed and only install when you click; on Windows the installer runs in passive mode and reopens Cloister.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="page split release" id="v0.3.0">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.3.0">0.3.0</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-09">9 November 2026</time></p>
+          
+          
+        </header>
+        <div class="release-body">
+          <section class="change-group" data-kind="added">
+            <h3>Added</h3>
+            <ul>
+              <li>App lock with Windows Hello (PIN, face or fingerprint): on start, after a chosen time away, or on demand with <code>Ctrl Shift L</code>, the title bar or the tray. While locked, service pages are hidden and notifications hide their text.</li>
+              <li>Automatic Veil: when another window takes focus, or after a chosen time away.</li>
+              <li>Clicking a notification opens Cloister on the service it came from.</li>
+              <li>Recent notifications panel (bell in the title bar): the last 50, including held and silenced ones. Kept in memory only and forgotten when Cloister quits; hidden while Veil is on.</li>
+              <li>Memory use per service in Settings › Services.</li>
+              <li>&quot;Sign out and clear data&quot; for one service (right-click menu or Settings) or for every service at once.</li>
+              <li>Installers for every platform from one tag: Windows (<code>.exe</code>, <code>.msi</code>), macOS (universal <code>.dmg</code>) and Linux (<code>.AppImage</code>, <code>.deb</code>, <code>.rpm</code>), built and published by the release workflow.</li>
+              <li>A landing page with downloads that match the visitor's system (<code>site/</code>, deployed to GitHub Pages).</li>
+              <li>macOS support: Cmd shortcuts and a separate sign in per service on macOS 14 and later.</li>
+              <li>Branded Windows installer.</li>
+            </ul>
+          </section>
+          <section class="change-group" data-kind="changed">
+            <h3>Changed</h3>
+            <ul>
+              <li>Linux: service pages now sit beside the sidebar instead of taking half the window.</li>
+              <li>CI checks the backend on Windows, macOS and Linux.</li>
+              <li>The background sweep runs every 30 seconds instead of every minute so away actions apply promptly.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="page split release" id="v0.2.0">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.2.0">0.2.0</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-09">9 November 2026</time></p>
+          
+          
+        </header>
+        <div class="release-body">
+          <section class="change-group" data-kind="added">
+            <h3>Added</h3>
+            <ul>
+              <li>Native right-click menu on sidebar services: open, mute (1 hour, until 08:00 tomorrow, until unmuted), rename, reload, sleep now, open in browser, copy link, remove.</li>
+              <li>Multiple accounts: add the same catalog service again (&quot;Add another&quot;); each copy has its own profile.</li>
+              <li>Quiet hours: a daily window when notifications are silenced (VIPs still get through).</li>
+              <li>System-wide shortcuts: Ctrl+Alt+Space shows or hides Cloister; Ctrl+Alt+H turns on Veil and hides it.</li>
+              <li>Start with Windows, minimised to the tray.</li>
+              <li>Per-service zoom with Ctrl+Plus, Ctrl+Minus and Ctrl+0, remembered per service.</li>
+              <li>&quot;Asleep&quot; state with a wake button when the open service has been put to sleep.</li>
+              <li>Command palette actions for the current service: mute, rename, sleep.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="page split release" id="v0.1.0">
+        <header class="margin release-meta">
+          <h2 class="release-version"><a href="#v0.1.0">0.1.0</a></h2>
+          <p class="release-date mono"><time datetime="2026-11-09">9 November 2026</time></p>
+          
+          
+        </header>
+        <div class="release-body"><p class="release-intro">The first release.</p>
+          <section class="change-group" data-kind="added">
+            <h3>Added</h3>
+            <ul>
+              <li>Main window with a service rail, custom title bar and command palette.</li>
+              <li>Built-in recipes for WhatsApp, Messenger, Discord, Gmail, Outlook, Telegram, Slack, Microsoft Teams, Facebook, LinkedIn and Proton Mail.</li>
+              <li>Custom websites with initials or site icons, tile colours and per-service behaviour.</li>
+              <li>Isolated browser profile per service; lazy loading; optional unloading of idle services.</li>
+              <li>Native notifications, unread counts from page titles, taskbar overlay badge and tray tooltip.</li>
+              <li>Veil privacy mode with per-recipe blur regions and redacted notifications.</li>
+              <li>Focus sessions with held notifications, a VIP list and an end-of-session summary.</li>
+              <li>Settings for Veil, focus, tray behaviour and services.</li>
+              <li>Theme picker with six themes (Quiet Room, Midnight, Forest, Mono, Paper, Daylight) and a &quot;Match Windows&quot; option. Previews are drawn with each theme's real colours; tests check WCAG AA contrast for every theme.</li>
+              <li>Catalog entries show service icons before they are added (via DuckDuckGo's favicon service), with the site's own icon used once a service is opened.</li>
+              <li>Site icons in the sidebar, reported by each page; switch between site icon and initials in Settings.</li>
+              <li>Drag to reorder services in the sidebar, with Alt+Up/Down as a keyboard alternative.</li>
+              <li>Low-memory mode for background pages using WebView2's memory target level (on by default).</li>
+              <li>&quot;Send test&quot; notification button in Settings, and logging of how each notification was routed.</li>
+              <li>About section crediting the author.</li>
+            </ul>
+          </section>
+          <section class="change-group" data-kind="fixed">
+            <h3>Fixed</h3>
+            <ul>
+              <li>The service bridge did not run after formatting changed how <code>bridge.js</code> ended, which disabled notifications and Veil inside service pages. The bridge now calls itself and is covered by tests.</li>
+              <li>Veil blurs chats, messages and other list rows individually, so hovering reveals only the row under the pointer (after a short delay). The open WhatsApp chat's header is blurred too.</li>
+              <li>Veil now uses constructable stylesheets so a site's Content Security Policy cannot block it, and blurs the whole page if a recipe's regions are no longer found.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <footer class="colophon">
+      <div class="page colophon-inner">
+        <p class="brand"><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15" r="1.7" fill="var(--accent)"/></svg><span>Cloister</span></p>
+        <p>
+          Generated from <a href="https://github.com/Muntahi-Safwan/Cloister/blob/main/CHANGELOG.md">CHANGELOG.md</a>, which follows
+          <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a> and semantic versioning.
+        </p>
+        <p class="colophon-links">
+          <a href="./">Home</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">Releases</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister">Source</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

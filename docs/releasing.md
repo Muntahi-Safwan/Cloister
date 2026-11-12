@@ -24,11 +24,13 @@ Releases are built by GitHub Actions. Nobody needs a Mac or a Linux machine to s
 ## Shipping a version
 
 1. Bump the version in `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`.
-2. Move the `[Unreleased]` notes in `CHANGELOG.md` under a new `## [x.y.z] - date` heading. The release
-   notes are taken from that section.
+2. Move the `[Unreleased]` notes in `CHANGELOG.md` under a new `## [x.y.z] - date` heading, and add a
+   `[x.y.z]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/vx.y.z` line at the bottom. The release
+   notes are taken from that section, and the website's changelog page is built from the same file.
 3. Commit, then tag and push:
 
    ```bash
+   pnpm site:changelog   # rebuild site/changelog.html from CHANGELOG.md
    git tag v1.2.3        # the version you just set
    git push origin main v1.2.3
    ```

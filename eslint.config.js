@@ -31,4 +31,9 @@ export default ts.config(
     files: ['src-tauri/scripts/**/*.js'],
     languageOptions: { sourceType: 'script', globals: { ...globals.browser } },
   },
+  {
+    // Build scripts run in Node.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: { globals: { ...globals.node } },
+  },
 );

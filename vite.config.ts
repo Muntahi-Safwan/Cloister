@@ -24,7 +24,7 @@ export default defineConfig({
     sourcemap: false,
   },
   test: {
-    include: ['src/**/*.test.ts', 'src-tauri/scripts/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'src-tauri/scripts/**/*.test.ts', 'scripts/**/*.test.ts'],
     environment: 'node',
   },
 });

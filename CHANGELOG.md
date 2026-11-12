@@ -77,7 +77,6 @@ All notable changes to this project are documented here. The format follows
   memory only and forgotten when Cloister quits; hidden while Veil is on.
 - Memory use per service in Settings › Services.
 - "Sign out and clear data" for one service (right-click menu or Settings) or for every service at once.
-
 - Installers for every platform from one tag: Windows (`.exe`, `.msi`), macOS (universal `.dmg`) and Linux
   (`.AppImage`, `.deb`, `.rpm`), built and published by the release workflow.
 - A landing page with downloads that match the visitor's system (`site/`, deployed to GitHub Pages).
@@ -106,13 +105,23 @@ All notable changes to this project are documented here. The format follows
 
 ## [0.1.0] - 2026-11-09
 
+The first release.
+
 ### Added
 
+- Main window with a service rail, custom title bar and command palette.
+- Built-in recipes for WhatsApp, Messenger, Discord, Gmail, Outlook, Telegram, Slack, Microsoft Teams,
+  Facebook, LinkedIn and Proton Mail.
+- Custom websites with initials or site icons, tile colours and per-service behaviour.
+- Isolated browser profile per service; lazy loading; optional unloading of idle services.
+- Native notifications, unread counts from page titles, taskbar overlay badge and tray tooltip.
+- Veil privacy mode with per-recipe blur regions and redacted notifications.
+- Focus sessions with held notifications, a VIP list and an end-of-session summary.
+- Settings for Veil, focus, tray behaviour and services.
 - Theme picker with six themes (Quiet Room, Midnight, Forest, Mono, Paper, Daylight) and a "Match Windows"
   option. Previews are drawn with each theme's real colours; tests check WCAG AA contrast for every theme.
 - Catalog entries show service icons before they are added (via DuckDuckGo's favicon service), with the
   site's own icon used once a service is opened.
-
 - Site icons in the sidebar, reported by each page; switch between site icon and initials in Settings.
 - Drag to reorder services in the sidebar, with Alt+Up/Down as a keyboard alternative.
 - Low-memory mode for background pages using WebView2's memory target level (on by default).
@@ -128,12 +137,7 @@ All notable changes to this project are documented here. The format follows
 - Veil now uses constructable stylesheets so a site's Content Security Policy cannot block it, and blurs
   the whole page if a recipe's regions are no longer found.
 
-- Main window with a service rail, custom title bar and command palette.
-- Built-in recipes for WhatsApp, Messenger, Discord, Gmail, Outlook, Telegram, Slack, Microsoft Teams,
-  Facebook, LinkedIn and Proton Mail.
-- Custom websites with initials or site icons, tile colours and per-service behaviour.
-- Isolated browser profile per service; lazy loading; optional unloading of idle services.
-- Native notifications, unread counts from page titles, taskbar overlay badge and tray tooltip.
-- Veil privacy mode with per-recipe blur regions and redacted notifications.
-- Focus sessions with held notifications, a VIP list and an end-of-session summary.
-- Settings for Veil, focus, tray behaviour and services.
+[Unreleased]: https://github.com/Muntahi-Safwan/Cloister/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.2
+[0.4.1]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.1
+[0.4.0]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.0
