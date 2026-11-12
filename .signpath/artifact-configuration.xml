@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SignPath artifact configuration for Cloister's Windows release.
+
+  The release workflow uploads a ZIP with the two Windows installers. This
+  tells SignPath what to sign inside it. SignPath keeps its own copy of this
+  configuration; paste this file into the project's artifact configuration
+  (slug: default) when setting it up, and keep the two in step.
+-->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <zip-file>
+    <pe-file path="Cloister_*_x64-setup.exe" max-matches="1">
+      <authenticode-sign />
+    </pe-file>
+    <msi-file path="Cloister_*_x64_en-US.msi" max-matches="1">
+      <authenticode-sign />
+    </msi-file>
+  </zip-file>
+</artifact-configuration>

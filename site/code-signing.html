@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Code signing policy · Cloister</title>
+    <meta
+      name="description"
+      content="How Cloister's releases are built and signed, who approves them, and what Cloister sends over the network."
+    />
+    <meta name="theme-color" content="#f2eee5" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link
+      rel="preload"
+      href="fonts/newsreader-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#top">Skip to content</a>
+    <header class="nav is-scrolled">
+      <div class="page nav-inner">
+        <a class="brand" href="./" aria-label="Cloister home"
+          ><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path
+              d="M5 21V10a7 7 0 0 1 14 0v11"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+            <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+          ><span>Cloister</span></a
+        >
+        <nav class="nav-links" aria-label="Main">
+          <a href="./#features">Features</a>
+          <a href="./#memory">Memory</a>
+          <a href="./#faq">Questions</a>
+          <a href="changelog.html">Changelog</a>
+        </nav>
+        <div class="nav-end">
+          <a class="btn btn-small" href="./#install">Download</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="changelog-head">
+        <div class="page split">
+          <p class="margin margin-note mono">How releases are made</p>
+          <div>
+            <h1>Code signing policy</h1>
+            <p class="lede">
+              Free code signing provided by <a href="https://signpath.io">SignPath.io</a>, certificate by
+              <a href="https://signpath.org">SignPath Foundation</a>.
+            </p>
+            <p class="policy-status mono">
+              Status: Cloister’s application to the SignPath Foundation programme is in progress. Until it is
+              approved, Windows releases are published unsigned; this page will name the first signed version.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <article class="page split release" id="signed">
+        <header class="margin"><h2 class="margin-title">What is signed</h2></header>
+        <div class="release-body policy-body">
+          <p>
+            For every release, the Windows installer (<code>Cloister_x.y.z_x64-setup.exe</code>) and the
+            Windows Installer package (<code>Cloister_x.y.z_x64_en-US.msi</code>) are signed with the SignPath
+            Foundation certificate. Signing confirms that the file is an unmodified, automated build of the
+            source code in
+            <a href="https://github.com/Muntahi-Safwan/Cloister">github.com/Muntahi-Safwan/Cloister</a>.
+          </p>
+          <p>
+            Releases are built only by GitHub Actions, on GitHub-hosted machines, from a version tag in that
+            repository, using the
+            <a href="https://github.com/Muntahi-Safwan/Cloister/blob/main/.github/workflows/release.yml"
+              >release workflow</a
+            >. Each signing request is approved by hand before anything is signed.
+          </p>
+          <p>
+            The macOS and Linux downloads are not signed through SignPath. Every update package, on all three
+            systems, also carries Cloister's own update signature, which installed copies check before
+            installing anything.
+          </p>
+        </div>
+      </article>
+
+      <article class="page split release" id="roles">
+        <header class="margin"><h2 class="margin-title">Team and roles</h2></header>
+        <div class="release-body">
+          <section class="change-group">
+            <h3>Authors</h3>
+            <ul>
+              <li>
+                <a href="https://github.com/Muntahi-Safwan">Muntahi Safwan</a>, owner of the repository.
+                Authors may change the source code without further review.
+              </li>
+            </ul>
+          </section>
+          <section class="change-group">
+            <h3>Reviewers</h3>
+            <ul>
+              <li>
+                <a href="https://github.com/Muntahi-Safwan">Muntahi Safwan</a> reviews every change from other
+                contributors, including build scripts and workflows, before it is merged.
+              </li>
+            </ul>
+          </section>
+          <section class="change-group">
+            <h3>Approvers</h3>
+            <ul>
+              <li>
+                <a href="https://github.com/Muntahi-Safwan">Muntahi Safwan</a> approves each signing request.
+              </li>
+            </ul>
+          </section>
+          <p class="policy-note">
+            Everyone with these roles uses multi-factor authentication for GitHub and SignPath. The current
+            list of people with write access is on the repository's
+            <a href="https://github.com/Muntahi-Safwan/Cloister/graphs/contributors">contributors page</a>.
+          </p>
+        </div>
+      </article>
+
+      <article class="page split release" id="privacy">
+        <header class="margin"><h2 class="margin-title">Privacy policy</h2></header>
+        <div class="release-body policy-body">
+          <p>
+            Apart from the update check and service icons described below, this program will not transfer any
+            information to other networked systems unless specifically requested by the user or the person
+            installing or operating it.
+          </p>
+          <section class="change-group">
+            <h3>What Cloister connects to</h3>
+            <ul>
+              <li>
+                <strong>The services you add.</strong> Cloister opens the websites you choose, such as
+                WhatsApp Web or Gmail, each in its own private profile on your computer. They receive what
+                they would in a web browser, and their own privacy policies apply.
+              </li>
+              <li>
+                <strong>Update checks.</strong> When it starts and every six hours, Cloister downloads a small
+                file from github.com to see whether a new version exists. It sends nothing about you beyond
+                what every web request carries (your IP address and the app's user agent). You can turn this
+                off in Settings › About.
+                <a
+                  href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
+                  >GitHub's privacy statement</a
+                >
+                applies.
+              </li>
+              <li>
+                <strong>Service icons.</strong> The service catalogue, and tiles set to show site icons, load
+                icons from DuckDuckGo's icon service, which receives the address of the service (for example
+                web.whatsapp.com) and nothing about you or your accounts. Tiles set to show initials do not
+                load icons. <a href="https://duckduckgo.com/privacy">DuckDuckGo's privacy policy</a> applies.
+              </li>
+            </ul>
+          </section>
+          <section class="change-group">
+            <h3>What Cloister never does</h3>
+            <ul>
+              <li>No telemetry, analytics, crash reports, advertising or account.</li>
+              <li>
+                Message text is never stored on disk or sent anywhere. Notifications are shown and then kept
+                in memory only until Cloister closes.
+              </li>
+            </ul>
+          </section>
+          <p class="policy-note">
+            Cloister shows web pages with the browser engine your system provides: Microsoft Edge WebView2 on
+            Windows, and WebKit on macOS and Linux. Their makers' privacy statements apply to those engines.
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <footer class="colophon">
+      <div class="page colophon-inner">
+        <p class="brand">
+          <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path
+              d="M5 21V10a7 7 0 0 1 14 0v11"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+            <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+          ><span>Cloister</span>
+        </p>
+        <p>
+          Designed and built by <a href="https://muntahisafwan.com">Muntahi Safwan</a>, released under the MIT
+          licence.
+        </p>
+        <p class="colophon-links">
+          <a href="./">Home</a>
+          <a href="changelog.html">Changelog</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister">Source</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

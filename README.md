@@ -100,6 +100,9 @@ The installers are not code-signed yet, so the first launch shows a warning:
 - **macOS:** open the app once, then **System Settings › Privacy & Security › Open Anyway**. If macOS calls the
   app damaged, run `xattr -cr /Applications/Cloister.app`.
 
+Windows signing is being set up through the SignPath Foundation programme; see the
+[code signing policy](https://muntahi-safwan.github.io/Cloister/code-signing.html).
+
 ### Platform support
 
 Cloister is built for Windows first, and macOS and Linux builds come from the same code.

@@ -2432,3 +2432,56 @@ details[open] > summary::after {
     white-space: normal;
   }
 }
+
+/* Code signing policy page ------------------------------------------------------------------------- */
+
+.lede a,
+.policy-body a,
+.policy-note a {
+  color: var(--ink);
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 3px;
+}
+
+.lede a:hover,
+.policy-body a:hover,
+.policy-note a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.policy-status {
+  max-width: 44rem;
+  margin-top: 26px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--accent);
+  background: var(--accent-wash);
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.policy-body > p {
+  max-width: 46rem;
+}
+
+.policy-body > p + p,
+.policy-body > p + .change-group,
+.policy-body > .change-group + p {
+  margin-top: 18px;
+}
+
+.policy-body code {
+  padding: 1px 5px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper-raised);
+  color: var(--ink);
+  font: 500 0.84em/1.4 var(--mono);
+}
+
+.policy-note {
+  max-width: 46rem;
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: 14.5px;
+}

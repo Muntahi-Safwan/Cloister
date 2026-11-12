@@ -5,6 +5,11 @@
 #
 # The release stays a draft until every platform has built, then it is
 # published, so the landing page never links to a half-finished release.
+#
+# Windows code signing (SignPath Foundation) switches on once the repository
+# variables SIGNPATH_ORGANIZATION_ID and SIGNPATH_PROJECT_SLUG and the secret
+# SIGNPATH_API_TOKEN are set; see docs/releasing.md. Until then, releases are
+# published unsigned exactly as before.
 
 name: Release
 
@@ -39,6 +44,8 @@ jobs:
           fi
       - id: create
         uses: actions/github-script@v7
+        env:
+          SIGNED_WINDOWS: ${{ vars.SIGNPATH_ORGANIZATION_ID != '' }}
         with:
           script: |
             const { version } = require('./src-tauri/tauri.conf.json');
@@ -59,8 +66,11 @@ jobs:
               '| Debian / Ubuntu | `Cloister_' + version + '_amd64.deb` |',
               '| Fedora / openSUSE | `Cloister-' + version + '-1.x86_64.rpm` |',
               '',
-              'The installers are not code-signed yet, so Windows and macOS show a warning the first time.',
-              'See [the install guide](https://muntahi-safwan.github.io/Cloister/#install) for the two clicks it takes.',
+              process.env.SIGNED_WINDOWS === 'true'
+                ? 'The Windows installers are code-signed through SignPath Foundation. The macOS app is not notarised yet, so macOS asks once before opening it.'
+                : 'The installers are not code-signed yet, so Windows and macOS show a warning the first time.',
+              'See [the install guide](https://muntahi-safwan.github.io/Cloister/#install) for details, and the',
+              '[code signing policy](https://muntahi-safwan.github.io/Cloister/code-signing.html) for how releases are signed.',
             ].join('\n');
 
             const existing = await github.rest.repos
@@ -140,9 +150,142 @@ jobs:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           args: ${{ matrix.args }} --config src-tauri/tauri.release.conf.json
 
+  # Sends the Windows installers to SignPath for Authenticode signing, waits for
+  # a maintainer to approve the request there, then puts the signed files back
+  # into the draft release. Signing changes the files, so their update
+  # signatures (.sig) and latest.json are made again from the signed files.
+  sign-windows:
+    name: Sign Windows installers
+    needs: [create-release, build]
+    if: vars.SIGNPATH_ORGANIZATION_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+      actions: read
+    env:
+      RELEASE_ID: ${{ needs.create-release.outputs.release_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Download the unsigned Windows installers from the draft release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            fs.mkdirSync('unsigned', { recursive: true });
+            const assets = await github.paginate(github.rest.repos.listReleaseAssets, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: Number(process.env.RELEASE_ID),
+            });
+            const installers = assets.filter((a) => /_x64-setup\.exe$|_x64_en-US\.msi$/.test(a.name));
+            if (installers.length !== 2) core.setFailed(`Expected 2 Windows installers, found ${installers.length}`);
+            for (const asset of installers) {
+              const { data } = await github.rest.repos.getReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                asset_id: asset.id,
+                headers: { accept: 'application/octet-stream' },
+              });
+              fs.writeFileSync(`unsigned/${asset.name}`, Buffer.from(data));
+              core.info(`Downloaded ${asset.name}`);
+            }
+
+      - name: Upload them for SignPath
+        id: unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-unsigned
+          path: unsigned/
+          if-no-files-found: error
+
+      - name: Sign with SignPath (waits for approval)
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG || 'release-signing' }}
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 4800
+          output-artifact-directory: signed
+
+      - name: Make new update signatures for the signed installers
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          ls -la signed
+          for file in signed/*.exe signed/*.msi; do
+            pnpm tauri signer sign "$file"
+          done
+
+      - name: Replace the installers in the draft release and update latest.json
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const repo = { owner: context.repo.owner, repo: context.repo.repo };
+            const release_id = Number(process.env.RELEASE_ID);
+            const assets = await github.paginate(github.rest.repos.listReleaseAssets, { ...repo, release_id });
+            const byName = new Map(assets.map((a) => [a.name, a]));
+
+            const upload = async (name, data, contentType) => {
+              const old = byName.get(name);
+              if (old) await github.rest.repos.deleteReleaseAsset({ ...repo, asset_id: old.id });
+              await github.rest.repos.uploadReleaseAsset({
+                ...repo,
+                release_id,
+                name,
+                data,
+                headers: { 'content-type': contentType, 'content-length': data.length },
+              });
+              core.info(`Uploaded ${name}`);
+            };
+
+            const signatures = {};
+            for (const name of fs.readdirSync('signed')) {
+              const data = fs.readFileSync(path.join('signed', name));
+              await upload(name, data, name.endsWith('.sig') ? 'text/plain' : 'application/octet-stream');
+              if (name.endsWith('.sig')) signatures[name.slice(0, -4)] = data.toString('utf8').trim();
+            }
+
+            const manifest = byName.get('latest.json');
+            if (!manifest) return core.setFailed('latest.json is missing from the draft release');
+            const { data: raw } = await github.rest.repos.getReleaseAsset({
+              ...repo,
+              asset_id: manifest.id,
+              headers: { accept: 'application/octet-stream' },
+            });
+            const latest = JSON.parse(Buffer.from(raw).toString('utf8'));
+            let updated = 0;
+            for (const [platform, entry] of Object.entries(latest.platforms)) {
+              const file = decodeURIComponent(entry.url.split('/').pop());
+              if (signatures[file]) {
+                entry.signature = signatures[file];
+                updated += 1;
+                core.info(`latest.json: ${platform} now uses the signed ${file}`);
+              }
+            }
+            if (!updated) return core.setFailed('No Windows entries in latest.json matched the signed files');
+            await upload('latest.json', Buffer.from(JSON.stringify(latest, null, 2)), 'application/json');
+
   publish-release:
     name: Publish release
-    needs: [create-release, build]
+    needs: [create-release, build, sign-windows]
+    # Runs after signing, or straight after the builds when signing is not set up.
+    if: >-
+      always() && needs.build.result == 'success' &&
+      (needs.sign-windows.result == 'success' || needs.sign-windows.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
