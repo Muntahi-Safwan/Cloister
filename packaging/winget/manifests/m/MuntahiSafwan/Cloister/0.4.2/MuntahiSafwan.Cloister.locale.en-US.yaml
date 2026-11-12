@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.10.0.schema.json
+
+PackageIdentifier: MuntahiSafwan.Cloister
+PackageVersion: 0.4.2
+PackageLocale: en-US
+Publisher: Muntahi Safwan
+PublisherUrl: https://muntahisafwan.com
+PublisherSupportUrl: https://github.com/Muntahi-Safwan/Cloister/issues
+Author: Muntahi Safwan
+PackageName: Cloister
+PackageUrl: https://muntahi-safwan.github.io/Cloister/
+License: MIT
+LicenseUrl: https://github.com/Muntahi-Safwan/Cloister/blob/main/LICENSE
+Copyright: Copyright (c) 2026 Muntahi Safwan
+ShortDescription: A quiet, lightweight home for WhatsApp, Discord, Gmail and your other messaging apps.
+Description: |-
+  Cloister keeps WhatsApp, Discord, Gmail, Messenger, Slack, Telegram and other web messaging apps in one
+  lightweight window, each with its own private sign in. Veil blurs your chats in one keystroke, focus
+  sessions hold notifications until you are ready, and a PIN lock keeps it private when you step away.
+  Services you rarely check can be paused or put to sleep to save memory.
+Moniker: cloister
+Tags:
+  - chat
+  - discord
+  - gmail
+  - messaging
+  - messenger
+  - privacy
+  - slack
+  - tauri
+  - telegram
+  - whatsapp
+ReleaseNotesUrl: https://muntahi-safwan.github.io/Cloister/changelog.html#v0.4.2
+Documentations:
+  - DocumentLabel: Install guide
+    DocumentUrl: https://muntahi-safwan.github.io/Cloister/#install
+ManifestType: defaultLocale
+ManifestVersion: 1.10.0
