@@ -1,6 +1,7 @@
-// Cloister landing page: points download buttons at the latest GitHub release
-// and runs the small Veil demo. Works without JavaScript too: every button
-// already links to the releases page.
+// Cloister landing page: points download buttons at the latest GitHub release,
+// runs the small demos (Veil, themes, memory) and reveals sections as they
+// scroll in. Works without JavaScript too: every button already links to the
+// releases page and every section is visible.
 
 const REPO = 'Muntahi-Safwan/Cloister';
 const RELEASES = `https://github.com/${REPO}/releases/latest`;
@@ -58,7 +59,7 @@ function setUpDownloads() {
     .then((release) => {
       const version = release.tag_name;
       document.querySelectorAll('[data-version]').forEach((el) => (el.textContent = version));
-      status.textContent = `Latest: ${version}, released ${new Date(release.published_at).toLocaleDateString(
+      status.textContent = `${version}, released ${new Date(release.published_at).toLocaleDateString(
         undefined,
         {
           day: 'numeric',
@@ -176,6 +177,43 @@ function setUpMemoryEstimate() {
   update();
 }
 
+/** Sections fade in once as they scroll into view. */
+function setUpReveals() {
+  const items = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach((el) => el.classList.add('is-in'));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-in');
+        observer.unobserve(entry.target);
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+  );
+  items.forEach((el) => observer.observe(el));
+}
+
+/** A hairline under the navigation once the page has scrolled. */
+function setUpNav() {
+  const nav = document.querySelector('[data-nav]');
+  if (!nav) return;
+  const sync = () => nav.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+}
+
+/** Show macOS key names to Mac visitors. */
+function setUpKeys() {
+  if (detectOs() !== 'mac') return;
+  document.querySelectorAll('kbd').forEach((key) => {
+    key.textContent = key.textContent.replace(/\bCtrl\b/g, '⌘').replace(/\bShift\b/g, '⇧');
+  });
+}
+
 /** Theme chips recolour the preview window with the app's own palettes. */
 function setUpThemePreview() {
   const preview = document.querySelector('[data-theme-preview]');
@@ -192,6 +230,9 @@ function setUpThemePreview() {
   );
 }
 
+setUpReveals();
+setUpNav();
+setUpKeys();
 setUpServiceIcons();
 setUpThemePreview();
 setUpMemoryEstimate();

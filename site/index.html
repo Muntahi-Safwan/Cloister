@@ -8,7 +8,7 @@
       name="description"
       content="Cloister keeps WhatsApp, Discord, Gmail, Messenger and more in one lightweight window, with Veil privacy mode, focus sessions and app lock. Free and open source."
     />
-    <meta name="theme-color" content="#121110" />
+    <meta name="theme-color" content="#f2eee5" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta property="og:type" content="website" />
@@ -21,857 +21,1046 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="preload"
-      href="fonts/ibm-plex-sans-latin-600-normal.woff2"
+      href="fonts/newsreader-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/schibsted-grotesk-latin-400-normal.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
     <script src="main.js" defer></script>
   </head>
   <body>
-    <header class="nav">
-      <div class="wrap nav-inner">
-        <a class="brand" href="#top" aria-label="Cloister home">
-          <img src="mark.svg" alt="" width="22" height="22" />
-          <span>Cloister</span>
-        </a>
+    <a class="skip" href="#top">Skip to content</a>
+    <header class="nav" data-nav>
+      <div class="page nav-inner">
+        <a class="brand" href="#top" aria-label="Cloister home"
+          ><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path
+              d="M5 21V10a7 7 0 0 1 14 0v11"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+            <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+          ><span>Cloister</span></a
+        >
         <nav class="nav-links" aria-label="Main">
           <a href="#features">Features</a>
-          <a href="#apps">Apps</a>
           <a href="#themes">Themes</a>
           <a href="#memory">Memory</a>
-          <a href="#install">Download</a>
-          <a href="#faq">FAQ</a>
+          <a href="#faq">Questions</a>
         </nav>
-        <a class="nav-gh" href="https://github.com/Muntahi-Safwan/Cloister">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
-            />
-          </svg>
-          <span>Star on GitHub</span>
-        </a>
+        <div class="nav-end">
+          <a class="nav-gh" href="https://github.com/Muntahi-Safwan/Cloister"
+            ><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              /></svg
+            ><span>GitHub</span></a
+          >
+          <a class="btn btn-small" href="#install">Download</a>
+        </div>
       </div>
     </header>
 
     <main id="top">
-      <!-- ============================================================ Hero -->
+      <!-- Hero ------------------------------------------------------------------------------------>
       <section class="hero">
-        <div class="wrap hero-copy">
-          <a class="pill" href="#install">
-            <span class="pill-tag mono" data-version>v0.3</span>
-            App lock, auto-Veil and installers for every system
-            <span aria-hidden="true">→</span>
-          </a>
-          <h1>All your conversations.<br /><span class="soft">One quiet window.</span></h1>
-          <p class="lead">
-            Cloister brings WhatsApp, Discord, Gmail, Messenger and the rest into one lightweight app, with
-            privacy you can switch on in a keystroke and focus sessions that hold the noise until you are
-            ready.
+        <div class="page hero-grid">
+          <p class="hero-note mono" data-reveal>
+            <span data-version>v0.4.2</span><br />Free and open source<br />Windows, macOS, Linux
           </p>
-          <div class="cta">
-            <a class="btn btn-primary btn-lg" data-download href="#install">
-              <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
-                <path
-                  d="M10 3v10m0 0 4-4m-4 4-4-4M4 16h12"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span data-download-label>Download Cloister</span>
-            </a>
-            <a class="btn btn-ghost btn-lg" href="#install">All platforms</a>
-          </div>
-          <p class="fine" data-download-meta>Free and open source · Windows, macOS and Linux</p>
-        </div>
-
-        <!-- A working model of the app. Toggle Veil, hover a chat to peek. -->
-        <div class="wrap stage">
-          <div class="glow" aria-hidden="true"></div>
-          <figure class="app" aria-label="The Cloister window with WhatsApp open and Veil on">
-            <div class="app-bar">
-              <div class="app-brand">
-                <img src="mark.svg" alt="" width="15" height="15" />
-                <b>cloister</b>
-                <span class="sep"></span>
-                <span class="muted">WhatsApp</span>
-              </div>
-              <div class="app-search">
-                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
-                  <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4" />
-                  <path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-                </svg>
-                <span>Search or jump to a service</span>
-                <kbd class="mono">Ctrl K</kbd>
-              </div>
-              <div class="app-actions">
-                <span class="focus-pill mono"><i></i>Focus 18:42</span>
-                <button type="button" class="veil-toggle" data-veil-toggle aria-pressed="true">
-                  <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
-                    <path
-                      d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8Z"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.3"
-                    />
-                    <circle cx="8" cy="8" r="2" fill="currentColor" />
-                  </svg>
-                  <span data-veil-label>Veil on</span>
-                </button>
-                <span class="winctl" aria-hidden="true"><i></i><i></i><i></i></span>
-              </div>
-            </div>
-
-            <div class="app-body">
-              <nav class="rail" aria-label="Services">
-                <span class="svc is-active" data-letter="W"
-                  ><img
-                    class="svc-icon"
-                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
-                    referrerpolicy="no-referrer"
-                    alt="WhatsApp"
-                  /><em>3</em></span
-                >
-                <span class="svc" data-letter="D"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt="Discord"
-                /></span>
-                <span class="svc" data-letter="G"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt="Gmail"
-                  /><em>12</em></span
-                >
-                <span class="svc" data-letter="M"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=messenger.com&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt="Messenger"
-                /></span>
-                <span class="svc" data-letter="S"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt="Slack" /><em class="dot"></em
-                ></span>
-                <span class="svc" data-letter="T"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt="Telegram"
-                /></span>
-                <span class="svc add" aria-label="Add a service">+</span>
-                <span class="rail-foot" aria-hidden="true"><i></i><i></i><i></i></span>
-              </nav>
-
-              <div class="list is-veiled" data-chats>
-                <div class="list-head"><b>Chats</b><span class="search-mini"></span></div>
-                <div class="chat is-open">
-                  <span class="av a1">NR</span><b>Nadia Rahman</b
-                  ><span class="msg">Are we still on for tomorrow at 10?</span><em>9:41</em>
-                </div>
-                <div class="chat">
-                  <span class="av a2">DC</span><b>Design crit</b
-                  ><span class="msg">Mahin: new onboarding flow is up</span><em>9:30</em>
-                </div>
-                <div class="chat">
-                  <span class="av a3">A</span><b>Ammu</b><span class="msg">Call me when you're free</span
-                  ><em>8:58</em>
-                </div>
-                <div class="chat">
-                  <span class="av a4">R</span><b>Rafi</b
-                  ><span class="msg">Sent the invoice, check your mail</span><em>8:12</em>
-                </div>
-                <div class="chat">
-                  <span class="av a5">SG</span><b>Study group</b
-                  ><span class="msg">Anyone has last year's questions?</span><em>Mon</em>
-                </div>
-                <div class="chat">
-                  <span class="av a6">T</span><b>Tanvir</b
-                  ><span class="msg">Haha that meeting was something</span><em>Sun</em>
-                </div>
-                <div class="chat">
-                  <span class="av a2">IH</span><b>Iftekhar</b
-                  ><span class="msg">Pushed the fix, can you review?</span><em>Sat</em>
-                </div>
-              </div>
-
-              <div class="convo">
-                <div class="convo-head">
-                  <span class="av a1">NR</span>
-                  <div><b>Nadia Rahman</b><span>online</span></div>
-                </div>
-                <div class="bubbles">
-                  <div class="bubble in">Did you get a chance to look at the slides?</div>
-                  <div class="bubble out">Yes, sent you my notes an hour ago</div>
-                  <div class="bubble in">Perfect, thank you!</div>
-                  <div class="bubble in">Are we still on for tomorrow at 10?</div>
-                </div>
-                <div class="composer"><span>Type a message</span></div>
-              </div>
-            </div>
-          </figure>
-          <p class="stage-hint mono">Try it: switch Veil off, or hover a chat to peek through it.</p>
-        </div>
-      </section>
-
-      <!-- ============================================================ Apps -->
-      <section id="apps" class="apps">
-        <div class="wrap">
-          <p class="kicker mono">Works with the apps you already use</p>
-          <ul class="app-wall">
-            <li>
-              <span class="svc big" data-letter="W"
-                ><img
-                  class="svc-icon"
-                  src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >WhatsApp
-            </li>
-            <li>
-              <span class="svc big" data-letter="M"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=messenger.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Messenger
-            </li>
-            <li>
-              <span class="svc big" data-letter="D"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Discord
-            </li>
-            <li>
-              <span class="svc big" data-letter="G"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Gmail
-            </li>
-            <li>
-              <span class="svc big" data-letter="O"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=outlook.live.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Outlook
-            </li>
-            <li>
-              <span class="svc big" data-letter="T"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Telegram
-            </li>
-            <li>
-              <span class="svc big" data-letter="S"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Slack
-            </li>
-            <li>
-              <span class="svc big" data-letter="T"
-                ><img
-                  class="svc-icon"
-                  src="https://icons.duckduckgo.com/ip3/teams.microsoft.com.ico"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Teams
-            </li>
-            <li>
-              <span class="svc big" data-letter="F"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=facebook.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Facebook
-            </li>
-            <li>
-              <span class="svc big" data-letter="in"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=linkedin.com&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >LinkedIn
-            </li>
-            <li>
-              <span class="svc big" data-letter="P"
-                ><img
-                  class="svc-icon"
-                  src="https://www.google.com/s2/favicons?domain=proton.me&amp;sz=128"
-                  referrerpolicy="no-referrer"
-                  alt="" /></span
-              >Proton Mail
-            </li>
-            <li><span class="svc big add">+</span>Any website</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ======================================================== Features -->
-      <section id="features" class="features">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="kicker mono">Privacy and focus, built in</p>
-            <h2>Made for the hours you spend in chat</h2>
-          </div>
-
-          <!-- Veil -->
-          <article class="row">
-            <div class="row-copy">
-              <h3>Veil hides your chats in one keystroke</h3>
-              <p>
-                Someone walks up behind you? Press <kbd class="mono">Ctrl Shift P</kbd> and every conversation
-                blurs. Hover one chat to read it while the rest stay hidden. While Veil is on, notifications
-                name the app but never the person or the message.
-              </p>
-              <ul class="ticks">
-                <li>Per-chat reveal on hover</li>
-                <li>Turns on when you switch away or step out</li>
-                <li>Panic key hides Cloister from anywhere</li>
-              </ul>
-            </div>
-            <div class="scene scene-veil" aria-hidden="true">
-              <div class="mini-list">
-                <div class="mini-row blur"><span class="av a2"></span><i></i><i class="short"></i></div>
-                <div class="mini-row">
-                  <span class="av a1">NR</span><b>Nadia Rahman</b><span>Are we still on for tomorrow?</span>
-                </div>
-                <div class="mini-row blur"><span class="av a3"></span><i></i><i class="short"></i></div>
-                <div class="mini-row blur"><span class="av a4"></span><i></i><i class="short"></i></div>
-              </div>
-              <div class="toast">
-                <span class="svc sm" data-letter="W"
-                  ><img
-                    class="svc-icon"
-                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
-                    referrerpolicy="no-referrer"
-                    alt=""
-                /></span>
-                <div><b>WhatsApp</b><span>New message</span></div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Focus -->
-          <article class="row flip">
-            <div class="row-copy">
-              <h3>Focus sessions hold the noise for you</h3>
-              <p>
-                Start a session and Cloister quietly holds every notification. When the timer ends you get one
-                calm summary of what came in, instead of forty interruptions. Important people can still get
-                through.
-              </p>
-              <ul class="ticks">
-                <li>Pomodoro-length by default, any length you like</li>
-                <li>VIP names break through</li>
-                <li>Quiet hours for nights and weekends</li>
-              </ul>
-            </div>
-            <div class="scene scene-focus" aria-hidden="true">
-              <div class="timer">
-                <svg viewBox="0 0 120 120" width="120" height="120">
-                  <circle cx="60" cy="60" r="52" fill="none" stroke="var(--line)" stroke-width="6" />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="52"
+          <div class="hero-copy">
+            <h1 data-reveal>Every conversation, in&nbsp;one <em>quiet</em>&nbsp;window.</h1>
+            <p class="lede" data-reveal>
+              Cloister brings WhatsApp, Discord, Gmail, Messenger and the rest into one light app. Hide your
+              chats in a keystroke, hold the noise while you work, and lock it all when you step away.
+            </p>
+            <div class="cta" data-reveal>
+              <a class="btn" href="#install" data-download>
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path
+                    d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"
                     fill="none"
-                    stroke="var(--accent)"
-                    stroke-width="6"
+                    stroke="currentColor"
+                    stroke-width="1.8"
                     stroke-linecap="round"
-                    stroke-dasharray="327"
-                    stroke-dashoffset="90"
-                    transform="rotate(-90 60 60)"
+                    stroke-linejoin="round"
                   />
                 </svg>
-                <div><b class="mono">18:42</b><span>Focus</span></div>
-              </div>
-              <div class="summary">
-                <b>While you were focused</b>
-                <div class="sum-row">
-                  <span class="svc sm" data-letter="W"
-                    ><img
-                      class="svc-icon"
-                      src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
-                      referrerpolicy="no-referrer"
-                      alt="" /></span
-                  >WhatsApp<em>7</em>
-                </div>
-                <div class="sum-row">
-                  <span class="svc sm" data-letter="G"
-                    ><img
-                      class="svc-icon"
-                      src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
-                      referrerpolicy="no-referrer"
-                      alt="" /></span
-                  >Gmail<em>4</em>
-                </div>
-                <div class="sum-row">
-                  <span class="svc sm" data-letter="D"
-                    ><img
-                      class="svc-icon"
-                      src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
-                      referrerpolicy="no-referrer"
-                      alt="" /></span
-                  >Discord<em>12</em>
-                </div>
-              </div>
+                <span data-download-label>Download Cloister</span>
+              </a>
+              <a class="text-link" href="#install">Other systems and files</a>
             </div>
-          </article>
-
-          <!-- Smaller features -->
-          <div class="grid">
-            <article class="tile-feature">
-              <div class="scene-sm scene-lock" aria-hidden="true">
-                <img src="mark.svg" alt="" width="26" height="26" />
-                <span class="btn-fake">Unlock</span>
-              </div>
-              <h3>App lock</h3>
-              <p>
-                Lock behind a PIN on start, after you step away, or on demand, and use Windows Hello where you
-                have it. Pages are hidden, not just covered.
-              </p>
-            </article>
-            <article class="tile-feature">
-              <div class="scene-sm scene-mem" aria-hidden="true">
-                <div class="mem"><span>WhatsApp</span><i style="--w: 62%"></i></div>
-                <div class="mem"><span>Discord</span><i style="--w: 48%"></i></div>
-                <div class="mem"><span>Gmail</span><i class="asleep"></i><em>asleep</em></div>
-              </div>
-              <h3>Light on memory</h3>
-              <p>
-                Rust and your system's own browser engine, no bundled Chromium. Idle pages go to sleep, and
-                you can see what each one uses.
-              </p>
-            </article>
-            <article class="tile-feature">
-              <div class="scene-sm scene-toast" aria-hidden="true">
-                <div class="toast small">
-                  <span class="svc sm" data-letter="D"
-                    ><img
-                      class="svc-icon"
-                      src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
-                      referrerpolicy="no-referrer"
-                      alt=""
-                  /></span>
-                  <div><b>Discord</b><span>#design: new mockups are up</span></div>
-                </div>
-                <span class="cursor"></span>
-              </div>
-              <h3>Notifications that lead somewhere</h3>
-              <p>
-                Native notifications that open the right service when clicked, unread badges, and a history of
-                the last fifty. Hide the sender and text for any service you want kept private.
-              </p>
-            </article>
-            <article class="tile-feature">
-              <div class="scene-sm scene-private" aria-hidden="true">
-                <span>No account</span><span>No telemetry</span><span>No servers</span>
-              </div>
-              <h3>Private by design</h3>
-              <p>
-                Every service keeps its own separate sign in on your computer. One click signs you out and
-                wipes its data.
-              </p>
-            </article>
+            <p class="fine mono" data-reveal data-download-meta>No account, no telemetry, no ads.</p>
           </div>
         </div>
+
+        <figure class="stage">
+          <svg
+            class="colonnade"
+            viewBox="0 0 1600 470"
+            preserveAspectRatio="xMidYMax slice"
+            aria-hidden="true"
+          >
+            <path
+              d="M11.0 470V250A69.0 69.0 0 0 1 149.0 250V470M20.0 250A60.0 60.0 0 0 1 140.0 250M4.0 250H15.0M145.0 250H156.0M171.0 470V250A69.0 69.0 0 0 1 309.0 250V470M180.0 250A60.0 60.0 0 0 1 300.0 250M164.0 250H175.0M305.0 250H316.0M331.0 470V250A69.0 69.0 0 0 1 469.0 250V470M340.0 250A60.0 60.0 0 0 1 460.0 250M324.0 250H335.0M465.0 250H476.0M491.0 470V250A69.0 69.0 0 0 1 629.0 250V470M500.0 250A60.0 60.0 0 0 1 620.0 250M484.0 250H495.0M625.0 250H636.0M651.0 470V250A69.0 69.0 0 0 1 789.0 250V470M660.0 250A60.0 60.0 0 0 1 780.0 250M644.0 250H655.0M785.0 250H796.0M811.0 470V250A69.0 69.0 0 0 1 949.0 250V470M820.0 250A60.0 60.0 0 0 1 940.0 250M804.0 250H815.0M945.0 250H956.0M971.0 470V250A69.0 69.0 0 0 1 1109.0 250V470M980.0 250A60.0 60.0 0 0 1 1100.0 250M964.0 250H975.0M1105.0 250H1116.0M1131.0 470V250A69.0 69.0 0 0 1 1269.0 250V470M1140.0 250A60.0 60.0 0 0 1 1260.0 250M1124.0 250H1135.0M1265.0 250H1276.0M1291.0 470V250A69.0 69.0 0 0 1 1429.0 250V470M1300.0 250A60.0 60.0 0 0 1 1420.0 250M1284.0 250H1295.0M1425.0 250H1436.0M1451.0 470V250A69.0 69.0 0 0 1 1589.0 250V470M1460.0 250A60.0 60.0 0 0 1 1580.0 250M1444.0 250H1455.0M1585.0 250H1596.0M0 158H1600M0 168H1600"
+              pathLength="1"
+            />
+          </svg>
+          <div class="stage-window">
+            <div class="win" data-theme="quiet-room">
+              <div class="win-bar">
+                <span class="win-title"
+                  ><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                    <path
+                      d="M5 21V10a7 7 0 0 1 14 0v11"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                    <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+                  ><b>cloister</b><i>WhatsApp</i></span
+                >
+                <span class="win-search"><span>Search or jump to a service</span><kbd>Ctrl K</kbd></span>
+                <span class="win-tools"
+                  ><span class="focus-chip"><i></i>Focus 18:42</span
+                  ><button class="veil-toggle" type="button" data-veil-toggle aria-pressed="true">
+                    <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+                      <path
+                        d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" /></svg
+                    ><span data-veil-label>Veil on</span></button
+                  ><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span
+                ></span>
+              </div>
+              <div class="win-body">
+                <ul class="rail" aria-hidden="true">
+                  <li class="rail-item is-active">
+                    <span class="svc" data-letter="W"
+                      ><img
+                        class="svc-icon"
+                        src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
+                        referrerpolicy="no-referrer"
+                        alt=""
+                        loading="lazy" /></span
+                    ><b class="badge">3</b>
+                  </li>
+                  <li class="rail-item">
+                    <span class="svc" data-letter="D"
+                      ><img
+                        class="svc-icon"
+                        src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                        referrerpolicy="no-referrer"
+                        alt=""
+                        loading="lazy"
+                    /></span>
+                  </li>
+                  <li class="rail-item">
+                    <span class="svc" data-letter="G"
+                      ><img
+                        class="svc-icon"
+                        src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
+                        referrerpolicy="no-referrer"
+                        alt=""
+                        loading="lazy" /></span
+                    ><b class="badge">12</b>
+                  </li>
+                  <li class="rail-item">
+                    <span class="svc" data-letter="S"
+                      ><img
+                        class="svc-icon"
+                        src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                        referrerpolicy="no-referrer"
+                        alt=""
+                        loading="lazy" /></span
+                    ><b class="badge">1</b>
+                  </li>
+                  <li class="rail-item">
+                    <span class="svc" data-letter="T"
+                      ><img
+                        class="svc-icon"
+                        src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
+                        referrerpolicy="no-referrer"
+                        alt=""
+                        loading="lazy"
+                    /></span>
+                  </li>
+                  <li class="rail-add">+</li>
+                </ul>
+                <div data-chats class="list is-veiled">
+                  <p class="list-head">Chats</p>
+                  <ul>
+                    <li class="chat is-current">
+                      <span class="av c1">NR</span
+                      ><span class="who"
+                        ><span class="name">Nadia Rahman</span
+                        ><span class="preview">Are we still on for tomorrow at 10?</span></span
+                      ><span class="time">9:41</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c2">DC</span
+                      ><span class="who"
+                        ><span class="name">Design crit</span
+                        ><span class="preview">Mahin: new onboarding flow is up</span></span
+                      ><span class="time">9:30</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c3">A</span
+                      ><span class="who"
+                        ><span class="name">Ammu</span
+                        ><span class="preview">Call me when you&#x27;re free</span></span
+                      ><span class="time">8:58</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c4">R</span
+                      ><span class="who"
+                        ><span class="name">Rafi</span
+                        ><span class="preview">Sent the invoice, check your mail</span></span
+                      ><span class="time">8:12</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c5">SG</span
+                      ><span class="who"
+                        ><span class="name">Study group</span
+                        ><span class="preview">Anyone has last year&#x27;s questions?</span></span
+                      ><span class="time">Mon</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c6">T</span
+                      ><span class="who"
+                        ><span class="name">Tanvir</span
+                        ><span class="preview">Haha that meeting was something</span></span
+                      ><span class="time">Sun</span>
+                    </li>
+                    <li class="chat">
+                      <span class="av c2">IH</span
+                      ><span class="who"
+                        ><span class="name">Iftekhar</span
+                        ><span class="preview">Pushed the fix, can you review?</span></span
+                      ><span class="time">Sat</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="convo">
+                  <div class="convo-head">
+                    <span class="av c1">NR</span><span><b>Nadia Rahman</b><small>online</small></span>
+                  </div>
+                  <div class="bubbles">
+                    <p class="bubble in">Did you get a chance to look at the slides?</p>
+                    <p class="bubble out">Yes, sent you my notes an hour ago</p>
+                    <p class="bubble in">Perfect, thank you!</p>
+                    <p class="bubble in">Are we still on for tomorrow at 10?</p>
+                  </div>
+                  <div class="composer">Type a message</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption class="page caption">
+            <span class="fig">Fig. 1</span> Cloister with Veil on. Switch it off at the top right, or hover a
+            chat to read just that one.
+          </figcaption>
+        </figure>
       </section>
 
-      <!-- ========================================================== Themes -->
-      <section id="themes" class="themes">
-        <div class="wrap themes-inner">
-          <div class="themes-copy">
-            <p class="kicker mono">Themes</p>
-            <h2>Six themes. One that feels like yours.</h2>
-            <p class="lead">
-              Warm graphite for late nights, crisp white for bright offices, and four more in between. Or let
-              Cloister follow Windows and switch between light and dark on its own.
-            </p>
-            <div class="theme-chips" role="group" aria-label="Preview a theme">
-              <button type="button" class="theme-chip is-on" data-theme-pick="quiet-room" aria-pressed="true">
-                <span class="swatch" style="--sw-bg: #121110; --sw-accent: #f2a33a"></span>
-                <span><b>Quiet Room</b><span>Warm graphite, ember accent</span></span>
-              </button>
-              <button type="button" class="theme-chip" data-theme-pick="midnight" aria-pressed="false">
-                <span class="swatch" style="--sw-bg: #0e131b; --sw-accent: #6cb4ff"></span>
-                <span><b>Midnight</b><span>Deep blue, sky accent</span></span>
-              </button>
-              <button type="button" class="theme-chip" data-theme-pick="forest" aria-pressed="false">
-                <span class="swatch" style="--sw-bg: #0f1411; --sw-accent: #8fcb9b"></span>
-                <span><b>Forest</b><span>Dark moss, sage accent</span></span>
-              </button>
-              <button type="button" class="theme-chip" data-theme-pick="mono" aria-pressed="false">
-                <span class="swatch" style="--sw-bg: #101010; --sw-accent: #f2f2f2"></span>
-                <span><b>Mono</b><span>Neutral greys, white accent</span></span>
-              </button>
-              <button type="button" class="theme-chip" data-theme-pick="paper" aria-pressed="false">
-                <span class="swatch" style="--sw-bg: #f6f2ec; --sw-accent: #b5541c"></span>
-                <span><b>Paper</b><span>Warm white, terracotta</span></span>
-              </button>
-              <button type="button" class="theme-chip" data-theme-pick="daylight" aria-pressed="false">
-                <span class="swatch" style="--sw-bg: #f7f8fa; --sw-accent: #2563d9"></span>
-                <span><b>Daylight</b><span>Cool white, blue accent</span></span>
-              </button>
-            </div>
-            <p class="fine">Every theme is checked for readable contrast.</p>
-          </div>
-
-          <figure
-            class="app app-sm"
-            data-theme="quiet-room"
-            data-theme-preview
-            aria-label="Cloister in the selected theme"
-          >
-            <div class="app-bar">
-              <div class="app-brand">
-                <span class="mark-dot"></span><b>cloister</b><span class="sep"></span
-                ><span class="muted">Discord</span>
-              </div>
-              <span></span>
-              <div class="app-actions">
-                <span class="focus-pill mono"><i></i>Focus 24:10</span>
-              </div>
-            </div>
-            <div class="app-body">
-              <nav class="rail" aria-hidden="true">
+      <!-- Apps -------------------------------------------------------------------------------------->
+      <section class="apps" aria-labelledby="apps-title">
+        <div class="page split">
+          <h2 id="apps-title" class="margin-title">Works with the apps you already&nbsp;use</h2>
+          <div>
+            <ul class="app-row">
+              <li>
                 <span class="svc" data-letter="W"
                   ><img
                     class="svc-icon"
                     src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
                     referrerpolicy="no-referrer"
                     alt=""
-                  /><em>3</em></span
-                >
-                <span class="svc is-active" data-letter="D"
+                    loading="lazy" /></span
+                ><span>WhatsApp</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="M"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=messenger.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                    loading="lazy" /></span
+                ><span>Messenger</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="D"
                   ><img
                     class="svc-icon"
                     src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
                     referrerpolicy="no-referrer"
                     alt=""
-                /></span>
+                    loading="lazy" /></span
+                ><span>Discord</span>
+              </li>
+              <li>
                 <span class="svc" data-letter="G"
                   ><img
                     class="svc-icon"
                     src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
                     referrerpolicy="no-referrer"
                     alt=""
-                  /><em>12</em></span
-                >
+                    loading="lazy" /></span
+                ><span>Gmail</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="O"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=outlook.live.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                    loading="lazy" /></span
+                ><span>Outlook</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="T"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                    loading="lazy" /></span
+                ><span>Telegram</span>
+              </li>
+              <li>
                 <span class="svc" data-letter="S"
                   ><img
                     class="svc-icon"
                     src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
                     referrerpolicy="no-referrer"
                     alt=""
-                /></span>
-              </nav>
-              <div class="list">
-                <div class="list-head"><b>Direct messages</b></div>
-                <div class="chat is-open">
-                  <span class="av a2">MH</span><b>Mahin</b
-                  ><span class="msg">Pushed the new build, have a look</span><em>9:12</em>
-                </div>
-                <div class="chat">
-                  <span class="av a5">#</span><b>design-crit</b><span class="msg">Love the new sidebar</span
-                  ><em>8:40</em>
-                </div>
-                <div class="chat">
-                  <span class="av a3">S</span><b>Sadia</b><span class="msg">Lunch at 1?</span><em>Mon</em>
-                </div>
-              </div>
-              <div class="convo">
-                <div class="bubbles">
-                  <div class="bubble in">Pushed the new build, have a look</div>
-                  <div class="bubble out">On it. The themes look great</div>
-                </div>
-                <div class="composer"><span>Message @Mahin</span></div>
-              </div>
-            </div>
-          </figure>
-        </div>
-      </section>
-
-      <!-- ========================================================== Memory -->
-      <section id="memory" class="memory">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="kicker mono">Memory</p>
-            <h2>Get gigabytes of memory back</h2>
-            <p class="lead">
-              Desktop chat apps each run a whole browser of their own, all day. Cloister runs every service in
-              one shared engine, and lets the ones you only check now and then step back: <b>paused</b> apps
-              are frozen and wake every few minutes to check for messages, <b>asleep</b> apps close until you
-              open them.
-            </p>
-          </div>
-
-          <div class="mem-board">
-            <div class="mem-apps">
-              <div class="mem-row" data-app="whatsapp" data-mb="600">
-                <span class="svc sm" data-letter="W"
-                  ><img
-                    class="svc-icon"
-                    src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
-                    referrerpolicy="no-referrer"
-                    alt=""
-                /></span>
-                <div class="mem-name">
-                  <b>WhatsApp</b><span class="mono">~600 MB as its own app<sup>1</sup></span>
-                </div>
-                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="awake">
-                  <button type="button" role="radio" data-set="awake">Awake</button>
-                  <button type="button" role="radio" data-set="paused">Paused</button>
-                  <button type="button" role="radio" data-set="asleep">Asleep</button>
-                </div>
-              </div>
-              <div class="mem-row" data-app="discord" data-mb="400">
-                <span class="svc sm" data-letter="D"
-                  ><img
-                    class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
-                    referrerpolicy="no-referrer"
-                    alt=""
-                /></span>
-                <div class="mem-name">
-                  <b>Discord</b><span class="mono">~400 MB as its own app<sup>2</sup></span>
-                </div>
-                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="paused">
-                  <button type="button" role="radio" data-set="awake">Awake</button>
-                  <button type="button" role="radio" data-set="paused">Paused</button>
-                  <button type="button" role="radio" data-set="asleep">Asleep</button>
-                </div>
-              </div>
-              <div class="mem-row" data-app="teams" data-mb="1000">
-                <span class="svc sm" data-letter="M"
+                    loading="lazy" /></span
+                ><span>Slack</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="T"
                   ><img
                     class="svc-icon"
                     src="https://icons.duckduckgo.com/ip3/teams.microsoft.com.ico"
                     referrerpolicy="no-referrer"
                     alt=""
-                /></span>
-                <div class="mem-name">
-                  <b>Microsoft Teams</b><span class="mono">~1 GB as its own app<sup>3</sup></span>
-                </div>
-                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="paused">
-                  <button type="button" role="radio" data-set="awake">Awake</button>
-                  <button type="button" role="radio" data-set="paused">Paused</button>
-                  <button type="button" role="radio" data-set="asleep">Asleep</button>
-                </div>
-              </div>
-              <div class="mem-row" data-app="slack" data-mb="130">
-                <span class="svc sm" data-letter="S"
+                    loading="lazy" /></span
+                ><span>Teams</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="F"
                   ><img
                     class="svc-icon"
-                    src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                    src="https://www.google.com/s2/favicons?domain=facebook.com&amp;sz=128"
                     referrerpolicy="no-referrer"
                     alt=""
-                /></span>
-                <div class="mem-name">
-                  <b>Slack</b><span class="mono">~130 MB as its own app<sup>4</sup></span>
-                </div>
-                <div class="mem-seg" role="radiogroup" aria-label="In Cloister" data-state="asleep">
-                  <button type="button" role="radio" data-set="awake">Awake</button>
-                  <button type="button" role="radio" data-set="paused">Paused</button>
-                  <button type="button" role="radio" data-set="asleep">Asleep</button>
-                </div>
-              </div>
-            </div>
+                    loading="lazy" /></span
+                ><span>Facebook</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="L"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=linkedin.com&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                    loading="lazy" /></span
+                ><span>LinkedIn</span>
+              </li>
+              <li>
+                <span class="svc" data-letter="P"
+                  ><img
+                    class="svc-icon"
+                    src="https://www.google.com/s2/favicons?domain=proton.me&amp;sz=128"
+                    referrerpolicy="no-referrer"
+                    alt=""
+                    loading="lazy" /></span
+                ><span>Proton Mail</span>
+              </li>
+            </ul>
+            <p class="apps-more">…and any other website you add, with its own sign in.</p>
+          </div>
+        </div>
+      </section>
 
-            <div class="mem-result" aria-live="polite">
-              <p class="mem-big"><b data-saved>1.1 GB</b><span>memory freed for your other apps</span></p>
-              <div class="bars">
-                <div class="bar-row">
-                  <span>As separate apps</span>
-                  <div class="bar"><i class="bar-fill old" data-bar-old></i></div>
-                  <b class="mono" data-total-old>2.1 GB</b>
-                </div>
-                <div class="bar-row">
-                  <span>In Cloister</span>
-                  <div class="bar"><i class="bar-fill new" data-bar-new></i></div>
-                  <b class="mono" data-total-new>1.0 GB</b>
-                </div>
-              </div>
-              <p class="mem-plus">
-                Not counted above: all services share one browser engine in Cloister, instead of one per
-                app<sup>7</sup>.
+      <!-- Features ---------------------------------------------------------------------------------->
+      <section id="features" class="features">
+        <article class="page feature" data-reveal>
+          <div class="margin">
+            <span class="numeral">I</span>
+            <span class="margin-note mono"><kbd>Ctrl Shift P</kbd></span>
+          </div>
+          <div class="feature-copy">
+            <h2>Veil hides your chats in one keystroke.</h2>
+            <p>
+              Someone walks up behind you, and every conversation blurs. Hover one chat to read it while the
+              rest stay hidden. While Veil is on, notifications name the app but never the person or the
+              message.
+            </p>
+            <ul class="points">
+              <li>Read one chat at a time by hovering it</li>
+              <li>Turns on by itself when you switch away or step out</li>
+              <li>A panic key hides Cloister from anywhere</li>
+            </ul>
+          </div>
+          <div class="feature-figure fig-veil" aria-hidden="true">
+            <ul class="mini-list">
+              <li class="blur"><i class="dot c3"></i><span></span></li>
+              <li class="sharp">
+                <i class="dot c1">NR</i><b>Nadia Rahman</b><small>Are we still on for tomorrow?</small>
+              </li>
+              <li class="blur"><i class="dot c4"></i><span></span></li>
+              <li class="blur"><i class="dot c2"></i><span></span></li>
+            </ul>
+            <div class="toast">
+              <span class="toast-app">WhatsApp</span>
+              <b>New message</b>
+              <small>Sender and text hidden</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="page feature" data-reveal>
+          <div class="margin">
+            <span class="numeral">II</span>
+            <span class="margin-note mono"><kbd>Ctrl Shift F</kbd></span>
+          </div>
+          <div class="feature-copy">
+            <h2>Focus sessions hold the noise for you.</h2>
+            <p>
+              Start a session and Cloister quietly holds every notification. When the timer ends you get one
+              calm summary of what came in, instead of forty interruptions. The people who matter can still
+              get through.
+            </p>
+            <ul class="points">
+              <li>Twenty-five minutes by default, any length you like</li>
+              <li>Names you choose break through</li>
+              <li>Quiet hours for nights and weekends</li>
+            </ul>
+          </div>
+          <div class="feature-figure fig-focus" aria-hidden="true">
+            <div class="clock">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" class="track" />
+                <circle cx="60" cy="60" r="52" class="progress" pathLength="100" />
+              </svg>
+              <span class="clock-time">18:42</span>
+              <span class="clock-label">focus</span>
+            </div>
+            <div class="summary">
+              <p class="summary-head">While you were focused</p>
+              <p><span>WhatsApp</span><b>7</b></p>
+              <p><span>Gmail</span><b>4</b></p>
+              <p><span>Discord</span><b>12</b></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="page feature" data-reveal>
+          <div class="margin">
+            <span class="numeral">III</span>
+            <span class="margin-note mono"><kbd>Ctrl Shift L</kbd></span>
+          </div>
+          <div class="feature-copy">
+            <h2>A lock for when you step away.</h2>
+            <p>
+              Lock Cloister behind a PIN of your choosing when it starts, after you have been away for a
+              while, or whenever you like. Service pages are hidden, not just covered. On Windows, Hello can
+              unlock it too.
+            </p>
+            <ul class="points">
+              <li>Works on Windows, macOS and Linux</li>
+              <li>Only a scrambled copy of your PIN is stored</li>
+              <li>Repeated wrong guesses make you wait</li>
+            </ul>
+          </div>
+          <div class="feature-figure fig-lock" aria-hidden="true">
+            <div class="lock-arch">
+              <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path
+                  d="M5 21V10a7 7 0 0 1 14 0v11"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <circle cx="12" cy="15" r="1.7" fill="var(--accent)" />
+              </svg>
+              <b>Cloister is locked</b>
+              <span class="pin"><i></i><i></i><i></i><i></i></span>
+              <span class="unlock">Unlock</span>
+            </div>
+          </div>
+        </article>
+
+        <div class="page split index" data-reveal>
+          <div class="margin">
+            <span class="numeral">IV</span>
+            <h2 class="margin-title">And the small things</h2>
+          </div>
+          <ul class="index-list">
+            <li>
+              <p class="entry">
+                <span class="entry-title">Notifications that lead somewhere</span
+                ><span class="leader" aria-hidden="true"></span><span class="entry-meta">native</span>
               </p>
-              <div class="disk">
-                <div><b class="mono">&lt; 10 MB</b><span>Cloister download on Windows</span></div>
-                <div>
-                  <b class="mono">1.08 GB</b><span>Discord alone, on disk<sup>2</sup></span>
+              <p class="entry-text">
+                Click one and the right service opens. Unread counts sit on the taskbar or Dock.
+              </p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Notification history</span
+                ><span class="leader" aria-hidden="true"></span><span class="entry-meta">last 50</span>
+              </p>
+              <p class="entry-text">Kept in memory only. Closing Cloister forgets them.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Hide message previews</span
+                ><span class="leader" aria-hidden="true"></span><span class="entry-meta">per service</span>
+              </p>
+              <p class="entry-text">Telegram can say only “New message” while WhatsApp shows the sender.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Find in page</span><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta"><kbd>Ctrl F</kbd></span>
+              </p>
+              <p class="entry-text">Search any open chat or inbox, with every match highlighted.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Command palette</span><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta"><kbd>Ctrl K</kbd></span>
+              </p>
+              <p class="entry-text">Jump to a service or run any action without the mouse.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">A separate sign in for each service</span
+                ><span class="leader" aria-hidden="true"></span><span class="entry-meta">private</span>
+              </p>
+              <p class="entry-text">Every service keeps its own profile on your computer.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Erase a service</span><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta">one click</span>
+              </p>
+              <p class="entry-text">Signs you out and wipes what that service stored.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Quiet hours</span><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta">nights, weekends</span>
+              </p>
+              <p class="entry-text">Notifications wait until the hours you choose.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Zoom per service</span
+                ><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta"><kbd>Ctrl + / −</kbd></span>
+              </p>
+              <p class="entry-text">Each site remembers its own size.</p>
+            </li>
+            <li>
+              <p class="entry">
+                <span class="entry-title">Updates</span><span class="leader" aria-hidden="true"></span
+                ><span class="entry-meta">signed</span>
+              </p>
+              <p class="entry-text">Cloister tells you when one is ready and installs only when you click.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Themes ------------------------------------------------------------------------------------>
+      <section id="themes" class="themes">
+        <div class="page split">
+          <div class="margin">
+            <span class="numeral">V</span>
+            <span class="margin-note">Every theme is checked for readable contrast.</span>
+          </div>
+          <div class="themes-grid">
+            <div class="themes-copy">
+              <h2>Six themes, for late nights and bright offices.</h2>
+              <p>Pick one, or let Cloister follow your system between light and dark.</p>
+              <ul class="theme-list">
+                <li>
+                  <button
+                    type="button"
+                    class="theme-pick is-on"
+                    data-theme-pick="quiet-room"
+                    aria-pressed="true"
+                  >
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #121110; --sw-accent: #f2a33a"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Quiet Room</span
+                    ><span class="theme-desc">Warm graphite, ember</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="theme-pick" data-theme-pick="midnight" aria-pressed="false">
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #0d1219; --sw-accent: #6aa8ff"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Midnight</span><span class="theme-desc">Deep blue, sky</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="theme-pick" data-theme-pick="forest" aria-pressed="false">
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #101512; --sw-accent: #8fc79a"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Forest</span><span class="theme-desc">Dark moss, sage</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="theme-pick" data-theme-pick="mono" aria-pressed="false">
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #111111; --sw-accent: #f2f2f2"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Mono</span><span class="theme-desc">Neutral greys, white</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="theme-pick" data-theme-pick="paper" aria-pressed="false">
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #f6f1e8; --sw-accent: #b8572e"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Paper</span
+                    ><span class="theme-desc">Warm white, terracotta</span>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="theme-pick" data-theme-pick="daylight" aria-pressed="false">
+                    <span
+                      class="swatch"
+                      style="--sw-bg: #f7f8fa; --sw-accent: #2f6fec"
+                      aria-hidden="true"
+                    ></span
+                    ><span class="theme-name">Daylight</span><span class="theme-desc">Cool white, blue</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="theme-stage">
+              <div class="win" data-theme="quiet-room" data-theme-preview>
+                <div class="win-bar">
+                  <span class="win-title"
+                    ><svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                      <path
+                        d="M5 21V10a7 7 0 0 1 14 0v11"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                      <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                      <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+                    ><b>cloister</b><i>Discord</i></span
+                  >
+                  <span class="win-search"><span>Search or jump to a service</span><kbd>Ctrl K</kbd></span>
+                  <span class="win-tools"
+                    ><span class="win-ctl" aria-hidden="true"><i></i><i></i><i></i></span
+                  ></span>
+                </div>
+                <div class="win-body">
+                  <ul class="rail" aria-hidden="true">
+                    <li class="rail-item">
+                      <span class="svc" data-letter="W"
+                        ><img
+                          class="svc-icon"
+                          src="https://icons.duckduckgo.com/ip3/whatsapp.com.ico"
+                          referrerpolicy="no-referrer"
+                          alt=""
+                          loading="lazy" /></span
+                      ><b class="badge">3</b>
+                    </li>
+                    <li class="rail-item is-active">
+                      <span class="svc" data-letter="D"
+                        ><img
+                          class="svc-icon"
+                          src="https://www.google.com/s2/favicons?domain=discord.com&amp;sz=128"
+                          referrerpolicy="no-referrer"
+                          alt=""
+                          loading="lazy"
+                      /></span>
+                    </li>
+                    <li class="rail-item">
+                      <span class="svc" data-letter="G"
+                        ><img
+                          class="svc-icon"
+                          src="https://www.google.com/s2/favicons?domain=https://mail.google.com/mail/&amp;sz=128"
+                          referrerpolicy="no-referrer"
+                          alt=""
+                          loading="lazy" /></span
+                      ><b class="badge">12</b>
+                    </li>
+                    <li class="rail-item">
+                      <span class="svc" data-letter="S"
+                        ><img
+                          class="svc-icon"
+                          src="https://www.google.com/s2/favicons?domain=slack.com&amp;sz=128"
+                          referrerpolicy="no-referrer"
+                          alt=""
+                          loading="lazy" /></span
+                      ><b class="badge">1</b>
+                    </li>
+                    <li class="rail-item">
+                      <span class="svc" data-letter="T"
+                        ><img
+                          class="svc-icon"
+                          src="https://www.google.com/s2/favicons?domain=telegram.org&amp;sz=128"
+                          referrerpolicy="no-referrer"
+                          alt=""
+                          loading="lazy"
+                      /></span>
+                    </li>
+                    <li class="rail-add">+</li>
+                  </ul>
+                  <div class="list">
+                    <p class="list-head">Direct messages</p>
+                    <ul>
+                      <li class="chat is-current">
+                        <span class="av c4">MH</span
+                        ><span class="who"
+                          ><span class="name">Mahin</span
+                          ><span class="preview">Pushed the new build, have a look</span></span
+                        ><span class="time">9:12</span>
+                      </li>
+                      <li class="chat">
+                        <span class="av c2">#</span
+                        ><span class="who"
+                          ><span class="name">design-crit</span
+                          ><span class="preview">Love the new sidebar</span></span
+                        ><span class="time">8:40</span>
+                      </li>
+                      <li class="chat">
+                        <span class="av c3">S</span
+                        ><span class="who"
+                          ><span class="name">Sadia</span><span class="preview">Lunch at 1?</span></span
+                        ><span class="time">Mon</span>
+                      </li>
+                      <li class="chat">
+                        <span class="av c1">RF</span
+                        ><span class="who"
+                          ><span class="name">Rafi</span
+                          ><span class="preview">Sending the slides tonight</span></span
+                        ><span class="time">Sun</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="convo">
+                    <div class="convo-head">
+                      <span class="av c4">MH</span><span><b>Mahin</b><small>online</small></span>
+                    </div>
+                    <div class="bubbles">
+                      <p class="bubble in">Pushed the new build, have a look</p>
+                      <p class="bubble out">On it. The themes look great</p>
+                    </div>
+                    <div class="composer">Message @Mahin</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <p class="sources">
-            Estimates. Each app's figure is a published idle measurement of its own desktop app on Windows;
-            yours will vary with how many chats and servers you have. An awake service in Cloister is counted
-            at the full cost of the desktop app, plus about 40 MB for Cloister itself<sup>5</sup>. Paused
-            services count as freed because Windows may reuse a frozen page's memory<sup>6</sup>; asleep
-            services are closed. Pause is available on Windows. Sources:
-            <sup>1</sup>
-            <a
-              href="https://windowslatest.com/2026/06/13/whatsapp-is-eating-1-2gb-ram-on-windows-11-even-as-microsoft-kills-web-app-slop"
-              >Windows Latest, WhatsApp</a
-            >
-            <sup>2</sup>
-            <a
-              href="https://www.tech2geek.net/discord-is-a-resource-hog-these-4-lightweight-clients-use-up-to-160x-less-ram/"
-              >Tech2Geek, Discord</a
-            >
-            <sup>3</sup>
-            <a
-              href="https://windowslatest.com/2025/12/07/ram-prices-soar-but-popular-windows-11-apps-are-using-more-ram-due-to-electron-web-components"
-              >Windows Latest, Teams</a
-            >
-            <sup>4</sup>
-            <a href="https://slack.engineering/reducing-slacks-memory-footprint/"
-              >Slack Engineering (low end of its range)</a
-            >
-            <sup>5</sup> <a href="https://tech-insider.org/tauri-vs-electron-2026/">Tauri idle benchmark</a>
-            <sup>6</sup>
-            <a href="https://learn.microsoft.com/microsoft-edge/webview2/reference/win32/icorewebview2_3"
-              >Microsoft, WebView2 TrySuspend</a
-            >
-            <sup>7</sup>
-            <a href="https://learn.microsoft.com/microsoft-edge/webview2/concepts/multi-profile-support"
-              >Microsoft, WebView2 profiles</a
-            >
-          </p>
         </div>
       </section>
 
-      <!-- ========================================================= Install -->
+      <!-- Memory ------------------------------------------------------------------------------------>
+      <section id="memory" class="memory">
+        <div class="page split">
+          <div class="margin">
+            <span class="numeral">VI</span>
+            <span class="margin-note">Estimates. Try the switches.</span>
+          </div>
+          <div>
+            <h2>Get gigabytes of memory back.</h2>
+            <p class="memory-lede">
+              Desktop chat apps each run a whole browser of their own, all day. Cloister runs every service in
+              one shared engine and lets the ones you only check now and then step back.
+              <em>Paused</em> services freeze and wake every few minutes to check for messages.
+              <em>Asleep</em> services close until you open them.
+            </p>
+
+            <div class="ledger">
+              <ul class="mem-rows">
+                <li class="mem-row" data-mb="600">
+                  <span class="mem-app">WhatsApp</span
+                  ><span class="mem-cost"
+                    >~600 MB on its own<sup><a href="#src-1" aria-label="Source 1">1</a></sup></span
+                  ><span
+                    class="mem-seg"
+                    role="radiogroup"
+                    aria-label="WhatsApp in Cloister"
+                    data-state="awake"
+                    ><button type="button" role="radio" data-set="awake">Awake</button
+                    ><button type="button" role="radio" data-set="paused">Paused</button
+                    ><button type="button" role="radio" data-set="asleep">Asleep</button></span
+                  >
+                </li>
+                <li class="mem-row" data-mb="400">
+                  <span class="mem-app">Discord</span
+                  ><span class="mem-cost"
+                    >~400 MB on its own<sup><a href="#src-2" aria-label="Source 2">2</a></sup></span
+                  ><span
+                    class="mem-seg"
+                    role="radiogroup"
+                    aria-label="Discord in Cloister"
+                    data-state="paused"
+                    ><button type="button" role="radio" data-set="awake">Awake</button
+                    ><button type="button" role="radio" data-set="paused">Paused</button
+                    ><button type="button" role="radio" data-set="asleep">Asleep</button></span
+                  >
+                </li>
+                <li class="mem-row" data-mb="1000">
+                  <span class="mem-app">Microsoft Teams</span
+                  ><span class="mem-cost"
+                    >~1 GB on its own<sup><a href="#src-3" aria-label="Source 3">3</a></sup></span
+                  ><span
+                    class="mem-seg"
+                    role="radiogroup"
+                    aria-label="Microsoft Teams in Cloister"
+                    data-state="asleep"
+                    ><button type="button" role="radio" data-set="awake">Awake</button
+                    ><button type="button" role="radio" data-set="paused">Paused</button
+                    ><button type="button" role="radio" data-set="asleep">Asleep</button></span
+                  >
+                </li>
+                <li class="mem-row" data-mb="130">
+                  <span class="mem-app">Slack</span
+                  ><span class="mem-cost"
+                    >~130 MB on its own<sup><a href="#src-4" aria-label="Source 4">4</a></sup></span
+                  ><span class="mem-seg" role="radiogroup" aria-label="Slack in Cloister" data-state="paused"
+                    ><button type="button" role="radio" data-set="awake">Awake</button
+                    ><button type="button" role="radio" data-set="paused">Paused</button
+                    ><button type="button" role="radio" data-set="asleep">Asleep</button></span
+                  >
+                </li>
+              </ul>
+              <div class="mem-result" aria-live="polite">
+                <p class="mem-saved"><span data-saved>1.1 GB</span> <span>freed for your other apps</span></p>
+                <div class="bars">
+                  <p class="bar-row">
+                    <span class="bar-label">As separate apps</span>
+                    <span class="bar"><i data-bar-old style="width: 100%"></i></span>
+                    <b data-total-old>2.1 GB</b>
+                  </p>
+                  <p class="bar-row is-cloister">
+                    <span class="bar-label">In Cloister</span>
+                    <span class="bar"><i data-bar-new style="width: 50%"></i></span>
+                    <b data-total-new>1.0 GB</b>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <dl class="facts">
+              <div>
+                <dt>&lt; 10 MB</dt>
+                <dd>Cloister download on Windows</dd>
+              </div>
+              <div>
+                <dt>1.08 GB</dt>
+                <dd>
+                  Discord alone, on disk<sup><a href="#src-2">2</a></sup>
+                </dd>
+              </div>
+              <div>
+                <dt>1</dt>
+                <dd>
+                  browser engine shared by every service<sup><a href="#src-7">7</a></sup>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="footnotes">
+              <p>
+                Each figure is a published idle measurement of that app's own desktop version on Windows;
+                yours will vary with how many chats and servers you have. An awake service in Cloister is
+                counted at the full cost of the desktop app, plus about 40&nbsp;MB for Cloister itself<sup
+                  ><a href="#src-5">5</a></sup
+                >. Paused services count as freed because Windows may reuse a frozen page's memory<sup
+                  ><a href="#src-6">6</a></sup
+                >; asleep services are closed. Pausing is available on Windows.
+              </p>
+              <ol>
+                <li id="src-1">
+                  <a
+                    href="https://windowslatest.com/2026/06/13/whatsapp-is-eating-1-2gb-ram-on-windows-11-even-as-microsoft-kills-web-app-slop"
+                    >Windows Latest, WhatsApp</a
+                  >
+                </li>
+                <li id="src-2">
+                  <a
+                    href="https://www.tech2geek.net/discord-is-a-resource-hog-these-4-lightweight-clients-use-up-to-160x-less-ram/"
+                    >Tech2Geek, Discord</a
+                  >
+                </li>
+                <li id="src-3">
+                  <a
+                    href="https://windowslatest.com/2025/12/07/ram-prices-soar-but-popular-windows-11-apps-are-using-more-ram-due-to-electron-web-components"
+                    >Windows Latest, Teams</a
+                  >
+                </li>
+                <li id="src-4">
+                  <a href="https://slack.engineering/reducing-slacks-memory-footprint/"
+                    >Slack Engineering (low end of its range)</a
+                  >
+                </li>
+                <li id="src-5">
+                  <a href="https://tech-insider.org/tauri-vs-electron-2026/">Tauri idle benchmark</a>
+                </li>
+                <li id="src-6">
+                  <a
+                    href="https://learn.microsoft.com/microsoft-edge/webview2/reference/win32/icorewebview2_3"
+                    >Microsoft, WebView2 TrySuspend</a
+                  >
+                </li>
+                <li id="src-7">
+                  <a href="https://learn.microsoft.com/microsoft-edge/webview2/concepts/multi-profile-support"
+                    >Microsoft, WebView2 profiles</a
+                  >
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download ---------------------------------------------------------------------------------->
       <section id="install" class="install">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="kicker mono">Download</p>
-            <h2>Get Cloister for your computer</h2>
-            <p class="lead">Free, with no account to create. <span data-release-status></span></p>
+        <div class="page split">
+          <div class="margin">
+            <span class="numeral">VII</span>
+            <span class="margin-note mono" data-release-status>Free, with no account to create.</span>
           </div>
-
-          <div class="platforms">
-            <div class="platform" data-os="windows">
-              <div class="platform-head">
-                <h3>Windows</h3>
-                <span class="req mono">Windows 10 and 11 · 64 bit</span>
-              </div>
-              <a
-                class="btn btn-primary"
-                data-asset="windows"
-                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >Download installer</a
-              >
-              <p class="alt">
-                .exe · or the
-                <a data-asset="windows-msi" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                  >.msi package</a
+          <div>
+            <h2>Get Cloister.</h2>
+            <div class="platforms">
+              <div class="platform" data-os="windows">
+                <h3>Windows <span class="yours mono">your system</span></h3>
+                <p class="req mono">Windows 10 and 11, 64 bit</p>
+                <a
+                  class="btn btn-quiet"
+                  href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  data-asset="windows"
+                  >Download installer</a
                 >
-              </p>
-              <details>
-                <summary>Windows says it "protected your PC"</summary>
-                <p>
-                  Cloister is not code-signed yet, so SmartScreen does not recognise it. Click
-                  <b>More info</b>, then <b>Run anyway</b>. You only do this once.
+                <p class="alt">
+                  .exe, or the
+                  <a
+                    href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                    data-asset="windows-msi"
+                    >.msi package</a
+                  >
                 </p>
-              </details>
-            </div>
-
-            <div class="platform" data-os="mac">
-              <div class="platform-head">
-                <h3>macOS</h3>
-                <span class="req mono">macOS 11+ · Apple Silicon and Intel</span>
+                <details>
+                  <summary>Windows says it “protected your PC”</summary>
+                  <p>
+                    Cloister is not code-signed yet, so SmartScreen does not recognise it. Click
+                    <b>More info</b>, then <b>Run anyway</b>. You only do this once.
+                  </p>
+                </details>
               </div>
-              <a
-                class="btn btn-primary"
-                data-asset="mac"
-                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >Download for Mac</a
-              >
-              <p class="alt">.dmg · one universal app</p>
-              <details>
-                <summary>macOS says it "cannot be opened"</summary>
-                <p>
-                  Cloister is not notarised by Apple yet. Open it once, then go to
-                  <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. If macOS calls
-                  it damaged, run:
+              <div class="platform" data-os="mac">
+                <h3>macOS <span class="yours mono">your system</span></h3>
+                <p class="req mono">macOS 11 or later, Apple Silicon and Intel</p>
+                <a
+                  class="btn btn-quiet"
+                  href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  data-asset="mac"
+                  >Download for Mac</a
+                >
+                <p class="alt">.dmg, one universal app</p>
+                <details>
+                  <summary>macOS says it “cannot be opened”</summary>
+                  <p>
+                    Cloister is not notarised by Apple yet. Open it once, then go to
+                    <b>System Settings › Privacy &amp; Security</b> and click <b>Open Anyway</b>. If macOS
+                    calls it damaged, run:
+                  </p>
+                  <pre><code>xattr -cr /Applications/Cloister.app</code></pre>
+                </details>
+              </div>
+              <div class="platform" data-os="linux">
+                <h3>Linux <span class="yours mono">your system</span></h3>
+                <p class="req mono">64 bit, X11 or Wayland</p>
+                <a
+                  class="btn btn-quiet"
+                  href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
+                  data-asset="linux"
+                  >Download AppImage</a
+                >
+                <p class="alt">
+                  or
+                  <a href="https://github.com/Muntahi-Safwan/Cloister/releases/latest" data-asset="linux-deb"
+                    >.deb</a
+                  >
+                  for Debian and Ubuntu,
+                  <a href="https://github.com/Muntahi-Safwan/Cloister/releases/latest" data-asset="linux-rpm"
+                    >.rpm</a
+                  >
+                  for Fedora
                 </p>
-                <pre class="mono"><code>xattr -cr /Applications/Cloister.app</code></pre>
-              </details>
-            </div>
-
-            <div class="platform" data-os="linux">
-              <div class="platform-head">
-                <h3>Linux</h3>
-                <span class="req mono">64 bit · X11 or Wayland</span>
-              </div>
-              <a
-                class="btn btn-primary"
-                data-asset="linux"
-                href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                >Download AppImage</a
-              >
-              <p class="alt">
-                or
-                <a data-asset="linux-deb" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                  >.deb</a
-                >
-                for Debian and Ubuntu,
-                <a data-asset="linux-rpm" href="https://github.com/Muntahi-Safwan/Cloister/releases/latest"
-                  >.rpm</a
-                >
-                for Fedora
-              </p>
-              <details>
-                <summary>How do I run the AppImage?</summary>
-                <pre class="mono"><code>chmod +x Cloister_*.AppImage
+                <details>
+                  <summary>How do I run the AppImage?</summary>
+                  <pre><code>chmod +x Cloister_*.AppImage
 ./Cloister_*.AppImage</code></pre>
-              </details>
+                </details>
+              </div>
             </div>
+            <p class="install-note">
+              Cloister updates itself: when a new version is ready it asks, and installs only when you click.
+              On macOS, each service keeps a separate sign in on macOS 14 and later.
+            </p>
           </div>
-
-          <p class="note">On macOS, each service keeps a separate sign in on macOS 14 and later.</p>
         </div>
       </section>
 
-      <!-- ============================================================= FAQ -->
+      <!-- FAQ --------------------------------------------------------------------------------------->
       <section id="faq" class="faq">
-        <div class="wrap faq-inner">
-          <div class="section-head">
-            <p class="kicker mono">FAQ</p>
-            <h2>Questions</h2>
+        <div class="page split">
+          <div class="margin">
+            <span class="numeral">VIII</span>
+            <h2 class="margin-title">Questions</h2>
           </div>
           <div class="faq-list">
             <details>
@@ -885,7 +1074,8 @@
               <p>
                 No. Each service runs as its normal website in its own private profile on your computer.
                 Cloister only sees what a notification would show, uses it to display that notification, and
-                never stores it on disk or sends it anywhere.
+                never stores it on disk or sends it anywhere. Find in page searches the page's text inside the
+                page itself.
               </p>
             </details>
             <details>
@@ -893,15 +1083,15 @@
               <p>
                 Most of them ship a full copy of Chromium. Cloister uses the browser engine your system
                 already has (WebView2 on Windows, WebKit on macOS and Linux), so the Windows download is a few
-                megabytes and idle pages can be put to sleep.
+                megabytes, and services you rarely check can be paused or put to sleep.
               </p>
             </details>
             <details>
               <summary>Will it update itself?</summary>
               <p>
-                Yes. Cloister checks for new versions on start and every few hours, and shows an "Update"
-                button when one is ready. Updates are signed, so only genuine releases install, and nothing
-                changes until you click. Your services and sign ins stay as they are.
+                Yes. Cloister checks for new versions on start and every few hours, and shows an Update button
+                when one is ready. Updates are signed, so only genuine releases install, and nothing changes
+                until you click. Your services and sign ins stay as they are.
               </p>
             </details>
             <details>
@@ -916,26 +1106,39 @@
         </div>
       </section>
 
-      <!-- ======================================================= Final CTA -->
-      <section class="final">
-        <div class="wrap final-inner">
-          <img src="icon.svg" alt="" width="72" height="72" />
-          <h2>Give your messages a quieter home.</h2>
-          <a class="btn btn-primary btn-lg" data-download href="#install"
-            ><span data-download-label>Download Cloister</span></a
-          >
+      <!-- Closing ----------------------------------------------------------------------------------->
+      <section class="closing">
+        <div class="page closing-inner">
+          <p class="closing-line">Give your messages a <em>quieter</em> home.</p>
+          <a class="btn" href="#install" data-download><span data-download-label>Download Cloister</span></a>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="wrap footer-inner">
-        <span class="brand small"><img src="mark.svg" alt="" width="16" height="16" /> Cloister</span>
-        <span>Designed and built by Muntahi Safwan</span>
-        <span
-          ><a href="https://github.com/Muntahi-Safwan/Cloister">GitHub</a> ·
-          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">Releases</a> · MIT licence</span
-        >
+    <footer class="colophon">
+      <div class="page colophon-inner">
+        <p class="brand">
+          <svg class="mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path
+              d="M5 21V10a7 7 0 0 1 14 0v11"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+            <path d="M3 21h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            <circle cx="12" cy="15" r="1.7" fill="var(--accent)" /></svg
+          ><span>Cloister</span>
+        </p>
+        <p>
+          Designed and built by Muntahi Safwan, released under the MIT licence. Set in Newsreader, Schibsted
+          Grotesk and IBM Plex Mono.
+        </p>
+        <p class="colophon-links">
+          <a href="https://github.com/Muntahi-Safwan/Cloister">Source</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister/releases">Releases</a>
+          <a href="https://github.com/Muntahi-Safwan/Cloister/issues">Report an issue</a>
+        </p>
       </div>
     </footer>
   </body>
