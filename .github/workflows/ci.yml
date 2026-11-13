@@ -84,3 +84,47 @@ jobs:
         with:
           name: cloister-windows
           path: src-tauri/target/release/bundle/**/*
+
+  # Builds the universal macOS app exactly as a release does and checks it is
+  # signed (ad hoc). An unsigned app is rejected as "damaged" when downloaded
+  # on Apple Silicon, with no way to open it.
+  macos-app:
+    name: macOS app
+    needs: [frontend, backend]
+    runs-on: macos-latest
+    timeout-minutes: 60
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tauri build --target universal-apple-darwin
+      - name: Check the app and the disk image are signed
+        run: |
+          bundle=src-tauri/target/universal-apple-darwin/release/bundle
+          check() {
+            codesign --verify --deep --strict --verbose=2 "$1"
+            for arch in arm64 x86_64; do
+              codesign --display --verbose=2 --arch "$arch" "$1" 2>&1 | tee sig.txt
+              grep -q 'Signature=adhoc' sig.txt
+            done
+          }
+          check "$bundle/macos/Cloister.app"
+          dmg=$(ls "$bundle"/dmg/*.dmg)
+          mount=$(hdiutil attach -nobrowse -readonly "$dmg" | tail -1 | cut -f3)
+          check "$mount/Cloister.app"
+          hdiutil detach "$mount"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cloister-macos
+          path: src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg

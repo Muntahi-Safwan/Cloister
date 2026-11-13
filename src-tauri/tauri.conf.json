@@ -59,6 +59,7 @@
     "publisher": "Muntahi Safwan",
     "homepage": "https://muntahi-safwan.github.io/Cloister/",
     "macOS": {
+      "signingIdentity": "-",
       "minimumSystemVersion": "11.0",
       "dmg": {
         "windowSize": {
