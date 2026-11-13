@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.3] - 2026-11-13
+
+### Fixed
+
+- **macOS: Cloister would not open.** The Mac app was not signed at all, so macOS on Apple Silicon called it
+  "damaged and can't be opened" and offered no way past it. It is now signed (ad hoc). It is still not
+  notarised by Apple, so the first launch asks once: open it, then click **Open Anyway** in System Settings ›
+  Privacy & Security.
+- Release builds on Linux no longer hang for hours when Ubuntu's package mirrors are unreachable.
+
+### Added
+
+- A [changelog page](https://muntahi-safwan.github.io/Cloister/changelog.html) and a
+  [code signing policy](https://muntahi-safwan.github.io/Cloister/code-signing.html) on the website.
+
 ## [0.4.2] - 2026-11-11
 
 ### Added
@@ -137,7 +152,8 @@ The first release.
 - Veil now uses constructable stylesheets so a site's Content Security Policy cannot block it, and blurs
   the whole page if a recipe's regions are no longer found.
 
-[Unreleased]: https://github.com/Muntahi-Safwan/Cloister/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/Muntahi-Safwan/Cloister/compare/v0.4.3...HEAD
+[0.4.3]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.3
 [0.4.2]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.2
 [0.4.1]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.1
 [0.4.0]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.0

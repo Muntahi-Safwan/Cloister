@@ -97,8 +97,9 @@ Download the file for your system from the [latest release](https://github.com/M
 The installers are not code-signed yet, so the first launch shows a warning:
 
 - **Windows:** SmartScreen says it "protected your PC". Click **More info**, then **Run anyway**.
-- **macOS:** open the app once, then **System Settings › Privacy & Security › Open Anyway**. If macOS calls the
-  app damaged, run `xattr -cr /Applications/Cloister.app`.
+- **macOS:** drag Cloister into Applications and open it once. macOS refuses the first time because the app is
+  not notarised; go to **System Settings › Privacy & Security** and click **Open Anyway**. Versions 0.4.2 and
+  earlier were unsigned and may be called "damaged"; for those, run `xattr -cr /Applications/Cloister.app`.
 
 Windows signing is being set up through the SignPath Foundation programme; see the
 [code signing policy](https://muntahi-safwan.github.io/Cloister/code-signing.html).
