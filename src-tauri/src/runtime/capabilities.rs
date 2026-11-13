@@ -1,9 +1,9 @@
-//! Grants service pages access to exactly two backend commands.
+//! Grants service pages access to a handful of narrow backend commands.
 //!
 //! Third-party pages run untrusted code. Each service webview gets a runtime
 //! capability scoped to its own label and its own domains that allows only
-//! `bridge_notify`, `bridge_icon` and `bridge_shortcut`. Nothing else in the
-//! backend is reachable from a service page.
+//! `bridge_notify`, `bridge_icon`, `bridge_shortcut` and `bridge_open_link`.
+//! Nothing else in the backend is reachable from a service page.
 
 use tauri::ipc::CapabilityBuilder;
 use tauri::{AppHandle, Manager, Runtime};
@@ -12,7 +12,8 @@ use crate::error::AppResult;
 use crate::state::AppState;
 
 /// Permissions granted to every service page.
-const BRIDGE_PERMISSIONS: &[&str] = &["allow-bridge-notify", "allow-bridge-icon", "allow-bridge-shortcut"];
+const BRIDGE_PERMISSIONS: &[&str] =
+    &["allow-bridge-notify", "allow-bridge-icon", "allow-bridge-shortcut", "allow-bridge-open-link"];
 
 /// Registers the bridge capability for the webview `label` on `domains`.
 ///

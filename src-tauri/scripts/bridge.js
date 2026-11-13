@@ -14,6 +14,9 @@
  *      otherwise swallow.
  *   4. Find in page (Ctrl+F): a small search bar that highlights matches in
  *      the text the page has loaded. The search stays inside the page.
+ *   5. Open links that lead away from the service (new-tab links, Ctrl or
+ *      middle clicks, window.open) in the default browser, unwrapping
+ *      redirect links such as google.com/url?q=… first.
  *
  * The bridge never sends page content anywhere and never clicks, types or
  * sends anything on the user's behalf. Find reads the page's text only to
@@ -23,6 +26,7 @@
  * @param {boolean}  config.veil            Initial Veil state.
  * @param {string[]} config.veilSelectors   Regions to blur; empty blurs the page.
  * @param {boolean}  config.revealOnHover   Un-blur a region while hovered.
+ * @param {string[]} config.hosts           Hosts of the service; subdomains count too.
  */
 /* global __CLOISTER_CONFIG__ */
 (function cloisterBridge(config) {
@@ -538,6 +542,152 @@
     find.input.focus();
     find.input.select();
     if (find.input.value) runFind();
+  };
+
+  // ---------------------------------------------------------------------------
+  // 5. Links
+  // ---------------------------------------------------------------------------
+  //
+  // WebView2 does not reliably hand new-window links to Cloister, and many
+  // sites open links through a blank window or a redirect wrapper. So links
+  // that lead away from the service are caught here, right after the user's
+  // click, and opened in the default browser. Plain same-tab links are left
+  // alone, so sign-in pages on other domains keep working inside Cloister.
+
+  // Mirrors REDIRECTORS in src-tauri/src/services/hosts.rs.
+  const REDIRECTORS = [
+    ['google.com', '/url', 'q'],
+    ['www.google.com', '/url', 'q'],
+    ['l.facebook.com', '/l.php', 'u'],
+    ['lm.facebook.com', '/l.php', 'u'],
+    ['l.messenger.com', '/l.php', 'u'],
+    ['l.instagram.com', '/', 'u'],
+    ['.safelinks.protection.outlook.com', '/', 'url'],
+    ['statics.teams.cdn.office.net', '/evergreen-assets/safelinks/', 'url'],
+    ['www.linkedin.com', '/redir/redirect', 'url'],
+    ['slack-redir.net', '/link', 'url'],
+  ];
+
+  const isWeb = (url) => url.protocol === 'https:' || url.protocol === 'http:';
+
+  const hostMatches = (host, domain) => host === domain || host.endsWith(`.${domain}`);
+
+  /** The real destination of a wrapped link, or the link itself. */
+  const unwrap = (url) => {
+    const match = REDIRECTORS.find(
+      ([host, path]) =>
+        (host.startsWith('.') ? url.hostname.endsWith(host) : url.hostname === host) &&
+        url.pathname.startsWith(path),
+    );
+    if (!match) return url;
+    try {
+      const target = new URL(url.searchParams.get(match[2]) || '');
+      return isWeb(target) ? target : url;
+    } catch {
+      return url;
+    }
+  };
+
+  /** Where `href` should open outside Cloister, or null if it belongs to the service. */
+  const externalTarget = (href) => {
+    let url;
+    try {
+      url = new URL(String(href), window.location.href);
+    } catch {
+      return null;
+    }
+    if (url.protocol === 'mailto:' || url.protocol === 'tel:') return url.href;
+    if (!isWeb(url)) return null;
+    const target = unwrap(url);
+    const hosts = config.hosts || [];
+    return hosts.some((domain) => hostMatches(target.hostname, domain)) ? null : target.href;
+  };
+
+  /** Whether the page is responding to a real user action right now. */
+  const userIsActive = () => !navigator.userActivation || navigator.userActivation.isActive;
+
+  const openLink = (url) => invoke('bridge_open_link', { url });
+
+  /** Link clicks that would open a new tab or window. */
+  const onLinkClick = (event) => {
+    if (event.defaultPrevented || !userIsActive()) return;
+    const middle = event.type === 'auxclick' && event.button === 1;
+    if (event.type === 'click' && event.button !== 0) return;
+    if (event.type === 'auxclick' && !middle) return;
+    const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+    if (!link || link.hasAttribute('download')) return;
+    const newTab =
+      middle ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      (link.target && !['_self', '_top', '_parent'].includes(link.target.toLowerCase()));
+    if (!newTab) return;
+    const target = externalTarget(link.href);
+    if (!target) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openLink(target);
+  };
+  window.addEventListener('click', onLinkClick, true);
+  window.addEventListener('auxclick', onLinkClick, true);
+
+  /**
+   * A stand-in for a window opened blank, as sites do before setting its
+   * address (`const w = window.open(); w.location = url`). Setting an outside
+   * address opens it in the browser. Anything else (an address on the
+   * service, or writing into the window) opens a real window instead.
+   */
+  const deferredWindow = (target, features) => {
+    let real = null;
+    let sent = false;
+    const realize = (href = 'about:blank') => {
+      if (!real) real = nativeOpen.call(window, href, target, features);
+      return real;
+    };
+    const go = (href) => {
+      if (sent || real) {
+        if (real) real.location.href = href;
+        return;
+      }
+      const outside = externalTarget(href);
+      if (outside) {
+        sent = true;
+        openLink(outside);
+      } else {
+        realize(href);
+      }
+    };
+    const location = { assign: go, replace: go, toString: () => 'about:blank' };
+    Object.defineProperty(location, 'href', { get: () => 'about:blank', set: go });
+    const stub = {
+      opener: null,
+      focus: () => real && real.focus(),
+      blur: () => real && real.blur(),
+      postMessage: (...args) => real && real.postMessage(...args),
+      close: () => {
+        sent = true;
+        if (real) real.close();
+      },
+    };
+    Object.defineProperty(stub, 'closed', { get: () => (real ? real.closed : sent) });
+    Object.defineProperty(stub, 'location', { get: () => (real ? real.location : location), set: go });
+    Object.defineProperty(stub, 'document', { get: () => (realize() || {}).document });
+    return stub;
+  };
+
+  const nativeOpen = window.open;
+  window.open = function open(url, target, features) {
+    const blank = url === undefined || url === null || url === '' || String(url) === 'about:blank';
+    if (userIsActive()) {
+      if (blank) return deferredWindow(target, features);
+      const outside = externalTarget(url);
+      if (outside) {
+        openLink(outside);
+        return null;
+      }
+    }
+    return nativeOpen.call(window, url, target, features);
   };
 
   // ---------------------------------------------------------------------------

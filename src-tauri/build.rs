@@ -42,6 +42,7 @@ const COMMANDS: &[&str] = &[
     "bridge_notify",
     "bridge_icon",
     "bridge_shortcut",
+    "bridge_open_link",
 ];
 
 fn main() {

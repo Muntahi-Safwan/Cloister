@@ -9,8 +9,17 @@ import source from './bridge.js?raw';
 
 type Invoke = ReturnType<typeof vi.fn>;
 
-function loadBridge(config: { veil: boolean; veilSelectors: string[]; revealOnHover: boolean }): Invoke {
+type Config = { veil: boolean; veilSelectors: string[]; revealOnHover: boolean; hosts?: string[] };
+
+/** What the page's own `window.open` returned to the bridge (the browser's real one). */
+const nativeOpen = vi.fn((url?: string) => ({
+  location: { href: url ?? 'about:blank' },
+  document: { title: 'real' },
+}));
+
+function loadBridge(config: Config): Invoke {
   const invoke = vi.fn(() => Promise.resolve());
+  window.open = nativeOpen as unknown as typeof window.open;
   (window as unknown as { __TAURI_INTERNALS__: unknown }).__TAURI_INTERNALS__ = { invoke };
   // Same substitution the backend performs (src/runtime/inject.rs).
   const script = source.replace('})(__CLOISTER_CONFIG__);', `})(${JSON.stringify(config)});`);
@@ -52,7 +61,12 @@ describe('bridge', () => {
   let invoke: Invoke;
 
   beforeAll(() => {
-    invoke = loadBridge({ veil: false, veilSelectors: ['#pane-side'], revealOnHover: true });
+    invoke = loadBridge({
+      veil: false,
+      veilSelectors: ['#pane-side'],
+      revealOnHover: true,
+      hosts: ['whatsapp.com', 'whatsapp.net'],
+    });
   });
 
   beforeEach(() => {
@@ -60,6 +74,7 @@ describe('bridge', () => {
     sessionStorage.clear();
     api().setVeil(false);
     invoke.mockClear();
+    nativeOpen.mockClear();
   });
 
   it('forwards notifications and reports permission as granted', () => {
@@ -167,6 +182,115 @@ describe('bridge', () => {
       press('Escape');
       expect(findHost()).toBeNull();
       document.removeEventListener('keydown', siteKeys);
+    });
+  });
+
+  describe('links', () => {
+    const link = (href: string, target = '_blank') => {
+      document.body.innerHTML = `<a href="${href}" target="${target}"><span>open</span></a>`;
+      return document.querySelector('span') as HTMLElement;
+    };
+    /**
+     * Clicks `el` and reports whether the bridge took the click over. If the
+     * click reaches the link, the test cancels it so the test DOM does not
+     * try to load the page.
+     */
+    const click = (el: Element, init: MouseEventInit = {}) => {
+      const event = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0, ...init });
+      let reached = false;
+      let preventedBefore = false;
+      const stop = (e: Event) => {
+        reached = true;
+        preventedBefore = e.defaultPrevented;
+        e.preventDefault();
+      };
+      el.addEventListener('click', stop, { once: true });
+      el.dispatchEvent(event);
+      el.removeEventListener('click', stop);
+      return { defaultPrevented: reached ? preventedBefore : event.defaultPrevented };
+    };
+    const opened = () => invoke.mock.calls.filter(([command]) => command === 'bridge_open_link');
+
+    it('opens new-tab links to other sites in the default browser', () => {
+      const event = click(link('https://example.com/article'));
+      expect(event.defaultPrevented).toBe(true);
+      expect(opened()).toEqual([['bridge_open_link', { url: 'https://example.com/article' }]]);
+    });
+
+    it('leaves links on the service itself alone', () => {
+      const event = click(link('https://web.whatsapp.com/some/page'));
+      expect(event.defaultPrevented).toBe(false);
+      expect(opened()).toHaveLength(0);
+    });
+
+    it('leaves same-tab links alone, so sign-in pages keep working', () => {
+      const event = click(link('https://accounts.example.com/login', '_self'));
+      expect(event.defaultPrevented).toBe(false);
+      expect(opened()).toHaveLength(0);
+    });
+
+    it('opens Ctrl-clicked and middle-clicked links outside', () => {
+      click(link('https://example.com/a', ''), { ctrlKey: true });
+      const middle = new MouseEvent('auxclick', { bubbles: true, cancelable: true, button: 1 });
+      link('https://example.com/b', '').dispatchEvent(middle);
+      expect(middle.defaultPrevented).toBe(true);
+      expect(opened().map(([, args]) => (args as { url: string }).url)).toEqual([
+        'https://example.com/a',
+        'https://example.com/b',
+      ]);
+    });
+
+    it('opens the real destination of wrapped links', () => {
+      click(link('https://www.google.com/url?q=https%3A%2F%2Fexample.com%2Fx&sa=D'));
+      click(link('https://l.facebook.com/l.php?u=https%3A%2F%2Fnews.example%2F'));
+      expect(opened().map(([, args]) => (args as { url: string }).url)).toEqual([
+        'https://example.com/x',
+        'https://news.example/',
+      ]);
+    });
+
+    it('sends window.open to other sites to the browser and returns no window', () => {
+      expect(window.open('https://example.com/', '_blank', 'noopener')).toBeNull();
+      expect(opened()).toEqual([['bridge_open_link', { url: 'https://example.com/' }]]);
+      expect(nativeOpen).not.toHaveBeenCalled();
+    });
+
+    it('keeps window.open on the service inside Cloister', () => {
+      window.open('https://web.whatsapp.com/popup');
+      expect(nativeOpen).toHaveBeenCalledWith('https://web.whatsapp.com/popup', undefined, undefined);
+      expect(opened()).toHaveLength(0);
+    });
+
+    it('follows a blank window to its address', () => {
+      const popup = window.open() as Window;
+      popup.location.href = 'https://example.com/later';
+      expect(opened()).toEqual([['bridge_open_link', { url: 'https://example.com/later' }]]);
+      expect(nativeOpen).not.toHaveBeenCalled();
+
+      // Sites also assign the address to `location` directly.
+      const other = window.open('') as unknown as { location: string };
+      other.location = 'https://web.whatsapp.com/inside';
+      expect(nativeOpen).toHaveBeenCalledWith('https://web.whatsapp.com/inside', undefined, undefined);
+    });
+
+    it('opens a real window when a blank one is written into', () => {
+      const popup = window.open() as Window;
+      expect(popup.document).toEqual({ title: 'real' });
+      expect(nativeOpen).toHaveBeenCalledWith('about:blank', undefined, undefined);
+      expect(opened()).toHaveLength(0);
+    });
+
+    it('does nothing for pages acting without a user click', () => {
+      Object.defineProperty(navigator, 'userActivation', { value: { isActive: false }, configurable: true });
+      try {
+        window.open('https://example.com/');
+        const event = click(link('https://example.com/'));
+        expect(opened()).toHaveLength(0);
+        expect(event.defaultPrevented).toBe(false);
+        expect(nativeOpen).toHaveBeenCalledWith('https://example.com/', undefined, undefined);
+      } finally {
+        delete (navigator as unknown as { userActivation?: unknown }).userActivation;
+      }
     });
   });
 });

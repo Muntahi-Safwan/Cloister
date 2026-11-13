@@ -49,8 +49,12 @@ permission prompt and the choice is yours.
 
 Service pages run third-party code, so they are treated as untrusted:
 
-- Each page can call exactly three backend commands, `bridge_notify`, `bridge_icon` and `bridge_shortcut`, through a runtime
-  capability scoped to that webview and its own domains (`src-tauri/src/runtime/capabilities.rs`).
+- Each page can call exactly four backend commands, `bridge_notify`, `bridge_icon`, `bridge_shortcut` and
+  `bridge_open_link`, through a runtime capability scoped to that webview and its own domains
+  (`src-tauri/src/runtime/capabilities.rs`).
+- `bridge_open_link` opens only `https`, `http`, `mailto` and `tel` addresses in the default browser, never
+  files or other app schemes, and each service can open at most five links in ten seconds. The same limit
+  applies to new-window requests the engine passes to Cloister. Logs record only the link's host.
 - The backend identifies the caller from the webview label, so a page cannot act as another service.
 - Shortcut actions are checked against an allow-list. Notification text is length-limited. Icon URLs must be
   `https` or inline images under 64 KB.

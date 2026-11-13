@@ -77,12 +77,18 @@ panic in one command cannot take the app down.
    a closed shadow root, matches painted with the CSS Custom Highlight API so the page's DOM is untouched.
    It is built with DOM calls and constructable stylesheets only, so it works on pages with Trusted Types
    and strict `style-src` policies (Gmail).
+6. Opens links that lead away from the service in the default browser through `bridge_open_link`: links
+   that open a new tab, Ctrl or middle clicks, `window.open`, and blank windows whose address is set
+   afterwards. Redirect wrappers (`google.com/url?q=`, `l.facebook.com/l.php?u=`, Outlook and Teams safe
+   links and others) are unwrapped first; the list is mirrored in `services/hosts.rs`. Plain same-tab links
+   stay inside, so sign-in pages on other domains keep working. Nothing happens unless the user has just
+   clicked (`navigator.userActivation`), so pages cannot open tabs on their own.
 
 The backend fills in the bridge's configuration by replacing the `__CLOISTER_CONFIG__` argument on its last
 line. `bridge.test.ts` runs the bridge in a simulated DOM.
 
 Each service webview receives a **runtime capability** scoped to its own label and its own domains that
-allows only those three commands (`runtime/capabilities.rs`). The backend identifies the calling service from
+allows only the four `bridge_*` commands (`runtime/capabilities.rs`). The backend identifies the calling service from
 the webview label, never from the payload.
 
 ## Notification routing

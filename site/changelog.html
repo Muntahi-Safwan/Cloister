@@ -60,6 +60,7 @@
             <h3>Fixed</h3>
             <ul>
               <li><strong>macOS: Cloister would not open.</strong> The Mac app was not signed at all, so macOS on Apple Silicon called it &quot;damaged and can't be opened&quot; and offered no way past it. It is now signed (ad hoc). It is still not notarised by Apple, so the first launch asks once: open it, then click <strong>Open Anyway</strong> in System Settings › Privacy &amp; Security.</li>
+              <li><strong>Links open in your browser again.</strong> Clicking a link in WhatsApp, Discord and other services did nothing on Windows. Links that lead outside the service now open in your default browser as a new tab, including links opened by Ctrl or middle click and links the site opens itself. Wrapped links (such as Gmail's <code>google.com/url?q=…</code> or Messenger's <code>l.facebook.com/…</code>) open at their real destination instead of staying inside Cloister.</li>
               <li>Release builds on Linux no longer hang for hours when Ubuntu's package mirrors are unreachable.</li>
             </ul>
           </section>

@@ -6,7 +6,7 @@
 //! code must never hold more than one of these locks at the same time: copy
 //! what you need out of one lock, release it, then take the next.
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Mutex, MutexGuard};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
@@ -55,6 +55,8 @@ pub struct Session {
     pub bridge_granted: HashSet<String>,
     /// Whether Cloister is locked (unlocked with the PIN or Windows Hello).
     pub locked: bool,
+    /// When each service last opened links in the default browser (rate limit).
+    pub link_opens: HashMap<ServiceId, VecDeque<Instant>>,
     /// Wrong PIN guesses in a row, and when the next guess is allowed.
     pub pin_failures: u32,
     pub pin_retry_at: Option<Instant>,

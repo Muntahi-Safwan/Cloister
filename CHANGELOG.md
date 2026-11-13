@@ -14,6 +14,11 @@ All notable changes to this project are documented here. The format follows
   "damaged and can't be opened" and offered no way past it. It is now signed (ad hoc). It is still not
   notarised by Apple, so the first launch asks once: open it, then click **Open Anyway** in System Settings ›
   Privacy & Security.
+- **Links open in your browser again.** Clicking a link in WhatsApp, Discord and other services did nothing on
+  Windows. Links that lead outside the service now open in your default browser as a new tab, including
+  links opened by Ctrl or middle click and links the site opens itself. Wrapped links (such as Gmail's
+  `google.com/url?q=…` or Messenger's `l.facebook.com/…`) open at their real destination instead of staying
+  inside Cloister.
 - Release builds on Linux no longer hang for hours when Ubuntu's package mirrors are unreachable.
 
 ### Added

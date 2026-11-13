@@ -11,7 +11,7 @@ use tauri_plugin_opener::OpenerExt;
 
 use super::{badge, capabilities, inject, user_agent, veil};
 use crate::error::{AppError, AppResult};
-use crate::services::{self, hosts, unread, ServiceConfig};
+use crate::services::{self, hosts, unread, ServiceConfig, ServiceId};
 use crate::state::{AppState, ContentBounds};
 use crate::{persistence, platform, snapshot, MAIN_LABEL};
 
@@ -53,9 +53,9 @@ pub fn ensure_loaded<R: Runtime>(app: &AppHandle<R>, service: &ServiceConfig) ->
 
     let builder = WebviewBuilder::new(&label, WebviewUrl::External(start_url))
         .data_directory(persistence::profiles_dir(app)?.join(services::profile::folder_name(&service.id)))
-        .initialization_script(inject::bridge_script(service, recipe, veil_on))
+        .initialization_script(inject::bridge_script(service, recipe, veil_on, &domains))
         .on_navigation(navigation_handler(app.clone()))
-        .on_new_window(new_window_handler(app.clone(), domains))
+        .on_new_window(new_window_handler(app.clone(), service.id.clone(), domains))
         .on_document_title_changed(title_handler(app.clone(), service))
         // The init script carries the Veil state from creation time, so re-apply
         // the current state as soon as each new document starts, and again when
@@ -202,16 +202,31 @@ fn navigation_handler<R: Runtime>(app: AppHandle<R>) -> impl Fn(&url::Url) -> bo
 }
 
 /// Popups to the service's own domains (for example a sign-in window) open
-/// in-app so they share the session; every other link opens in the default browser.
+/// in-app so they share the session; every other link, including wrapped
+/// links like `google.com/url?q=…` that lead elsewhere, opens in the default
+/// browser. Most link clicks are caught earlier by the bridge; this covers
+/// the rest (context menus, scripts that open windows themselves).
 fn new_window_handler<R: Runtime>(
     app: AppHandle<R>,
+    service_id: ServiceId,
     domains: Vec<String>,
 ) -> impl Fn(url::Url, tauri::webview::NewWindowFeatures) -> NewWindowResponse<R> + Send + 'static {
-    move |url, _features| {
-        if hosts::is_internal(&url, &domains) {
-            NewWindowResponse::Allow
-        } else {
-            open_externally(&app, &url);
+    move |url, _features| match hosts::external_target(&url, &domains) {
+        Some(_) if !crate::commands::bridge::may_open_link(&app, &service_id) => {
+            log::warn!("{service_id} opened too many links at once; ignored one");
+            NewWindowResponse::Deny
+        }
+        Some(target) => {
+            log::info!(
+                "opening a new-window link in the default browser ({})",
+                crate::commands::bridge::describe(&target)
+            );
+            open_externally(&app, &target);
+            NewWindowResponse::Deny
+        }
+        None if hosts::is_internal(&url, &domains) => NewWindowResponse::Allow,
+        None => {
+            log::warn!("blocked a popup with an unsupported address ({})", url.scheme());
             NewWindowResponse::Deny
         }
     }

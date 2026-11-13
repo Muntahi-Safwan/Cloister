@@ -20,10 +20,17 @@ struct BridgeConfig<'a> {
     reveal_on_hover: bool,
     /// Shortcuts use Cmd instead of Ctrl on macOS.
     mac: bool,
+    /// Hosts that belong to the service; links elsewhere open in the browser.
+    hosts: &'a [String],
 }
 
 /// Returns the full script for `service`: the bridge with its configuration filled in.
-pub fn bridge_script(service: &ServiceConfig, recipe: Option<&Recipe>, veil: bool) -> String {
+pub fn bridge_script(
+    service: &ServiceConfig,
+    recipe: Option<&Recipe>,
+    veil: bool,
+    hosts: &[String],
+) -> String {
     let selectors: &[&str] = match recipe {
         Some(r) if !service.options.veil_whole_page => r.veil_selectors,
         _ => &[],
@@ -33,6 +40,7 @@ pub fn bridge_script(service: &ServiceConfig, recipe: Option<&Recipe>, veil: boo
         veil_selectors: selectors,
         reveal_on_hover: true,
         mac: cfg!(target_os = "macos"),
+        hosts,
     };
     // Serialising a struct of strings and bools cannot fail.
     let json = serde_json::to_string(&config).unwrap_or_else(|_| "{}".into());
@@ -75,7 +83,7 @@ mod tests {
     fn bridge_calls_itself_with_the_config() {
         assert!(BRIDGE_JS.trim_end().ends_with(BRIDGE_CALL));
         let recipe = crate::services::catalog::find("whatsapp");
-        let script = bridge_script(&service(false), recipe, true);
+        let script = bridge_script(&service(false), recipe, true, &[]);
         assert!(script.contains("})({\"veil\":true"));
         assert!(!script.contains("__CLOISTER_CONFIG__);"));
         assert!(script.contains("\"veil\":true"));
@@ -85,7 +93,7 @@ mod tests {
     #[test]
     fn whole_page_mode_sends_no_selectors() {
         let recipe = crate::services::catalog::find("whatsapp");
-        let script = bridge_script(&service(true), recipe, false);
+        let script = bridge_script(&service(true), recipe, false, &[]);
         assert!(script.contains("\"veilSelectors\":[]"));
     }
 }

@@ -6,6 +6,7 @@
 pub mod away;
 pub mod focus;
 pub mod history;
+pub mod link_limit;
 pub mod notify;
 pub mod passcode;
 pub mod pause;

@@ -98,6 +98,7 @@ pub fn run() {
             commands::bridge::bridge_notify,
             commands::bridge::bridge_icon,
             commands::bridge::bridge_shortcut,
+            commands::bridge::bridge_open_link,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Cloister");

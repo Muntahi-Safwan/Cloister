@@ -43,6 +43,49 @@ pub fn is_app_origin(url: &Url) -> bool {
         })
 }
 
+/// Link wrappers that services put around outgoing links: (host, path prefix,
+/// query parameter that holds the real address). A host starting with `.`
+/// matches any subdomain of it.
+const REDIRECTORS: &[(&str, &str, &str)] = &[
+    ("google.com", "/url", "q"),
+    ("www.google.com", "/url", "q"),
+    ("l.facebook.com", "/l.php", "u"),
+    ("lm.facebook.com", "/l.php", "u"),
+    ("l.messenger.com", "/l.php", "u"),
+    ("l.instagram.com", "/", "u"),
+    (".safelinks.protection.outlook.com", "/", "url"),
+    ("statics.teams.cdn.office.net", "/evergreen-assets/safelinks/", "url"),
+    ("www.linkedin.com", "/redir/redirect", "url"),
+    ("slack-redir.net", "/link", "url"),
+];
+
+/// The real destination of a wrapped link such as `google.com/url?q=…`, if
+/// `url` is one and the destination is a web address.
+pub fn unwrap_redirect(url: &Url) -> Option<Url> {
+    let host = url.host_str()?;
+    let (_, _, param) = REDIRECTORS.iter().find(|(h, path, _)| {
+        let host_ok = match h.strip_prefix('.') {
+            Some(suffix) => host.ends_with(&format!(".{suffix}")),
+            None => host == *h,
+        };
+        host_ok && url.path().starts_with(path)
+    })?;
+    let target = url.query_pairs().find(|(k, _)| k == param).map(|(_, v)| v.into_owned())?;
+    let target = Url::parse(&target).ok()?;
+    matches!(target.scheme(), "https" | "http").then_some(target)
+}
+
+/// Where a link should open outside Cloister, or `None` when it belongs to the
+/// service. Wrapped links are judged by their real destination.
+pub fn external_target(url: &Url, domains: &[String]) -> Option<Url> {
+    let target = unwrap_redirect(url).unwrap_or_else(|| url.clone());
+    match target.scheme() {
+        "https" | "http" if !is_internal(&target, domains) => Some(target),
+        "mailto" | "tel" => Some(target),
+        _ => None,
+    }
+}
+
 /// Builds the list of domains for a service: the recipe hosts when there is a
 /// recipe, otherwise exactly the start URL's host (and its subdomains).
 ///
@@ -85,6 +128,59 @@ mod tests {
         assert!(!navigation_leaves_app(&url("https://login.microsoftonline.com/")));
         assert!(navigation_leaves_app(&url("mailto:a@b.com")));
         assert!(navigation_leaves_app(&url("tel:+880123")));
+    }
+
+    #[test]
+    fn wrapped_links_are_unwrapped() {
+        let cases = [
+            (
+                "https://www.google.com/url?q=https%3A%2F%2Fexample.com%2Fa%3Fb%3D1&sa=D",
+                "https://example.com/a?b=1",
+            ),
+            ("https://l.facebook.com/l.php?u=https%3A%2F%2Fnews.example%2F&h=x", "https://news.example/"),
+            ("https://l.messenger.com/l.php?u=https%3A%2F%2Fexample.org", "https://example.org/"),
+            (
+                "https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Fexample.com%2F&data=x",
+                "https://example.com/",
+            ),
+            ("https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fexample.com", "https://example.com/"),
+            ("https://slack-redir.net/link?url=http%3A%2F%2Fexample.com", "http://example.com/"),
+        ];
+        for (wrapped, real) in cases {
+            assert_eq!(
+                unwrap_redirect(&url(wrapped)).map(|u| u.to_string()),
+                Some(real.to_string()),
+                "{wrapped}"
+            );
+        }
+    }
+
+    #[test]
+    fn only_known_wrappers_with_web_targets_unwrap() {
+        assert_eq!(unwrap_redirect(&url("https://www.google.com/search?q=https://x.com")), None);
+        assert_eq!(unwrap_redirect(&url("https://evil.example/url?q=https://x.com")), None);
+        assert_eq!(unwrap_redirect(&url("https://www.google.com/url?q=javascript:alert(1)")), None);
+        assert_eq!(unwrap_redirect(&url("https://www.google.com/url?q=file:///etc/passwd")), None);
+        assert_eq!(
+            unwrap_redirect(&url("https://safelinks.protection.outlook.com.evil.example/?url=https://x.com")),
+            None
+        );
+    }
+
+    #[test]
+    fn external_targets_skip_the_service_itself() {
+        let gmail = vec!["mail.google.com".to_string(), "google.com".to_string()];
+        let to = |s: &str| external_target(&url(s), &gmail).map(|u| u.to_string());
+        assert_eq!(
+            to("https://www.google.com/url?q=https://example.com/"),
+            Some("https://example.com/".into())
+        );
+        assert_eq!(to("https://example.com/x"), Some("https://example.com/x".into()));
+        assert_eq!(to("https://mail.google.com/mail/u/0/#inbox"), None);
+        assert_eq!(to("https://www.google.com/url?q=https://docs.google.com/doc"), None);
+        assert_eq!(to("mailto:a@b.com"), Some("mailto:a@b.com".into()));
+        assert_eq!(to("about:blank"), None);
+        assert_eq!(to("file:///C:/Windows/system32/calc.exe"), None);
     }
 
     #[test]
