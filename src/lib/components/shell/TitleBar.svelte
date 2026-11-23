@@ -6,6 +6,7 @@
 <script lang="ts">
   import FocusPill from '$lib/components/focus/FocusPill.svelte';
   import UpdatePill from './UpdatePill.svelte';
+  import DownloadPill from '$lib/components/downloads/DownloadPill.svelte';
   import Icon from '$lib/components/common/Icon.svelte';
   import Kbd from '$lib/components/common/Kbd.svelte';
   import Mark from '$lib/components/common/Mark.svelte';
@@ -39,6 +40,7 @@
     {/if}
     <UpdatePill />
     <FocusPill />
+    <DownloadPill />
     <button
       type="button"
       class="icon-btn bell"

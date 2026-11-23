@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Downloads.** Files you save in any service (a PDF in WhatsApp, an attachment in Gmail) now go straight
+  to your Downloads folder, on every platform. The title bar shows the file while it saves and for a few
+  seconds after: click its name to open it, or the folder to show it. The download button next to the bell
+  lists everything saved since Cloister started, and the command palette has "Show downloads". The list is
+  kept in memory only; the files stay. Programs and scripts (`.exe`, `.msi`, `.sh` and similar) are only
+  shown in their folder, so one click never runs anything. File names are hidden while Veil is on.
+
 ## [0.4.3] - 2026-11-13
 
 ### Fixed

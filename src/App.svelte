@@ -13,6 +13,7 @@
   import EraseDialog from '$lib/components/privacy/EraseDialog.svelte';
   import LockScreen from '$lib/components/privacy/LockScreen.svelte';
   import NotificationsDialog from '$lib/components/privacy/NotificationsDialog.svelte';
+  import DownloadsDialog from '$lib/components/downloads/DownloadsDialog.svelte';
   import CommandPalette from '$lib/components/palette/CommandPalette.svelte';
   import AddServiceDialog from '$lib/components/services/AddServiceDialog.svelte';
   import RemoveDialog from '$lib/components/services/RemoveDialog.svelte';
@@ -85,6 +86,8 @@
   <RenameDialog />
 {:else if app.dialog === 'notifications'}
   <NotificationsDialog />
+{:else if app.dialog === 'downloads'}
+  <DownloadsDialog />
 {:else if app.dialog === 'confirm-remove'}
   <RemoveDialog />
 {:else if app.dialog === 'confirm-erase'}

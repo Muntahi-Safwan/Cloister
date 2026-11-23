@@ -6,6 +6,7 @@ pub mod activation;
 pub mod away;
 pub mod badge;
 pub mod capabilities;
+pub mod downloads;
 pub mod erase;
 pub mod hotkeys;
 pub mod inject;

@@ -9,7 +9,7 @@ use tauri::webview::{NewWindowResponse, PageLoadEvent, WebviewBuilder};
 use tauri::{AppHandle, LogicalPosition, LogicalSize, Manager, Runtime, Webview, WebviewUrl};
 use tauri_plugin_opener::OpenerExt;
 
-use super::{badge, capabilities, inject, user_agent, veil};
+use super::{badge, capabilities, downloads, inject, user_agent, veil};
 use crate::error::{AppError, AppResult};
 use crate::services::{self, hosts, unread, ServiceConfig, ServiceId};
 use crate::state::{AppState, ContentBounds};
@@ -57,6 +57,7 @@ pub fn ensure_loaded<R: Runtime>(app: &AppHandle<R>, service: &ServiceConfig) ->
         .on_navigation(navigation_handler(app.clone()))
         .on_new_window(new_window_handler(app.clone(), service.id.clone(), domains))
         .on_document_title_changed(title_handler(app.clone(), service))
+        .on_download(downloads::handler(app.clone(), service.id.clone()))
         // The init script carries the Veil state from creation time, so re-apply
         // the current state as soon as each new document starts, and again when
         // it finishes in case the page replaced its <head>.

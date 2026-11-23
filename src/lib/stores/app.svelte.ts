@@ -34,6 +34,7 @@ export type DialogKind =
   | 'settings'
   | 'focus-summary'
   | 'notifications'
+  | 'downloads'
   | 'rename'
   | 'confirm-remove'
   | 'confirm-erase';
@@ -70,6 +71,7 @@ const EMPTY_SNAPSHOT: Snapshot = {
   helloAvailable: false,
   historyCount: 0,
   historyLatestMs: null,
+  downloads: [],
   canPause: false,
 };
 
@@ -86,6 +88,8 @@ class AppStore {
   memory = $state<MemoryReport>({ services: {}, shared: 0 });
   /** Time the notifications panel was last opened; newer items light the bell. */
   historySeenMs = $state(0);
+  /** Newest download id the user has seen in the downloads list; newer ones light the icon. */
+  downloadsSeenId = $state(0);
   /** The Windows Hello prompt is open, or a PIN is being checked. */
   unlocking = $state(false);
   /** Why the last unlock attempt failed, shown on the lock screen. */
@@ -107,6 +111,8 @@ class AppStore {
   activeService = $derived<Service | null>(
     this.snapshot.services.find((s) => s.id === this.snapshot.active) ?? null,
   );
+
+  hasUnseenDownloads = $derived((this.snapshot.downloads[0]?.id ?? 0) > this.downloadsSeenId);
 
   hasUnseenHistory = $derived((this.snapshot.historyLatestMs ?? 0) > this.historySeenMs);
 
@@ -351,6 +357,26 @@ class AppStore {
 
   async clearHistory(): Promise<void> {
     if (await this.#run(() => backend.clearHistory())) this.history = [];
+  }
+
+  // ------------------------------------------------------------- downloads
+
+  openDownloads(): void {
+    this.openDialog('downloads');
+    this.downloadsSeenId = this.snapshot.downloads[0]?.id ?? 0;
+  }
+
+  /** Opens a finished download (files that would run code are shown in their folder instead). */
+  async openDownload(id: number): Promise<void> {
+    await this.#run(() => backend.openDownload(id));
+  }
+
+  async revealDownload(id: number): Promise<void> {
+    await this.#run(() => backend.revealDownload(id));
+  }
+
+  async clearDownloads(): Promise<void> {
+    await this.#run(() => backend.clearDownloads());
   }
 
   async updateSettings(settings: AppSettings): Promise<void> {

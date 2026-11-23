@@ -139,6 +139,8 @@ export interface Snapshot {
   historyCount: number;
   /** When the newest notification arrived (Unix ms), or `null` when the history is empty. */
   historyLatestMs: number | null;
+  /** Files saved from service pages this run, newest first. */
+  downloads: DownloadItem[];
   /** "Pause in background" is supported on this system (Windows). */
   canPause: boolean;
 }
@@ -153,6 +155,19 @@ export interface HistoryItem {
   body: string;
   atMs: number;
   delivery: Delivery;
+}
+
+export type DownloadState = 'saving' | 'done' | 'failed';
+
+/** A file saved from a service this run. The list is kept in memory only. */
+export interface DownloadItem {
+  id: number;
+  serviceId: string;
+  fileName: string;
+  state: DownloadState;
+  startedMs: number;
+  /** Opening it would run code, so only "Show in folder" is offered. */
+  risky: boolean;
 }
 
 /** Memory in bytes: per loaded service, plus what no single service owns. */
