@@ -11,6 +11,7 @@ import {
   timeAgo,
   timeToMinutes,
 } from './format';
+import { nextUnread, RecentServices } from './navigation';
 import { shortcutFor, type KeyChord } from './shortcuts';
 import { catalogIconUrl, checkServiceUrl, faviconUrl, withHttps } from './url';
 
@@ -128,5 +129,41 @@ describe('timeAgo', () => {
 
   it('treats future times as now', () => {
     expect(timeAgo(now + 5000, now)).toBe('now');
+  });
+});
+
+describe('keyboard navigation between services', () => {
+  const list = (...unread: number[]) => unread.map((n, i) => ({ id: `s${i}`, unread: n }));
+
+  it('jumps to the next unread service after the active one, wrapping round', () => {
+    expect(nextUnread(list(0, 3, 0, 1), 's1')).toBe('s3');
+    expect(nextUnread(list(2, 3, 0, 0), 's1')).toBe('s0');
+    expect(nextUnread(list(0, 0, 4), null)).toBe('s2');
+  });
+
+  it('reports nothing when only the active service, or none, has unread messages', () => {
+    expect(nextUnread(list(0, 5, 0), 's1')).toBeNull();
+    expect(nextUnread(list(0, 0), 's0')).toBeNull();
+    expect(nextUnread([], null)).toBeNull();
+  });
+
+  it('flips back to the last service that still exists', () => {
+    const recent = new RecentServices();
+    ['a', 'b', 'b', 'c'].forEach((id) => recent.visit(id));
+    expect(recent.previous('c', new Set(['a', 'b', 'c']))).toBe('b');
+    expect(recent.previous('c', new Set(['a', 'c']))).toBe('a');
+    recent.visit('b');
+    expect(recent.previous('b', new Set(['a', 'b', 'c']))).toBe('c');
+    expect(new RecentServices().previous('a', new Set(['a']))).toBeNull();
+  });
+
+  it('maps Ctrl+J and Ctrl+Tab', () => {
+    expect(shortcutFor(chord('j'))).toBe('next-unread');
+    expect(shortcutFor(chord('j', { ctrlKey: false, metaKey: true }), true)).toBe('next-unread');
+    expect(shortcutFor(chord('Tab'))).toBe('previous');
+    expect(shortcutFor(chord('Tab', { shiftKey: true }))).toBe('previous');
+    // Ctrl+Tab stays Ctrl on macOS, as in browsers.
+    expect(shortcutFor(chord('Tab', { ctrlKey: true }), true)).toBe('previous');
+    expect(shortcutFor(chord('Tab', { ctrlKey: false }))).toBeNull();
   });
 });

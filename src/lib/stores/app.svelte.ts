@@ -9,6 +9,7 @@
 
 import { backend, errorMessage } from '$lib/api/backend';
 import { showServiceMenu } from '$lib/menus/serviceMenu';
+import { nextUnread, RecentServices } from '$lib/utils/navigation';
 import { reorderVisible } from '$lib/utils/order';
 import { catalogIconUrl } from '$lib/utils/url';
 import type {
@@ -95,10 +96,14 @@ class AppStore {
   /** Why the last unlock attempt failed, shown on the lock screen. */
   unlockError = $state<string | null>(null);
   error = $state<string | null>(null);
+  /** A short, non-error message shown briefly in the title bar. */
+  notice = $state<string | null>(null);
   ready = $state(false);
   now = $state(Date.now());
 
   #clock: ReturnType<typeof setInterval> | null = null;
+  #noticeTimer: ReturnType<typeof setTimeout> | null = null;
+  #recent = new RecentServices();
   #endingFocus = false;
 
   /** Services shown in the sidebar (some hide during focus sessions). */
@@ -258,6 +263,26 @@ class AppStore {
   }
 
   /** Activates the n-th visible service (1-based), as used by Ctrl+1..9. */
+  /** Jumps to the next service with unread messages, after the active one. */
+  async nextUnread(): Promise<void> {
+    const id = nextUnread(this.visibleServices, this.snapshot.active);
+    if (id) await this.activate(id);
+    else this.showNotice('All caught up');
+  }
+
+  /** Flips back to the service used before this one. */
+  async previousService(): Promise<void> {
+    const existing = new Set(this.visibleServices.map((s) => s.id));
+    const id = this.#recent.previous(this.snapshot.active, existing);
+    if (id) await this.activate(id);
+  }
+
+  showNotice(message: string): void {
+    this.notice = message;
+    if (this.#noticeTimer) clearTimeout(this.#noticeTimer);
+    this.#noticeTimer = setTimeout(() => (this.notice = null), 2500);
+  }
+
   async switchTo(position: number): Promise<void> {
     const service = this.visibleServices[position - 1];
     if (service) await this.activate(service.id);
@@ -403,6 +428,8 @@ class AppStore {
     else if (action === 'focus') await this.toggleFocus();
     else if (action === 'lock') await this.lock();
     else if (action === 'find') await this.findInPage();
+    else if (action === 'next-unread') await this.nextUnread();
+    else if (action === 'previous') await this.previousService();
     else if (action.startsWith('zoom:')) await this.zoomActive(action.slice('zoom:'.length) as ZoomStep);
     else await this.switchTo(Number(action.slice('switch:'.length)));
   }
@@ -419,6 +446,7 @@ class AppStore {
     // Locking closes any open dialog so nothing is left on screen behind the lock.
     if (snapshot.locked && !this.snapshot.locked) this.closeDialog();
     this.snapshot = snapshot;
+    this.#recent.visit(snapshot.active);
     this.#syncClock();
     // Timers are throttled while the window is hidden, so the backend also flags expiry.
     if (snapshot.focus?.expired) void this.endFocus();

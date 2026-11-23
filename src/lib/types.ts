@@ -187,4 +187,13 @@ export interface ContentBounds {
 
 /** Actions triggered by shortcuts, the tray or the command palette. */
 export type ShortcutAction =
-  'palette' | 'veil' | 'focus' | 'lock' | 'settings' | 'find' | `switch:${number}` | `zoom:${ZoomStep}`;
+  | 'palette'
+  | 'veil'
+  | 'focus'
+  | 'lock'
+  | 'settings'
+  | 'find'
+  | 'next-unread'
+  | 'previous'
+  | `switch:${number}`
+  | `zoom:${ZoomStep}`;

@@ -18,6 +18,8 @@
   const IN_APP = [
     ['Command palette', SHORTCUT_LABELS.palette],
     ['Switch to service 1 to 9', SHORTCUT_LABELS.switchTo],
+    ['Next service with unread messages', SHORTCUT_LABELS.nextUnread],
+    ['Back to the previous service', SHORTCUT_LABELS.previous],
     ['Find in page', SHORTCUT_LABELS.find],
     ['Toggle Veil', SHORTCUT_LABELS.veil],
     ['Start or end focus', SHORTCUT_LABELS.focus],

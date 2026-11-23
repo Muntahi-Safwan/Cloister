@@ -75,6 +75,8 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
 | ------------------------ | ------------------------------------------- |
 | Command palette          | `Ctrl K` (inside a service: `Ctrl Shift K`) |
 | Switch to service 1 to 9 | `Ctrl 1` … `Ctrl 9`                         |
+| Next unread service      | `Ctrl J`                                    |
+| Back to previous service | `Ctrl Tab`                                  |
 | Find in page             | `Ctrl F`, then `Enter` / `Shift Enter`      |
 | Toggle Veil              | `Ctrl Shift P`                              |
 | Start or end focus       | `Ctrl Shift F`                              |

@@ -20,6 +20,8 @@ export const IS_MAC = typeof navigator !== 'undefined' && /^Mac/i.test(navigator
  * The main modifier is Cmd on macOS and Ctrl elsewhere.
  */
 export function shortcutFor(event: KeyChord, mac = IS_MAC): ShortcutAction | null {
+  // Ctrl+Tab flips back to the last service. It is Ctrl on macOS too, as in browsers.
+  if (event.key === 'Tab' && event.ctrlKey && !event.altKey && !event.metaKey) return 'previous';
   const primary = mac ? event.metaKey : event.ctrlKey;
   const other = mac ? event.ctrlKey : event.metaKey;
   if (!primary || event.altKey || other) return null;
@@ -38,6 +40,7 @@ export function shortcutFor(event: KeyChord, mac = IS_MAC): ShortcutAction | nul
   }
   if (key === ',') return 'settings';
   if (key === 'f') return 'find';
+  if (key === 'j') return 'next-unread';
   if (/^[1-9]$/.test(key)) return `switch:${Number(key)}`;
   return null;
 }
@@ -55,6 +58,8 @@ export function shortcutLabels(mac: boolean) {
     lock: `${cmd} ${shift} L`,
     settings: `${cmd} ,`,
     find: `${cmd} F`,
+    nextUnread: `${cmd} J`,
+    previous: 'Ctrl Tab',
     switchTo: `${cmd} 1–9`,
     zoom: `${cmd} + / − / 0`,
     showHide: `${global} Space`,

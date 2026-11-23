@@ -1,6 +1,7 @@
 <!--
   @component
-  Shows the latest error from the store, announced to screen readers.
+  Shows the latest error from the store, announced to screen readers, or a
+  short notice (such as "All caught up") that fades on its own.
 
   It sits in the title bar: anything over the content area would be hidden
   behind the native service page.
@@ -19,6 +20,11 @@
       <button type="button" class="icon-btn" aria-label="Dismiss" onclick={() => app.dismissError()}>
         <Icon name="close" size={14} />
       </button>
+    </div>
+  {:else if app.notice}
+    <div class="toast is-notice" role="status">
+      <Icon name="check" size={15} strokeWidth={2.2} />
+      <span class="message">{app.notice}</span>
     </div>
   {/if}
 </div>
@@ -44,6 +50,12 @@
     background: var(--bg-raised);
     color: var(--danger);
     box-shadow: var(--shadow-float);
+  }
+
+  .toast.is-notice {
+    padding-right: var(--space-3);
+    border-color: var(--line);
+    color: var(--accent-text);
   }
 
   .message {

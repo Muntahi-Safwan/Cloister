@@ -61,6 +61,14 @@
         : []),
       {
         kind: 'action',
+        id: 'next-unread',
+        label: 'Go to the next unread service',
+        keys: SHORTCUT_LABELS.nextUnread,
+        icon: 'bell',
+        run: () => app.nextUnread(),
+      },
+      {
+        kind: 'action',
         id: 'notifications',
         label: 'Show recent notifications',
         keys: '',

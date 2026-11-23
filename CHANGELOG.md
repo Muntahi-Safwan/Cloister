@@ -14,6 +14,10 @@ All notable changes to this project are documented here. The format follows
   lists everything saved since Cloister started, and the command palette has "Show downloads". The list is
   kept in memory only; the files stay. Programs and scripts (`.exe`, `.msi`, `.sh` and similar) are only
   shown in their folder, so one click never runs anything. File names are hidden while Veil is on.
+- **Next unread: `Ctrl J`** (`⌘ J` on macOS) jumps to the next service with unread messages, in sidebar
+  order. When nothing is waiting, Cloister says "All caught up". Also in the command palette.
+- **Back to the previous service: `Ctrl Tab`** flips between the two services you used last, like Alt+Tab
+  for your chats. Press it again to flip back.
 
 ## [0.4.3] - 2026-11-13
 
