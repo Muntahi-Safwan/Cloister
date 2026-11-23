@@ -30,8 +30,7 @@
   });
 
   const showPill = $derived(
-    !!latest &&
-      (latest.state === 'saving' || now - (finishedAt[latest.id] ?? 0) < SHOW_FINISHED_MS),
+    !!latest && (latest.state === 'saving' || now - (finishedAt[latest.id] ?? 0) < SHOW_FINISHED_MS),
   );
 
   // Tick only while the pill is up, so it can hide itself.

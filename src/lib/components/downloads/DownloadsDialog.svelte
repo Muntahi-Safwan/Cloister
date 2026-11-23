@@ -28,7 +28,10 @@
   <div class="panel">
     <header>
       <h2>Downloads</h2>
-      <p class="lead">Files saved from your services go to your Downloads folder. This list is forgotten when Cloister closes; the files stay.</p>
+      <p class="lead">
+        Files saved from your services go to your Downloads folder. This list is forgotten when Cloister
+        closes; the files stay.
+      </p>
     </header>
 
     {#if items.length === 0}
@@ -56,7 +59,9 @@
             {#if item.state === 'done'}
               <span class="actions">
                 {#if !item.risky}
-                  <button type="button" class="btn small" onclick={() => app.openDownload(item.id)}>Open</button>
+                  <button type="button" class="btn small" onclick={() => app.openDownload(item.id)}
+                    >Open</button
+                  >
                 {/if}
                 <button
                   type="button"
