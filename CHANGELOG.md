@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-27
+
 ### Added
 
 - **Presenting mode: invisible on screen share.** Press `Ctrl Shift S` (or use the tray or `Ctrl K`)
@@ -180,7 +182,8 @@ The first release.
 - Veil now uses constructable stylesheets so a site's Content Security Policy cannot block it, and blurs
   the whole page if a recipe's regions are no longer found.
 
-[Unreleased]: https://github.com/Muntahi-Safwan/Cloister/compare/v0.4.3...HEAD
+[Unreleased]: https://github.com/Muntahi-Safwan/Cloister/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.5.0
 [0.4.3]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.3
 [0.4.2]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.2
 [0.4.1]: https://github.com/Muntahi-Safwan/Cloister/releases/tag/v0.4.1
