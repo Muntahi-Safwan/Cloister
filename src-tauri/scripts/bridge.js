@@ -250,6 +250,8 @@
 
   /** Maps a keyboard event to a Cloister action, or `null` if it is not ours. */
   const shortcutFor = (event) => {
+    // Ctrl+Tab flips back to the last service; Ctrl on macOS too, as in browsers.
+    if (event.key === 'Tab' && event.ctrlKey && !event.altKey && !event.metaKey) return 'previous';
     // Cmd on macOS, Ctrl elsewhere; the other modifier means "not ours".
     const primary = config.mac ? event.metaKey : event.ctrlKey;
     const other = config.mac ? event.ctrlKey : event.metaKey;
@@ -263,9 +265,11 @@
       if (key === 'p') return 'veil';
       if (key === 'f') return 'focus';
       if (key === 'l') return 'lock';
+      if (key === 's') return 'present';
       return null;
     }
     if (key === 'f') return 'find';
+    if (key === 'j') return 'next-unread';
     if (/^[1-9]$/.test(key)) return `switch:${key}`;
     return null;
   };

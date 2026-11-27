@@ -127,6 +127,12 @@ describe('bridge', () => {
     window.dispatchEvent(new KeyboardEvent('keydown', { key: '=', ctrlKey: true }));
     expect(invoke).toHaveBeenCalledWith('bridge_shortcut', { action: 'zoom:in' });
     expect(invoke).not.toHaveBeenCalledWith('bridge_shortcut', { action: 'palette' });
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'j', ctrlKey: true }));
+    expect(invoke).toHaveBeenCalledWith('bridge_shortcut', { action: 'next-unread' });
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', ctrlKey: true }));
+    expect(invoke).toHaveBeenCalledWith('bridge_shortcut', { action: 'previous' });
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'S', ctrlKey: true, shiftKey: true }));
+    expect(invoke).toHaveBeenCalledWith('bridge_shortcut', { action: 'present' });
   });
 
   describe('find in page', () => {

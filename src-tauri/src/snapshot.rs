@@ -11,7 +11,7 @@ use crate::features::downloads::DownloadItem;
 use crate::features::focus::FocusView;
 use crate::services::{ServiceConfig, ServiceId};
 use crate::settings::AppSettings;
-use crate::state::{now_ms, AppState};
+use crate::state::{now_ms, AppState, Presenting};
 
 /// Event name for snapshot pushes.
 pub const SNAPSHOT_EVENT: &str = "cloister://snapshot";
@@ -52,6 +52,10 @@ pub struct Snapshot {
     pub downloads: Vec<DownloadItem>,
     /// "Pause in background" is supported on this system.
     pub can_pause: bool,
+    /// Presenting mode, while it is on.
+    pub presenting: Option<Presenting>,
+    /// This system can hide Cloister from screen sharing.
+    pub can_hide_from_capture: bool,
 }
 
 /// Builds a snapshot from current state, taking each lock in turn.
@@ -89,6 +93,8 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> Snapshot {
         history_latest_ms: session.history.latest_ms(),
         downloads: session.downloads.items(),
         can_pause: crate::platform::CAN_PAUSE,
+        presenting: session.presenting,
+        can_hide_from_capture: crate::runtime::capture::SUPPORTED,
     }
 }
 

@@ -16,7 +16,18 @@ use crate::state::AppState;
 use crate::{snapshot, MAIN_LABEL, SHORTCUT_EVENT};
 
 /// Actions the bridge may forward. Anything else is ignored.
-const ALLOWED_ACTIONS: &[&str] = &["palette", "veil", "focus", "lock", "zoom:in", "zoom:out", "zoom:reset"];
+const ALLOWED_ACTIONS: &[&str] = &[
+    "palette",
+    "veil",
+    "focus",
+    "lock",
+    "present",
+    "next-unread",
+    "previous",
+    "zoom:in",
+    "zoom:out",
+    "zoom:reset",
+];
 
 /// A service page wants to show a notification.
 #[tauri::command]
