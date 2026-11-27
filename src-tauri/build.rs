@@ -24,6 +24,7 @@ const COMMANDS: &[&str] = &[
     "set_content_bounds",
     "set_overlay_open",
     "set_veil",
+    "set_presenting",
     "start_focus",
     "end_focus",
     "update_settings",

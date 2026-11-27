@@ -6,6 +6,7 @@ pub mod activation;
 pub mod away;
 pub mod badge;
 pub mod capabilities;
+pub mod capture;
 pub mod downloads;
 pub mod erase;
 pub mod hotkeys;
@@ -46,6 +47,7 @@ pub fn setup<R: Runtime>(app: &mut App<R>) -> Result<(), Box<dyn std::error::Err
             crate::platform::share_engine_from(&main);
         }
         migrate::remove_legacy_profiles(&handle);
+        capture::apply(&handle);
         let handle = handle.clone();
         window.on_window_event(move |event| match event {
             WindowEvent::CloseRequested { api, .. } => {

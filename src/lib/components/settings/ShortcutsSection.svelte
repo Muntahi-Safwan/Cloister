@@ -23,6 +23,7 @@
     ['Find in page', SHORTCUT_LABELS.find],
     ['Toggle Veil', SHORTCUT_LABELS.veil],
     ['Start or end focus', SHORTCUT_LABELS.focus],
+    ['Presenting: hide from screen share', SHORTCUT_LABELS.present],
     ['Lock Cloister', SHORTCUT_LABELS.lock],
     ['Zoom in, out, reset', SHORTCUT_LABELS.zoom],
     ['Move a service in the sidebar', 'Alt ↑ / ↓'],

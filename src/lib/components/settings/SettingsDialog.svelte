@@ -5,9 +5,11 @@
 -->
 <script lang="ts">
   import Dialog from '$lib/components/common/Dialog.svelte';
+  import Kbd from '$lib/components/common/Kbd.svelte';
   import Switch from '$lib/components/common/Switch.svelte';
   import { app } from '$lib/stores/app.svelte';
   import type { AppSettings } from '$lib/types';
+  import { IS_MAC, SHORTCUT_LABELS } from '$lib/utils/shortcuts';
 
   import AboutSection from './AboutSection.svelte';
   import LockSection from './LockSection.svelte';
@@ -66,6 +68,25 @@
         description="While Veil is on, toasts name the service but never who or what"
         checked={settings.redactToastsInVeil}
         onchange={(redactToastsInVeil) => save({ redactToastsInVeil })}
+      />
+    </section>
+
+    <section>
+      <h3>Screen sharing</h3>
+      <p class="hint">
+        Press <Kbd keys={SHORTCUT_LABELS.present} /> before a call. Cloister turns blank for everyone watching your
+        screen, and notifications wait until you end it.
+      </p>
+      <Switch
+        label="Always hide Cloister from screen sharing"
+        description={!app.snapshot.canHideFromCapture
+          ? 'Not available on Linux'
+          : IS_MAC
+            ? 'Hides the window from recordings and shared screens. Some newer Mac apps may still capture it.'
+            : 'Video calls and screen recorders show a blank window instead of your chats'}
+        checked={settings.hideFromCapture}
+        disabled={!app.snapshot.canHideFromCapture}
+        onchange={(hideFromCapture) => save({ hideFromCapture })}
       />
     </section>
 

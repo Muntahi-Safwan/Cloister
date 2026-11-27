@@ -66,6 +66,7 @@ const EMPTY_SNAPSHOT: Snapshot = {
     pauseCheckMinutes: 5,
     refreshOverMb: 800,
     checkForUpdates: true,
+    hideFromCapture: false,
   },
   locked: false,
   hasPin: false,
@@ -74,6 +75,8 @@ const EMPTY_SNAPSHOT: Snapshot = {
   historyLatestMs: null,
   downloads: [],
   canPause: false,
+  presenting: null,
+  canHideFromCapture: false,
 };
 
 class AppStore {
@@ -294,6 +297,24 @@ class AppStore {
     await this.#run(() => backend.setVeil(!this.snapshot.veil));
   }
 
+  /**
+   * Presenting mode: hides Cloister from screen sharing and holds every
+   * notification. Ending it says how many arrived.
+   */
+  async togglePresenting(): Promise<void> {
+    const ending = this.snapshot.presenting;
+    const ok = await this.#run(() => backend.setPresenting(!ending));
+    if (!ok) return;
+    if (ending) {
+      const n = ending.held;
+      this.showNotice(
+        n === 0 ? 'Done presenting' : `${n} notification${n === 1 ? '' : 's'} came in while you presented`,
+      );
+    } else if (this.snapshot.canHideFromCapture) {
+      this.showNotice('Hidden from screen share');
+    }
+  }
+
   async startFocus(minutes?: number): Promise<void> {
     await this.#run(() => backend.startFocus(minutes));
   }
@@ -427,6 +448,7 @@ class AppStore {
     else if (action === 'veil') await this.toggleVeil();
     else if (action === 'focus') await this.toggleFocus();
     else if (action === 'lock') await this.lock();
+    else if (action === 'present') await this.togglePresenting();
     else if (action === 'find') await this.findInPage();
     else if (action === 'next-unread') await this.nextUnread();
     else if (action === 'previous') await this.previousService();

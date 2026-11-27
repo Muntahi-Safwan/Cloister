@@ -24,6 +24,9 @@ pub struct NotifyContext<'a> {
     pub redact_in_veil: bool,
     /// Whether a focus session is running.
     pub focus: bool,
+    /// Whether the user is presenting (sharing their screen). Every toast is
+    /// held, VIPs included: a system toast would show up in the share.
+    pub presenting: bool,
     /// Names allowed to break through focus.
     pub vip_names: &'a [String],
 }
@@ -45,7 +48,7 @@ pub fn route(ctx: NotifyContext<'_>, title: &str, body: &str) -> Route {
     if !ctx.enabled || ctx.muted || (ctx.quiet && !vip) {
         return Route::Drop;
     }
-    if ctx.focus && !vip {
+    if ctx.presenting || (ctx.focus && !vip) {
         return Route::Hold;
     }
     if ctx.hide_previews || (ctx.veil && ctx.redact_in_veil) {
@@ -75,6 +78,7 @@ mod tests {
             veil: false,
             redact_in_veil: true,
             focus: false,
+            presenting: false,
             vip_names: vips,
         }
     }
@@ -114,6 +118,17 @@ mod tests {
             route(c, "Mom", "call me"),
             Route::Show { title: "WhatsApp".into(), body: "New message".into() }
         );
+    }
+
+    #[test]
+    fn presenting_holds_everything_even_vips() {
+        let vips = vec!["Mom".to_string()];
+        let c = NotifyContext { presenting: true, ..ctx(&vips) };
+        assert_eq!(route(c, "Mom", "call me"), Route::Hold);
+        assert_eq!(route(c, "Alex", "hi"), Route::Hold);
+        // Muted and quiet-hours toasts are still dropped, not held.
+        let muted = NotifyContext { presenting: true, muted: true, ..ctx(&vips) };
+        assert_eq!(route(muted, "Alex", "hi"), Route::Drop);
     }
 
     #[test]

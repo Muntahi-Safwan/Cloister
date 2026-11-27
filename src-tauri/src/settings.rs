@@ -64,6 +64,8 @@ pub struct AppSettings {
     pub refresh_over_mb: u32,
     /// Look for a new version on start and every few hours.
     pub check_for_updates: bool,
+    /// Always hide Cloister's window from screen sharing and recording.
+    pub hide_from_capture: bool,
 }
 
 impl Default for AppSettings {
@@ -87,6 +89,7 @@ impl Default for AppSettings {
             pause_check_minutes: 5,
             refresh_over_mb: 800,
             check_for_updates: true,
+            hide_from_capture: false,
         }
     }
 }

@@ -88,6 +88,7 @@ describe('shortcuts', () => {
     expect(shortcutFor(chord('P', { shiftKey: true }))).toBe('veil');
     expect(shortcutFor(chord('F', { shiftKey: true }))).toBe('focus');
     expect(shortcutFor(chord('L', { shiftKey: true }))).toBe('lock');
+    expect(shortcutFor(chord('S', { shiftKey: true }))).toBe('present');
   });
 
   it('uses Cmd instead of Ctrl on a Mac', () => {
