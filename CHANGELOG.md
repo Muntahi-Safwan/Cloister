@@ -8,6 +8,16 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- **Presenting mode: invisible on screen share.** Press `Ctrl Shift S` (or use the tray or `Ctrl K`)
+  before a call. People watching your screen on Zoom, Meet, Teams or a recording see a blank window where
+  Cloister is, while you still see your chats, and every notification waits, VIPs included, because a
+  system toast would show up in the share. Ending it tells you how many came in; they are in the
+  notification list. Settings › Screen sharing can keep Cloister hidden from capture all the time. Works
+  on Windows 10 (version 2004) and later and on macOS, where some newer capture apps may ignore it; not
+  available on Linux.
+- **A proper first run.** Pick several services at once, then a short guide shows the three keys that
+  matter (Veil, Presenting and Focus) and ticks each one off as you try it, and offers a PIN for shared
+  computers. It shows once and can be skipped; people updating from an earlier version see it once too.
 - **Downloads.** Files you save in any service (a PDF in WhatsApp, an attachment in Gmail) now go straight
   to your Downloads folder, on every platform. The title bar shows the file while it saves and for a few
   seconds after: click its name to open it, or the folder to show it. The download button next to the bell

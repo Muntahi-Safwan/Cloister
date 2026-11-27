@@ -36,6 +36,7 @@ export type DialogKind =
   | 'focus-summary'
   | 'notifications'
   | 'downloads'
+  | 'welcome'
   | 'rename'
   | 'confirm-remove'
   | 'confirm-erase';
@@ -67,6 +68,7 @@ const EMPTY_SNAPSHOT: Snapshot = {
     refreshOverMb: 800,
     checkForUpdates: true,
     hideFromCapture: false,
+    onboarded: true,
   },
   locked: false,
   hasPin: false,
@@ -427,6 +429,21 @@ class AppStore {
 
   async updateSettings(settings: AppSettings): Promise<void> {
     await this.#run(() => backend.updateSettings(settings));
+  }
+
+  /** Adds several catalog services at once (the first-run picker). The first one ends up on screen. */
+  async addServices(inputs: NewService[]): Promise<void> {
+    for (const input of inputs) await this.#run(() => backend.addService(input));
+    const first = this.snapshot.services.find((s) => s.recipeId === inputs[0]?.recipeId);
+    if (first) await this.activate(first.id);
+  }
+
+  /** Closes the welcome guide for good, finished or skipped. */
+  async finishWelcome(): Promise<void> {
+    this.closeDialog();
+    if (!this.snapshot.settings.onboarded) {
+      await this.updateSettings({ ...this.snapshot.settings, onboarded: true });
+    }
   }
 
   // ------------------------------------------------------------------ dialogs

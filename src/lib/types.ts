@@ -104,6 +104,8 @@ export interface AppSettings {
   checkForUpdates: boolean;
   /** Always hide Cloister's window from screen sharing and recording. */
   hideFromCapture: boolean;
+  /** The welcome guide has been finished or skipped. */
+  onboarded: boolean;
 }
 
 export interface FocusView {

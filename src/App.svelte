@@ -14,6 +14,7 @@
   import LockScreen from '$lib/components/privacy/LockScreen.svelte';
   import NotificationsDialog from '$lib/components/privacy/NotificationsDialog.svelte';
   import DownloadsDialog from '$lib/components/downloads/DownloadsDialog.svelte';
+  import WelcomeDialog from '$lib/components/shell/WelcomeDialog.svelte';
   import CommandPalette from '$lib/components/palette/CommandPalette.svelte';
   import AddServiceDialog from '$lib/components/services/AddServiceDialog.svelte';
   import RemoveDialog from '$lib/components/services/RemoveDialog.svelte';
@@ -57,6 +58,15 @@
     void app.runAction(action);
   }
 
+  // The welcome guide opens once the first services are in, and comes back after
+  // another dialog (the palette, say) until it is finished or skipped.
+  $effect(() => {
+    const s = app.snapshot;
+    if (app.ready && !s.settings.onboarded && s.services.length > 0 && !s.locked && app.dialog === null) {
+      app.openDialog('welcome');
+    }
+  });
+
   // Look for new versions on start and every few hours, unless turned off.
   $effect(() => updates.setAutomatic(app.snapshot.settings.checkForUpdates));
 </script>
@@ -88,6 +98,8 @@
   <NotificationsDialog />
 {:else if app.dialog === 'downloads'}
   <DownloadsDialog />
+{:else if app.dialog === 'welcome'}
+  <WelcomeDialog />
 {:else if app.dialog === 'confirm-remove'}
   <RemoveDialog />
 {:else if app.dialog === 'confirm-erase'}

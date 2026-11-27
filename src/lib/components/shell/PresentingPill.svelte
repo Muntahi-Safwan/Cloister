@@ -18,9 +18,11 @@
       : 'Notifications wait until you end. This system cannot hide windows from screen sharing.'}
   >
     <Icon name="eye-off" size={13} strokeWidth={2} />
-    <span>{app.snapshot.canHideFromCapture ? 'Hidden from screen share' : 'Presenting'}</span>
+    <span>Presenting</span>
     {#if app.snapshot.presenting.held > 0}
-      <span class="held">{app.snapshot.presenting.held} waiting</span>
+      <span class="held" aria-label="{app.snapshot.presenting.held} notifications waiting"
+        >{app.snapshot.presenting.held}</span
+      >
     {/if}
     <button
       type="button"
@@ -48,8 +50,14 @@
   }
 
   .held {
-    opacity: 0.8;
-    font-weight: 500;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: color-mix(in srgb, currentColor 20%, transparent);
+    font-size: 10px;
+    line-height: 16px;
+    text-align: center;
   }
 
   .end {
