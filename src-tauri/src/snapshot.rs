@@ -7,6 +7,7 @@
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, EventTarget, Manager, Runtime};
 
+use crate::features::downloads::DownloadItem;
 use crate::features::focus::FocusView;
 use crate::services::{ServiceConfig, ServiceId};
 use crate::settings::AppSettings;
@@ -47,6 +48,8 @@ pub struct Snapshot {
     pub history_count: usize,
     /// When the newest notification in the history arrived (Unix ms).
     pub history_latest_ms: Option<u64>,
+    /// Files saved from service pages this run, newest first.
+    pub downloads: Vec<DownloadItem>,
     /// "Pause in background" is supported on this system.
     pub can_pause: bool,
 }
@@ -84,6 +87,7 @@ pub fn build<R: Runtime>(app: &AppHandle<R>) -> Snapshot {
         hello_available: state.hello_available,
         history_count: session.history.len(),
         history_latest_ms: session.history.latest_ms(),
+        downloads: session.downloads.items(),
         can_pause: crate::platform::CAN_PAUSE,
     }
 }

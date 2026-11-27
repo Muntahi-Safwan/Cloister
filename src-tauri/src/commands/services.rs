@@ -45,6 +45,7 @@ pub async fn remove_service<R: Runtime>(app: AppHandle<R>, id: ServiceId) -> App
         let mut session = state.session();
         session.unread.remove(&id);
         session.history.forget_service(&id);
+        session.downloads.forget_service(&id);
         session.last_seen.remove(&id);
         session.active.as_deref() == Some(id.as_str())
     };

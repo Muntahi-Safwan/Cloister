@@ -53,6 +53,9 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   so only genuine releases install.
 - **Notification history.** Click a toast to jump to its conversation, or open the bell for the last 50
   notifications, including ones held by focus. Kept in memory only.
+- **Downloads that just work.** Files you save in any service go straight to your Downloads folder. The
+  title bar shows the file as it saves, with one click to open it or show it in its folder, and a list keeps
+  this session's downloads. Programs and scripts are only ever shown in their folder, never run.
 - **Made for daily use.** Right-click any service to mute it (1 hour, until tomorrow, or until you unmute),
   rename it, put it to sleep, open it in your browser or copy its link. Add the same service twice for
   separate accounts. Set quiet hours, start when you sign in, and zoom each service independently.

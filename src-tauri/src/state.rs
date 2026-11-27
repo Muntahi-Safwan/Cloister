@@ -13,6 +13,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use serde::Deserialize;
 
+use crate::features::downloads::Downloads;
 use crate::features::focus::FocusSession;
 use crate::features::history::History;
 use crate::features::pause::PauseState;
@@ -64,6 +65,8 @@ pub struct Session {
     pub unfocused_since: Option<Instant>,
     /// Recent notifications, in memory only.
     pub history: History,
+    /// Files saved from service pages this run, in memory only.
+    pub downloads: Downloads,
     /// Hidden pause-mode services and where they are in their sleep/check cycle.
     pub paused: HashMap<ServiceId, PauseState>,
 }

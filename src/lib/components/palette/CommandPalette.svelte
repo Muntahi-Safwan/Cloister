@@ -67,6 +67,14 @@
         icon: 'bell',
         run: () => app.openNotifications(),
       },
+      {
+        kind: 'action',
+        id: 'downloads',
+        label: 'Show downloads',
+        keys: '',
+        icon: 'download',
+        run: () => app.openDownloads(),
+      },
       ...(app.snapshot.hasPin
         ? [
             {

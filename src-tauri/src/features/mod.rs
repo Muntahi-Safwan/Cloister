@@ -4,6 +4,7 @@
 //! decisions to real windows, webviews and notifications.
 
 pub mod away;
+pub mod downloads;
 pub mod focus;
 pub mod history;
 pub mod link_limit;

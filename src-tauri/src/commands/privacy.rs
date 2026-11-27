@@ -1,11 +1,11 @@
-//! Commands for locking, notification history, memory use and erasing data.
+//! Commands for locking, notification history, downloads, memory use and erasing data.
 
 use tauri::{AppHandle, Manager, Runtime};
 
 use crate::error::AppResult;
 use crate::features::history::HistoryItem;
 use crate::runtime::memory::{self, MemoryReport};
-use crate::runtime::{erase, lock};
+use crate::runtime::{downloads, erase, lock};
 use crate::services::ServiceId;
 use crate::snapshot::{self, Snapshot};
 use crate::state::AppState;
@@ -60,6 +60,25 @@ pub fn clear_history<R: Runtime>(app: AppHandle<R>) -> Snapshot {
     publish(&app)
 }
 
+/// Opens a finished download with its default app (or shows it, if opening would run code).
+#[tauri::command]
+pub fn open_download<R: Runtime>(app: AppHandle<R>, id: u64) -> AppResult<()> {
+    downloads::open(&app, id)
+}
+
+/// Shows a finished download in the system file manager.
+#[tauri::command]
+pub fn reveal_download<R: Runtime>(app: AppHandle<R>, id: u64) -> AppResult<()> {
+    downloads::reveal(&app, id)
+}
+
+/// Clears finished downloads from the list. The files stay where they are.
+#[tauri::command]
+pub fn clear_downloads<R: Runtime>(app: AppHandle<R>) -> Snapshot {
+    app.state::<AppState>().session().downloads.clear();
+    publish(&app)
+}
+
 /// Memory used by each loaded service, and by the shared engine, in bytes.
 #[tauri::command]
 pub async fn service_memory<R: Runtime>(app: AppHandle<R>) -> MemoryReport {
@@ -70,7 +89,12 @@ pub async fn service_memory<R: Runtime>(app: AppHandle<R>) -> MemoryReport {
 #[tauri::command]
 pub async fn erase_service_data<R: Runtime>(app: AppHandle<R>, id: ServiceId) -> AppResult<Snapshot> {
     erase::service_data(&app, &id)?;
-    app.state::<AppState>().session().history.forget_service(&id);
+    {
+        let state = app.state::<AppState>();
+        let mut session = state.session();
+        session.history.forget_service(&id);
+        session.downloads.forget_service(&id);
+    }
     Ok(publish(&app))
 }
 
@@ -78,7 +102,12 @@ pub async fn erase_service_data<R: Runtime>(app: AppHandle<R>, id: ServiceId) ->
 #[tauri::command]
 pub async fn erase_all_data<R: Runtime>(app: AppHandle<R>) -> AppResult<Snapshot> {
     erase::all_data(&app)?;
-    app.state::<AppState>().session().history.clear();
+    {
+        let state = app.state::<AppState>();
+        let mut session = state.session();
+        session.history.clear();
+        session.downloads.clear();
+    }
     Ok(publish(&app))
 }
 
