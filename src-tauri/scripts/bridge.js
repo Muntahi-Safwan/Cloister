@@ -265,6 +265,7 @@
       if (key === 'p') return 'veil';
       if (key === 'f') return 'focus';
       if (key === 'l') return 'lock';
+      if (key === 's') return 'present';
       return null;
     }
     if (key === 'f') return 'find';

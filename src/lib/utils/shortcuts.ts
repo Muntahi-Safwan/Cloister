@@ -36,6 +36,7 @@ export function shortcutFor(event: KeyChord, mac = IS_MAC): ShortcutAction | nul
     if (key === 'p') return 'veil';
     if (key === 'f') return 'focus';
     if (key === 'l') return 'lock';
+    if (key === 's') return 'present';
     return null;
   }
   if (key === ',') return 'settings';
@@ -56,6 +57,7 @@ export function shortcutLabels(mac: boolean) {
     veil: `${cmd} ${shift} P`,
     focus: `${cmd} ${shift} F`,
     lock: `${cmd} ${shift} L`,
+    present: `${cmd} ${shift} S`,
     settings: `${cmd} ,`,
     find: `${cmd} F`,
     nextUnread: `${cmd} J`,

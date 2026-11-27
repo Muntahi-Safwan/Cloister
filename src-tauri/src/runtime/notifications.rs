@@ -27,9 +27,14 @@ pub fn deliver<R: Runtime>(app: &AppHandle<R>, service_id: &str, title: &str, bo
     };
     let settings = state.settings().get().clone();
     let now = now_ms();
-    let (veil, locked, focus) = {
+    let (veil, locked, focus, presenting) = {
         let session = state.session();
-        (session.veil, session.locked, session.focus.as_ref().is_some_and(|f| f.is_running(now)))
+        (
+            session.veil,
+            session.locked,
+            session.focus.as_ref().is_some_and(|f| f.is_running(now)),
+            session.presenting.is_some(),
+        )
     };
 
     let ctx = NotifyContext {
@@ -42,6 +47,7 @@ pub fn deliver<R: Runtime>(app: &AppHandle<R>, service_id: &str, title: &str, bo
         veil: veil || locked,
         redact_in_veil: settings.redact_toasts_in_veil || locked,
         focus,
+        presenting,
         vip_names: &settings.vip_names,
     };
 
@@ -65,6 +71,9 @@ pub fn deliver<R: Runtime>(app: &AppHandle<R>, service_id: &str, title: &str, bo
             delivery,
         });
         if let Route::Hold = decision {
+            if let Some(presenting) = session.presenting.as_mut() {
+                presenting.held += 1;
+            }
             if let Some(focus) = session.focus.as_mut() {
                 focus.hold(HeldNotification { service_id: service.id.clone(), title, body, at_ms: now });
             }

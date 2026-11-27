@@ -11,7 +11,7 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Mutex, MutexGuard};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::features::downloads::Downloads;
 use crate::features::focus::FocusSession;
@@ -42,6 +42,8 @@ pub struct Session {
     pub veil: bool,
     /// The running focus session, if any.
     pub focus: Option<FocusSession>,
+    /// Presenting mode: hidden from screen sharing, every toast held.
+    pub presenting: Option<Presenting>,
     /// Latest unread count per service.
     pub unread: HashMap<ServiceId, u32>,
     /// Where service pages should be drawn.
@@ -69,6 +71,14 @@ pub struct Session {
     pub downloads: Downloads,
     /// Hidden pause-mode services and where they are in their sleep/check cycle.
     pub paused: HashMap<ServiceId, PauseState>,
+}
+
+/// A presenting session: when it started and how many toasts it held back.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Presenting {
+    pub since_ms: u64,
+    pub held: u32,
 }
 
 impl Session {

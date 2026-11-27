@@ -61,6 +61,14 @@
         : []),
       {
         kind: 'action',
+        id: 'present',
+        label: app.snapshot.presenting ? 'Stop presenting' : 'Presenting: hide from screen share',
+        keys: SHORTCUT_LABELS.present,
+        icon: 'eye-off',
+        run: () => app.togglePresenting(),
+      },
+      {
+        kind: 'action',
         id: 'next-unread',
         label: 'Go to the next unread service',
         keys: SHORTCUT_LABELS.nextUnread,

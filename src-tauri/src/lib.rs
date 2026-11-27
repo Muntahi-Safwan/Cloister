@@ -81,6 +81,7 @@ pub fn run() {
             commands::session::set_content_bounds,
             commands::session::set_overlay_open,
             commands::session::set_veil,
+            commands::session::set_presenting,
             commands::session::start_focus,
             commands::session::end_focus,
             commands::session::update_settings,
