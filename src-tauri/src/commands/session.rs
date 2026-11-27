@@ -4,10 +4,10 @@ use tauri::{AppHandle, Manager, Runtime};
 
 use crate::error::AppResult;
 use crate::features::focus::{FocusSession, HeldNotification};
-use crate::runtime::{hotkeys, notifications, startup, veil, webviews};
+use crate::runtime::{capture, hotkeys, notifications, startup, veil, webviews};
 use crate::settings::AppSettings;
 use crate::snapshot::{self, Snapshot};
-use crate::state::{now_ms, AppState, ContentBounds};
+use crate::state::{now_ms, AppState, ContentBounds, Presenting};
 
 /// The UI reports where service pages should be drawn whenever its layout changes.
 #[tauri::command]
@@ -59,6 +59,23 @@ pub fn end_focus<R: Runtime>(app: AppHandle<R>) -> Vec<HeldNotification> {
     held
 }
 
+/// Turns presenting mode on or off: Cloister is hidden from screen sharing and
+/// every notification is held until it ends. They stay in the notification list.
+#[tauri::command]
+pub fn set_presenting<R: Runtime>(app: AppHandle<R>, on: bool) -> Snapshot {
+    {
+        let state = app.state::<AppState>();
+        let mut session = state.session();
+        match (on, session.presenting.is_some()) {
+            (true, false) => session.presenting = Some(Presenting { since_ms: now_ms(), held: 0 }),
+            (false, true) => session.presenting = None,
+            _ => {}
+        }
+    }
+    capture::apply(&app);
+    publish(&app)
+}
+
 /// Saves new settings and applies the ones that affect the running app.
 #[tauri::command]
 pub fn update_settings<R: Runtime>(app: AppHandle<R>, mut settings: AppSettings) -> AppResult<Snapshot> {
@@ -75,6 +92,9 @@ pub fn update_settings<R: Runtime>(app: AppHandle<R>, mut settings: AppSettings)
     }
     if before.launch_at_login != after.launch_at_login {
         startup::set_launch_at_login(&app, after.launch_at_login);
+    }
+    if before.hide_from_capture != after.hide_from_capture {
+        capture::apply(&app);
     }
     webviews::sync_visibility(&app)?;
     Ok(publish(&app))

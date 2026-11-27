@@ -102,6 +102,10 @@ export interface AppSettings {
   refreshOverMb: number;
   /** Look for a new version on start and every few hours. */
   checkForUpdates: boolean;
+  /** Always hide Cloister's window from screen sharing and recording. */
+  hideFromCapture: boolean;
+  /** The welcome guide has been finished or skipped. */
+  onboarded: boolean;
 }
 
 export interface FocusView {
@@ -143,6 +147,10 @@ export interface Snapshot {
   downloads: DownloadItem[];
   /** "Pause in background" is supported on this system (Windows). */
   canPause: boolean;
+  /** Presenting mode, while it is on: hidden from screen sharing, notifications held. */
+  presenting: { sinceMs: number; held: number } | null;
+  /** This system can hide Cloister from screen sharing (Windows and macOS). */
+  canHideFromCapture: boolean;
 }
 
 /** What happened to a notification when it arrived. */
@@ -187,4 +195,14 @@ export interface ContentBounds {
 
 /** Actions triggered by shortcuts, the tray or the command palette. */
 export type ShortcutAction =
-  'palette' | 'veil' | 'focus' | 'lock' | 'settings' | 'find' | `switch:${number}` | `zoom:${ZoomStep}`;
+  | 'palette'
+  | 'veil'
+  | 'focus'
+  | 'lock'
+  | 'present'
+  | 'settings'
+  | 'find'
+  | 'next-unread'
+  | 'previous'
+  | `switch:${number}`
+  | `zoom:${ZoomStep}`;

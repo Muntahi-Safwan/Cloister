@@ -637,6 +637,50 @@ sup a {
   padding: 72px 28px 36px;
 }
 
+/* Fig: screen share */
+.share-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.share-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+}
+
+.share-pane figcaption {
+  color: var(--ink);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.share-pane .mini-list {
+  width: 100%;
+}
+
+.share-pane .mini-list small {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.share-blank {
+  flex: 1;
+  min-height: 118px;
+  border-radius: 12px;
+  background: #121110;
+  box-shadow:
+    0 0 0 1px var(--rule),
+    0 10px 30px -14px rgba(40, 30, 15, 0.35);
+}
+
 /* Fig: Veil */
 .mini-list {
   width: min(100%, 300px);

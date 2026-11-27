@@ -12,6 +12,7 @@ const MENU_SHOW: &str = "show";
 const MENU_VEIL: &str = "veil";
 const MENU_FOCUS: &str = "focus";
 const MENU_LOCK: &str = "lock";
+const MENU_PRESENT: &str = "present";
 const MENU_QUIT: &str = "quit";
 
 /// Creates the tray icon. Left click shows the window; right click opens the menu.
@@ -23,6 +24,7 @@ pub fn create<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
             &PredefinedMenuItem::separator(app)?,
             &MenuItem::with_id(app, MENU_VEIL, "Toggle Veil", true, None::<&str>)?,
             &MenuItem::with_id(app, MENU_FOCUS, "Start or end focus", true, None::<&str>)?,
+            &MenuItem::with_id(app, MENU_PRESENT, "Presenting: hide from screen share", true, None::<&str>)?,
             &MenuItem::with_id(app, MENU_LOCK, "Lock now", true, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
             &MenuItem::with_id(app, MENU_QUIT, "Quit Cloister", true, None::<&str>)?,
@@ -69,6 +71,7 @@ fn handle_menu<R: Runtime>(app: &AppHandle<R>, event: MenuEvent) {
     match event.id().as_ref() {
         MENU_SHOW => show_main(app),
         MENU_VEIL => forward_action(app, "veil"),
+        MENU_PRESENT => forward_action(app, "present"),
         MENU_FOCUS => forward_action(app, "focus"),
         MENU_LOCK => super::lock::lock(app),
         MENU_QUIT => app.exit(0),

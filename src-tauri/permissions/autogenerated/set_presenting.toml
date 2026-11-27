@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-presenting"
+description = "Enables the set_presenting command without any pre-configured scope."
+commands.allow = ["set_presenting"]
+
+[[permission]]
+identifier = "deny-set-presenting"
+description = "Denies the set_presenting command without any pre-configured scope."
+commands.deny = ["set_presenting"]

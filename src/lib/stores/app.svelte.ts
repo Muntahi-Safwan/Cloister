@@ -9,6 +9,7 @@
 
 import { backend, errorMessage } from '$lib/api/backend';
 import { showServiceMenu } from '$lib/menus/serviceMenu';
+import { nextUnread, RecentServices } from '$lib/utils/navigation';
 import { reorderVisible } from '$lib/utils/order';
 import { catalogIconUrl } from '$lib/utils/url';
 import type {
@@ -35,6 +36,7 @@ export type DialogKind =
   | 'focus-summary'
   | 'notifications'
   | 'downloads'
+  | 'welcome'
   | 'rename'
   | 'confirm-remove'
   | 'confirm-erase';
@@ -65,6 +67,8 @@ const EMPTY_SNAPSHOT: Snapshot = {
     pauseCheckMinutes: 5,
     refreshOverMb: 800,
     checkForUpdates: true,
+    hideFromCapture: false,
+    onboarded: true,
   },
   locked: false,
   hasPin: false,
@@ -73,6 +77,8 @@ const EMPTY_SNAPSHOT: Snapshot = {
   historyLatestMs: null,
   downloads: [],
   canPause: false,
+  presenting: null,
+  canHideFromCapture: false,
 };
 
 class AppStore {
@@ -95,10 +101,14 @@ class AppStore {
   /** Why the last unlock attempt failed, shown on the lock screen. */
   unlockError = $state<string | null>(null);
   error = $state<string | null>(null);
+  /** A short, non-error message shown briefly in the title bar. */
+  notice = $state<string | null>(null);
   ready = $state(false);
   now = $state(Date.now());
 
   #clock: ReturnType<typeof setInterval> | null = null;
+  #noticeTimer: ReturnType<typeof setTimeout> | null = null;
+  #recent = new RecentServices();
   #endingFocus = false;
 
   /** Services shown in the sidebar (some hide during focus sessions). */
@@ -258,6 +268,26 @@ class AppStore {
   }
 
   /** Activates the n-th visible service (1-based), as used by Ctrl+1..9. */
+  /** Jumps to the next service with unread messages, after the active one. */
+  async nextUnread(): Promise<void> {
+    const id = nextUnread(this.visibleServices, this.snapshot.active);
+    if (id) await this.activate(id);
+    else this.showNotice('All caught up');
+  }
+
+  /** Flips back to the service used before this one. */
+  async previousService(): Promise<void> {
+    const existing = new Set(this.visibleServices.map((s) => s.id));
+    const id = this.#recent.previous(this.snapshot.active, existing);
+    if (id) await this.activate(id);
+  }
+
+  showNotice(message: string): void {
+    this.notice = message;
+    if (this.#noticeTimer) clearTimeout(this.#noticeTimer);
+    this.#noticeTimer = setTimeout(() => (this.notice = null), 2500);
+  }
+
   async switchTo(position: number): Promise<void> {
     const service = this.visibleServices[position - 1];
     if (service) await this.activate(service.id);
@@ -267,6 +297,24 @@ class AppStore {
 
   async toggleVeil(): Promise<void> {
     await this.#run(() => backend.setVeil(!this.snapshot.veil));
+  }
+
+  /**
+   * Presenting mode: hides Cloister from screen sharing and holds every
+   * notification. Ending it says how many arrived.
+   */
+  async togglePresenting(): Promise<void> {
+    const ending = this.snapshot.presenting;
+    const ok = await this.#run(() => backend.setPresenting(!ending));
+    if (!ok) return;
+    if (ending) {
+      const n = ending.held;
+      this.showNotice(
+        n === 0 ? 'Done presenting' : `${n} notification${n === 1 ? '' : 's'} came in while you presented`,
+      );
+    } else if (this.snapshot.canHideFromCapture) {
+      this.showNotice('Hidden from screen share');
+    }
   }
 
   async startFocus(minutes?: number): Promise<void> {
@@ -383,6 +431,21 @@ class AppStore {
     await this.#run(() => backend.updateSettings(settings));
   }
 
+  /** Adds several catalog services at once (the first-run picker). The first one ends up on screen. */
+  async addServices(inputs: NewService[]): Promise<void> {
+    for (const input of inputs) await this.#run(() => backend.addService(input));
+    const first = this.snapshot.services.find((s) => s.recipeId === inputs[0]?.recipeId);
+    if (first) await this.activate(first.id);
+  }
+
+  /** Closes the welcome guide for good, finished or skipped. */
+  async finishWelcome(): Promise<void> {
+    this.closeDialog();
+    if (!this.snapshot.settings.onboarded) {
+      await this.updateSettings({ ...this.snapshot.settings, onboarded: true });
+    }
+  }
+
   // ------------------------------------------------------------------ dialogs
 
   openDialog(kind: DialogKind, target: string | null = null): void {
@@ -402,7 +465,10 @@ class AppStore {
     else if (action === 'veil') await this.toggleVeil();
     else if (action === 'focus') await this.toggleFocus();
     else if (action === 'lock') await this.lock();
+    else if (action === 'present') await this.togglePresenting();
     else if (action === 'find') await this.findInPage();
+    else if (action === 'next-unread') await this.nextUnread();
+    else if (action === 'previous') await this.previousService();
     else if (action.startsWith('zoom:')) await this.zoomActive(action.slice('zoom:'.length) as ZoomStep);
     else await this.switchTo(Number(action.slice('switch:'.length)));
   }
@@ -419,6 +485,7 @@ class AppStore {
     // Locking closes any open dialog so nothing is left on screen behind the lock.
     if (snapshot.locked && !this.snapshot.locked) this.closeDialog();
     this.snapshot = snapshot;
+    this.#recent.visit(snapshot.active);
     this.#syncClock();
     // Timers are throttled while the window is hidden, so the backend also flags expiry.
     if (snapshot.focus?.expired) void this.endFocus();

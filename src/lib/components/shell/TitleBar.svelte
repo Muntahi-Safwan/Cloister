@@ -6,6 +6,7 @@
 <script lang="ts">
   import FocusPill from '$lib/components/focus/FocusPill.svelte';
   import UpdatePill from './UpdatePill.svelte';
+  import PresentingPill from './PresentingPill.svelte';
   import DownloadPill from '$lib/components/downloads/DownloadPill.svelte';
   import Icon from '$lib/components/common/Icon.svelte';
   import Kbd from '$lib/components/common/Kbd.svelte';
@@ -39,6 +40,7 @@
       <span class="veil-pill"><Icon name="eye-off" size={12} strokeWidth={2} />Veil</span>
     {/if}
     <UpdatePill />
+    <PresentingPill />
     <FocusPill />
     <DownloadPill />
     <button

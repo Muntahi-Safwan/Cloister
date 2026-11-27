@@ -53,6 +53,9 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
   so only genuine releases install.
 - **Notification history.** Click a toast to jump to its conversation, or open the bell for the last 50
   notifications, including ones held by focus. Kept in memory only.
+- **Invisible on screen share.** Press `Ctrl Shift S` before a call and Cloister turns blank for everyone
+  watching your screen, on Zoom, Meet, Teams or a recording, while you still see your chats. Every
+  notification waits until you end it. (Windows 10 2004+ and macOS; some newer Mac capture apps ignore it.)
 - **Downloads that just work.** Files you save in any service go straight to your Downloads folder. The
   title bar shows the file as it saves, with one click to open it or show it in its folder, and a list keeps
   this session's downloads. Programs and scripts are only ever shown in their folder, never run.
@@ -75,9 +78,12 @@ it, and can put idle services to sleep. Privacy is a first-class feature rather 
 | ------------------------ | ------------------------------------------- |
 | Command palette          | `Ctrl K` (inside a service: `Ctrl Shift K`) |
 | Switch to service 1 to 9 | `Ctrl 1` … `Ctrl 9`                         |
+| Next unread service      | `Ctrl J`                                    |
+| Back to previous service | `Ctrl Tab`                                  |
 | Find in page             | `Ctrl F`, then `Enter` / `Shift Enter`      |
 | Toggle Veil              | `Ctrl Shift P`                              |
 | Start or end focus       | `Ctrl Shift F`                              |
+| Presenting (hide window) | `Ctrl Shift S`                              |
 | Lock Cloister            | `Ctrl Shift L`                              |
 | Settings                 | `Ctrl ,`                                    |
 | Zoom in / out / reset    | `Ctrl +` / `Ctrl -` / `Ctrl 0`              |

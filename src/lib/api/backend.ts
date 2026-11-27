@@ -53,6 +53,7 @@ export const backend = {
   setContentBounds: (bounds: ContentBounds) => invoke<void>('set_content_bounds', { bounds }),
   setOverlayOpen: (open: boolean) => invoke<void>('set_overlay_open', { open }),
 
+  setPresenting: (on: boolean) => invoke<Snapshot>('set_presenting', { on }),
   setVeil: (on: boolean) => invoke<Snapshot>('set_veil', { on }),
   startFocus: (minutes?: number) => invoke<Snapshot>('start_focus', { minutes }),
   endFocus: () => invoke<HeldNotification[]>('end_focus'),

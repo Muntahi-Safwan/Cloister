@@ -28,6 +28,7 @@
     "allow-set-content-bounds",
     "allow-set-overlay-open",
     "allow-set-veil",
+    "allow-set-presenting",
     "allow-start-focus",
     "allow-end-focus",
     "allow-update-settings",
